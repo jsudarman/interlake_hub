@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club — Interlake Student Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .club-hero { background: #fff; border-bottom: 1px solid var(--border); }
+    .tabs-bar { background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 64px; z-index: 50; }
+    .tabs-bar-inner { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+    .tabs-bar-inner::-webkit-scrollbar { display: none; }
+    .tab-link { padding: 14px 18px; font-size: .87rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: var(--transition); }
+    .tab-link:hover { color: var(--text); }
+    .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+    .join-box { background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: var(--radius); padding: 24px; color: #fff; margin-bottom: 24px; }
+    .join-box h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .join-box p { font-size: .85rem; opacity: .85; line-height: 1.6; margin-bottom: 16px; }
+    .contact-links { display: flex; flex-direction: column; gap: 8px; }
+    .contact-link { display: flex; align-items: center; gap: 8px; font-size: .83rem; color: rgba(255,255,255,.85); }
+    .contact-link a { color: #93c5fd; font-weight: 600; }
+    .next-meeting-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 20px; margin-bottom: 0; }
+    .next-meeting-box h3 { font-size: .85rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .next-meeting-date { font-size: 1.05rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 12px; }
+    .not-found { text-align: center; padding: 80px 24px; }
+    .empty-updates { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px; text-align: center; }
+    .empty-updates .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: .4; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon">🏫</div>
+      <div class="brand-text">
+        <span class="brand-name">Interlake Hub</span>
+        <span class="brand-sub">Student Activity Center</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="clubs.html" class="nav-link active">Clubs</a>
+      <a href="submit.html" class="nav-link">Update Your Page Info</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="navSearch" placeholder="Search clubs…" autocomplete="off">
+      </div>
+      <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div id="pageContent"></div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand">🏫 Interlake Student Hub</div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+const EMOJI = { engineering:"🔧", science:"🔬", diplomatic:"🌐", creative:"🎨", service:"🤝", cultural:"🎭", leadership:"⭐" };
+
+const params = new URLSearchParams(location.search);
+const clubId = params.get("id");
+const club   = clubId ? getClubById(clubId) : null;
+const content = document.getElementById("pageContent");
+
+if (!club) {
+  content.innerHTML = `
+    <div class="container not-found">
+      <div style="font-size:3rem;margin-bottom:16px;">😕</div>
+      <h2>Club not found</h2>
+      <p style="color:var(--text-muted);margin-bottom:24px;">We couldn't find that club.</p>
+      <a href="clubs.html" class="btn btn-primary">Browse All Clubs</a>
+    </div>`;
+} else {
+  const color  = getCategoryColor(club.category);
+  const emoji  = EMOJI[club.category] || "📌";
+  const all    = club.updates || [];
+  const agendas = all.filter(u => u.type === "agenda");
+  const recaps  = all.filter(u => u.type === "recap");
+  const announcements = all.filter(u => u.type === "announcement");
+  const officers = club.officers || [];
+  const agendaItems = (club.nextMeeting && club.nextMeeting.items) || [];
+
+  document.title = `${club.name} — Interlake Student Hub`;
+
+  function updateFeed(items, emptyMsg, addHref) {
+    if (!items.length) return `
+      <div class="empty-updates">
+        <div class="empty-icon">📝</div>
+        <h3>No ${emptyMsg} yet</h3>
+        <p>Club officers can submit using the form.</p>
+        <a href="${addHref}" class="btn btn-primary" style="margin-top:16px;">Submit Now</a>
+      </div>`;
+    return `<div class="update-feed">${items.map(u => `
+      <div class="update-item" style="border-left-color:${getUpdateBadgeColor(u.type)};">
+        <div class="update-header">
+          <div>
+            <div class="update-title">${u.title}</div>
+            <div class="update-meta">
+              <span class="badge" style="background:${getUpdateBadgeColor(u.type)};font-size:.65rem;">${u.type}</span>
+              &nbsp;${formatDate(u.date)}
+              ${u.author ? ` · By ${u.author}` : ""}
+            </div>
+          </div>
+        </div>
+        <div class="update-content">${u.content}</div>
+      </div>`).join("")}</div>`;
+  }
+
+  function officersTab() {
+    if (!officers.length) return `
+      <div class="empty-updates">
+        <div class="empty-icon">👥</div>
+        <h3>Officers not listed yet</h3>
+        <p>Club officers can add this info via the Officer Portal.</p>
+      </div>`;
+    return `<div class="officers-grid">${officers.map(o => {
+      const initials = o.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+      return `
+        <div class="officer-card">
+          <div class="officer-avatar">${initials}</div>
+          <div class="officer-name">${o.name}</div>
+          <div class="officer-role">${o.role}</div>
+          <div class="officer-grade">Grade ${o.grade}</div>
+          ${o.email ? `<div class="officer-email"><a href="mailto:${o.email}" style="color:var(--primary-light);">${o.email}</a></div>` : ""}
+        </div>`;
+    }).join("")}</div>`;
+  }
+
+  const submitBase = `submit.html?club=${club.id}`;
+
+  content.innerHTML = `
+    <div class="club-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a><span class="sep">›</span>
+          <a href="clubs.html">Clubs</a><span class="sep">›</span>
+          <a href="clubs.html?cat=${club.category}">${getCategoryLabel(club.category)}</a><span class="sep">›</span>
+          <span>${club.name}</span>
+        </div>
+        <div class="club-hero-inner" style="padding-bottom:32px;">
+          <div class="club-hero-icon" style="background:${color};">${emoji}</div>
+          <div class="club-hero-info">
+            <span class="badge" style="background:${color};margin-bottom:10px;">${getCategoryLabel(club.category)}</span>
+            <h1>${club.name}</h1>
+            <p class="club-hero-tagline">"${club.tagline}"</p>
+            <div class="club-hero-meta">
+              <div class="club-hero-meta-item">👥 <strong>${club.members} members</strong></div>
+              <div class="club-hero-meta-item">📅 <strong>${club.meetingDays}</strong></div>
+              <div class="club-hero-meta-item">🕐 <strong>${club.meetingTime}</strong></div>
+              <div class="club-hero-meta-item">📍 <strong>${club.meetingLocation}</strong></div>
+              ${club.advisor ? `<div class="club-hero-meta-item">👤 Advisor: <strong>${club.advisor}</strong></div>` : ""}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-bar">
+      <div class="container tabs-bar-inner">
+        <div class="tab-link active" data-tab="overview">Overview</div>
+        <div class="tab-link" data-tab="agendas">Agendas <span class="count-chip">${agendas.length}</span></div>
+        <div class="tab-link" data-tab="recaps">Recaps <span class="count-chip">${recaps.length}</span></div>
+        <div class="tab-link" data-tab="announcements">Announcements <span class="count-chip">${announcements.length}</span></div>
+        <div class="tab-link" data-tab="officers">Officers <span class="count-chip">${officers.length}</span></div>
+        <div class="tab-link" data-tab="join">How to Join</div>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:32px;padding-bottom:80px;">
+      <div class="club-layout">
+        <div>
+          <!-- Overview -->
+          <div class="tab-section active" id="tab-overview">
+            <div class="info-card" style="margin-bottom:24px;">
+              <div class="info-card-header"><span>📖</span><h3>About ${club.name}</h3></div>
+              <div class="info-card-body">
+                <p style="font-size:.93rem;line-height:1.7;color:#374151;">${club.description}</p>
+                ${club.tags ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;">${club.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>` : ""}
+              </div>
+            </div>
+            ${club.nextMeeting ? `
+            <div class="info-card" style="margin-bottom:24px;">
+              <div class="info-card-header"><span>📋</span><h3>Next Meeting Agenda</h3></div>
+              <div class="info-card-body">
+                <div class="next-meeting-box">
+                  <h3>📅 Upcoming Meeting</h3>
+                  <div class="next-meeting-date">${formatDate(club.nextMeeting.date)}</div>
+                  <div class="agenda-list">
+                    ${agendaItems.map((item, i) => `
+                      <div class="agenda-item">
+                        <div class="agenda-num">${i+1}</div>
+                        <span>${item}</span>
+                      </div>`).join("")}
+                  </div>
+                </div>
+              </div>
+            </div>` : ""}
+            <div class="info-card">
+              <div class="info-card-header"><span>✅</span><h3>Participation Requirements</h3></div>
+              <div class="info-card-body">
+                <div class="requirements-list">
+                  ${(club.requirements||[]).map(r=>`
+                    <div class="requirement-item">
+                      <div class="req-check">✓</div><span>${r}</span>
+                    </div>`).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agendas -->
+          <div class="tab-section" id="tab-agendas">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="font-size:1.1rem;font-weight:700;">Meeting Agendas</h3>
+              <a href="${submitBase}&type=agenda" class="btn btn-outline" style="font-size:.82rem;padding:7px 14px;">+ Add Agenda</a>
+            </div>
+            ${updateFeed(agendas, "agendas", submitBase + "&type=agenda")}
+          </div>
+
+          <!-- Recaps -->
+          <div class="tab-section" id="tab-recaps">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="font-size:1.1rem;font-weight:700;">Meeting Recaps</h3>
+              <a href="${submitBase}&type=recap" class="btn btn-outline" style="font-size:.82rem;padding:7px 14px;">+ Add Recap</a>
+            </div>
+            ${updateFeed(recaps, "recaps", submitBase + "&type=recap")}
+          </div>
+
+          <!-- Announcements -->
+          <div class="tab-section" id="tab-announcements">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="font-size:1.1rem;font-weight:700;">Announcements</h3>
+              <a href="${submitBase}&type=announcement" class="btn btn-outline" style="font-size:.82rem;padding:7px 14px;">+ Add Announcement</a>
+            </div>
+            ${updateFeed(announcements, "announcements", submitBase + "&type=announcement")}
+          </div>
+
+          <!-- Officers -->
+          <div class="tab-section" id="tab-officers">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="font-size:1.1rem;font-weight:700;">Club Officers</h3>
+            </div>
+            ${officersTab()}
+          </div>
+
+          <!-- How to Join -->
+          <div class="tab-section" id="tab-join">
+            <div class="info-card" style="margin-bottom:24px;">
+              <div class="info-card-header"><span>🚀</span><h3>How to Get Involved</h3></div>
+              <div class="info-card-body">
+                <p style="font-size:.93rem;line-height:1.7;color:#374151;">${club.howToJoin}</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-header"><span>✅</span><h3>Requirements</h3></div>
+              <div class="info-card-body">
+                <div class="requirements-list">
+                  ${(club.requirements||[]).map(r=>`
+                    <div class="requirement-item">
+                      <div class="req-check">✓</div><span>${r}</span>
+                    </div>`).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside>
+          <div class="join-box">
+            <h3>Interested in joining?</h3>
+            <p>${club.howToJoin.slice(0,120)}${club.howToJoin.length>120?"…":""}</p>
+            <div class="contact-links">
+              ${club.contactEmail ? `<div class="contact-link">✉️ <a href="mailto:${club.contactEmail}">${club.contactEmail}</a></div>` : ""}
+              ${club.instagram ? `<div class="contact-link">📸 ${club.instagram}</div>` : ""}
+              ${club.advisor ? `<div class="contact-link">👤 Advisor: ${club.advisor}</div>` : ""}
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-header"><span>📅</span><h3>Meeting Details</h3></div>
+            <div class="info-card-body" style="padding:12px 16px;">
+              <div class="info-row">
+                <div class="info-row-icon">📅</div>
+                <div class="info-row-text"><div class="label">Days</div><div class="value">${club.meetingDays}</div></div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon">🕐</div>
+                <div class="info-row-text"><div class="label">Time</div><div class="value">${club.meetingTime}</div></div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon">📍</div>
+                <div class="info-row-text"><div class="label">Location</div><div class="value">${club.meetingLocation}</div></div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon">👥</div>
+                <div class="info-row-text"><div class="label">Members</div><div class="value">${club.members} students</div></div>
+              </div>
+              ${club.advisor ? `
+              <div class="info-row">
+                <div class="info-row-icon">👤</div>
+                <div class="info-row-text"><div class="label">Advisor</div><div class="value">${club.advisor}</div></div>
+              </div>` : ""}
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <a href="${submitBase}" class="btn btn-outline" style="width:100%;justify-content:center;">📝 Update Club Page</a>
+          </div>
+
+          <!-- Related clubs -->
+          <div class="info-card" style="margin-top:20px;">
+            <div class="info-card-header">
+              <span>${EMOJI[club.category]||"📌"}</span>
+              <h3>More ${getCategoryLabel(club.category)}</h3>
+            </div>
+            <div id="relatedClubs"></div>
+          </div>
+        </aside>
+      </div>
+    </div>`;
+
+  // Tab switching
+  document.querySelectorAll(".tab-link").forEach(link => {
+    link.addEventListener("click", () => {
+      document.querySelectorAll(".tab-link").forEach(l => l.classList.remove("active"));
+      document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
+      link.classList.add("active");
+      document.getElementById("tab-" + link.dataset.tab).classList.add("active");
+    });
+  });
+
+  // Related clubs
+  const allClubs = getClubs();
+  const related  = allClubs.filter(c => c.category === club.category && c.id !== club.id).slice(0, 4);
+  const relEl    = document.getElementById("relatedClubs");
+  if (related.length) {
+    relEl.innerHTML = related.map(c => `
+      <a href="club.html?id=${c.id}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);text-decoration:none;transition:var(--transition);"
+         onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background=''">
+        <div style="width:32px;height:32px;border-radius:7px;background:${getCategoryColor(c.category)};display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#fff;flex-shrink:0;">${EMOJI[c.category]||"📌"}</div>
+        <div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text);">${c.name}</div>
+          <div style="font-size:.75rem;color:var(--text-muted);">👥 ${c.members}</div>
+        </div>
+        <span style="margin-left:auto;font-size:.75rem;color:var(--primary);">→</span>
+      </a>`).join("") +
+      `<a href="clubs.html?cat=${club.category}" style="display:block;padding:12px 16px;font-size:.82rem;font-weight:600;color:var(--primary);text-align:center;">View all →</a>`;
+  } else {
+    relEl.innerHTML = `<div style="padding:16px;font-size:.85rem;color:var(--text-muted);">No other clubs in this category yet.</div>`;
+  }
+
+  // Handle ?type= URL param to pre-select tab
+  const tabParam = params.get("tab");
+  if (tabParam) {
+    const tabLink = document.querySelector(`.tab-link[data-tab="${tabParam}"]`);
+    if (tabLink) tabLink.click();
+  }
+}
+
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim();
+    if (q) location.href = `clubs.html?q=${encodeURIComponent(q)}`;
+  }
+});
+</script>
+</body>
+</html>

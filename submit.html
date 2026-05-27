@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Your Page Info — Interlake Student Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-bg { min-height: 100vh; background: var(--bg); }
+    .char-count { font-size: .75rem; color: var(--text-muted); text-align: right; margin-top: 4px; }
+    .type-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .type-card { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 16px; cursor: pointer; text-align: center; transition: var(--transition); background: var(--card); }
+    .type-card:hover { border-color: var(--primary); }
+    .type-card.selected { border-color: var(--primary); background: #eff6ff; }
+    .type-card .type-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .type-card .type-name { font-size: .85rem; font-weight: 700; }
+    .type-card .type-desc { font-size: .72rem; color: var(--text-muted); margin-top: 3px; }
+    .success-view { display: none; text-align: center; padding: 60px 32px; }
+    .success-view.show { display: block; }
+    .form-view.hide { display: none; }
+    .preview-box { background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; margin-top: 24px; display: none; }
+    .preview-box.show { display: block; }
+    .preview-box h4 { font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 10px; }
+    .preview-update-item { background: var(--card); border-radius: var(--radius-sm); padding: 16px; border-left: 4px solid var(--primary); }
+
+    /* ── Login overlay ── */
+    .login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 24px; }
+    .login-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 100%; max-width: 420px; overflow: hidden; }
+    .login-header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); padding: 36px 32px 28px; text-align: center; color: #fff; }
+    .login-header .login-icon { font-size: 2.8rem; margin-bottom: 12px; }
+    .login-header h2 { font-size: 1.4rem; font-weight: 800; }
+    .login-header p { font-size: .85rem; opacity: .75; margin-top: 6px; }
+    .login-body { padding: 28px 28px 20px; }
+    .login-demo-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; }
+    .login-demo-box .demo-label { font-weight: 800; color: var(--primary); font-size: .73rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .login-demo-box .demo-cred { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; color: var(--text); font-size: .84rem; }
+    .login-demo-box .demo-cred .demo-key { color: var(--text-muted); font-weight: 600; }
+    .login-demo-box .demo-cred code { background: #fff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 2px 8px; font-size: .8rem; color: var(--primary); cursor: pointer; transition: var(--transition); }
+    .login-demo-box .demo-cred code:hover { background: #dbeafe; }
+    .login-error { color: #ef4444; font-size: .82rem; margin-bottom: 12px; display: none; padding: 8px 12px; background: #fef2f2; border-radius: var(--radius-sm); border: 1px solid #fecaca; }
+    .login-error.show { display: block; }
+    .login-footer { padding: 0 28px 28px; }
+    .login-note { font-size: .74rem; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.5; }
+    .login-note strong { color: var(--primary); }
+
+    .logged-in-bar { background: #eff6ff; border-bottom: 1px solid #bfdbfe; padding: 10px 0; }
+    .logged-in-bar-inner { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--primary-dark); }
+    .logged-in-bar .user-badge { background: var(--primary); color: #fff; border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
+    .logged-in-bar .sign-out { margin-left: auto; font-size: .78rem; color: var(--text-muted); cursor: pointer; }
+    .logged-in-bar .sign-out:hover { color: var(--primary); }
+  </style>
+</head>
+<body class="page-bg">
+
+<!-- Login overlay -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-icon">🔐</div>
+      <h2>Officer Portal</h2>
+      <p>Sign in to update your club's page</p>
+    </div>
+    <div class="login-body">
+      <div class="login-demo-box">
+        <div class="demo-label">📋 Demo Credentials</div>
+        <div class="demo-cred">
+          <span class="demo-key">Username</span>
+          <code onclick="autofillUser(this)">clubofficer@interlake.edu</code>
+        </div>
+        <div class="demo-cred">
+          <span class="demo-key">Password</span>
+          <code onclick="autofillPass(this)">Interlake2026!</code>
+        </div>
+      </div>
+      <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
+      <div class="form-group">
+        <label class="form-label" for="loginUser">Username / Email</label>
+        <input type="email" class="form-control" id="loginUser" placeholder="your@interlake.edu" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginPass">Password</label>
+        <input type="password" class="form-control" id="loginPass" placeholder="••••••••••" autocomplete="current-password">
+      </div>
+    </div>
+    <div class="login-footer">
+      <button class="btn btn-primary" onclick="doLogin()" style="width:100%;justify-content:center;padding:12px;">
+        Sign In →
+      </button>
+      <p class="login-note">
+        This is a <strong>demo login</strong>. In production, officers will authenticate via<br>
+        Interlake school SSO (Google/Microsoft). Click the credentials above to autofill.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Logged-in bar (shown after login) -->
+<div class="logged-in-bar" id="loggedInBar" style="display:none;">
+  <div class="container logged-in-bar-inner">
+    <span>🔓 Signed in as</span>
+    <span class="user-badge" id="userBadge">Club Officer</span>
+    <span class="sign-out" onclick="doSignOut()">Sign out</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon">🏫</div>
+      <div class="brand-text">
+        <span class="brand-name">Interlake Hub</span>
+        <span class="brand-sub">Student Activity Center</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="clubs.html" class="nav-link">Clubs</a>
+      <a href="submit.html" class="nav-link active">Update Your Page Info</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="navSearch" placeholder="Search clubs…" autocomplete="off">
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="form-page">
+  <div class="breadcrumb" style="margin-bottom:24px;">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <a href="clubs.html">Clubs</a><span class="sep">›</span>
+    <span>Update Your Page Info</span>
+  </div>
+
+  <div class="form-card">
+    <div class="form-card-header">
+      <h1>📝 Update Your Club Page</h1>
+      <p>Submit agendas before meetings, recaps after, and announcements anytime — so every student stays in the loop.</p>
+    </div>
+
+    <div class="form-view" id="formView">
+      <form class="form-body" id="updateForm" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="clubSelect">Club <span class="required">*</span></label>
+          <select class="form-control" id="clubSelect" name="club" required>
+            <option value="">— Select your club —</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="authorName">Your Name <span class="required">*</span></label>
+            <input type="text" class="form-control" id="authorName" name="author" placeholder="e.g. Sarah Kim" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="authorRole">Your Role</label>
+            <input type="text" class="form-control" id="authorRole" name="role" placeholder="e.g. President, VP">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Update Type <span class="required">*</span></label>
+          <div class="type-cards">
+            <div class="type-card selected" data-type="agenda" onclick="selectType('agenda')">
+              <div class="type-icon">📋</div>
+              <div class="type-name">Agenda</div>
+              <div class="type-desc">Upcoming meeting plan</div>
+            </div>
+            <div class="type-card" data-type="recap" onclick="selectType('recap')">
+              <div class="type-icon">📰</div>
+              <div class="type-name">Recap</div>
+              <div class="type-desc">Summary of a past meeting</div>
+            </div>
+            <div class="type-card" data-type="announcement" onclick="selectType('announcement')">
+              <div class="type-icon">📢</div>
+              <div class="type-name">Announcement</div>
+              <div class="type-desc">News or deadline</div>
+            </div>
+          </div>
+          <input type="hidden" id="updateTypeInput" name="updateType" value="agenda">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="updateDate">Date <span class="required">*</span></label>
+            <input type="date" class="form-control" id="updateDate" name="date" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="updateTitle">Title <span class="required">*</span></label>
+            <input type="text" class="form-control" id="updateTitle" name="title" placeholder="e.g. Meeting Agenda — May 20" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="updateContent">Content <span class="required">*</span></label>
+          <textarea class="form-control" id="updateContent" name="content" rows="7"
+            placeholder="Agendas: list items one per line&#10;Recaps: summarize what happened, key decisions, next steps&#10;Announcements: key info students need to know" required></textarea>
+          <div class="char-count"><span id="charCount">0</span> / 2000</div>
+        </div>
+
+        <div class="preview-box" id="previewBox">
+          <h4>Preview</h4>
+          <div class="preview-update-item" id="previewContent"></div>
+        </div>
+      </form>
+
+      <div class="form-footer">
+        <button type="button" class="btn btn-outline" id="previewBtn">👁 Preview</button>
+        <button type="button" class="btn btn-primary" id="submitBtn">Submit Update →</button>
+      </div>
+    </div>
+
+    <div class="success-view" id="successView">
+      <div style="font-size:3.5rem;margin-bottom:16px;">🎉</div>
+      <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:8px;">Update Published!</h2>
+      <p style="color:var(--text-muted);max-width:380px;margin:0 auto 28px;">
+        Your update is now live on the club page. Members and interested students can see it immediately.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a id="viewClubBtn" href="clubs.html" class="btn btn-primary">View Club Page →</a>
+        <button class="btn btn-outline" id="submitAnotherBtn">Submit Another</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
+    <h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px;color:var(--primary-dark);">📌 Guidelines for Club Officers</h3>
+    <ul style="display:flex;flex-direction:column;gap:8px;padding-left:0;">
+      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span>📋</span><span><strong>Agendas</strong> — submit before the meeting. Helps members plan and lets absent students know what's covered.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span>📰</span><span><strong>Recaps</strong> — submit within 2 days after a meeting. Include highlights, decisions, and action items.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span>📢</span><span><strong>Announcements</strong> — anytime for deadlines, competition results, new members, or other club news.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span>✏️</span><span>Keep content clear. Remember: this is read by students considering joining your club.</span></li>
+    </ul>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand">🏫 Interlake Student Hub</div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✓</span>
+  <span id="toastMsg"></span>
+</div>
+
+<script src="data.js"></script>
+<script>
+// ── Login ──────────────────────────────────────────────────────────────────
+const DEMO_USER = "clubofficer@interlake.edu";
+const DEMO_PASS = "Interlake2026!";
+
+function autofillUser(el) {
+  document.getElementById("loginUser").value = el.textContent;
+}
+function autofillPass(el) {
+  document.getElementById("loginPass").value = el.textContent;
+}
+
+function doLogin() {
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value;
+  const err  = document.getElementById("loginError");
+
+  if (user === DEMO_USER && pass === DEMO_PASS) {
+    err.classList.remove("show");
+    document.getElementById("loginOverlay").style.display = "none";
+    document.getElementById("loggedInBar").style.display = "block";
+    document.getElementById("userBadge").textContent = user.split("@")[0];
+    sessionStorage.setItem("hub_logged_in", "1");
+  } else {
+    err.classList.add("show");
+    document.getElementById("loginPass").value = "";
+    document.getElementById("loginPass").focus();
+  }
+}
+
+function doSignOut() {
+  sessionStorage.removeItem("hub_logged_in");
+  document.getElementById("loginOverlay").style.display = "flex";
+  document.getElementById("loggedInBar").style.display = "none";
+}
+
+// Allow Enter key on login form
+["loginUser","loginPass"].forEach(id => {
+  document.getElementById(id).addEventListener("keydown", e => {
+    if (e.key === "Enter") doLogin();
+  });
+});
+
+// Persist login across page-within-session reloads
+if (sessionStorage.getItem("hub_logged_in")) {
+  document.getElementById("loginOverlay").style.display = "none";
+  document.getElementById("loggedInBar").style.display = "block";
+}
+
+// ── Club dropdown ──────────────────────────────────────────────────────────
+const clubs = getClubs().sort((a, b) => a.name.localeCompare(b.name));
+const clubSelect = document.getElementById("clubSelect");
+clubs.forEach(c => {
+  const opt = document.createElement("option");
+  opt.value = c.id;
+  opt.textContent = `${c.name} (${getCategoryLabel(c.category)})`;
+  clubSelect.appendChild(opt);
+});
+
+const urlParams = new URLSearchParams(location.search);
+if (urlParams.has("club")) clubSelect.value = urlParams.get("club");
+if (urlParams.has("type")) selectType(urlParams.get("type"));
+
+// ── Type selection ─────────────────────────────────────────────────────────
+function selectType(type) {
+  document.querySelectorAll(".type-card").forEach(c => c.classList.remove("selected"));
+  const card = document.querySelector(`.type-card[data-type="${type}"]`);
+  if (card) card.classList.add("selected");
+  document.getElementById("updateTypeInput").value = type;
+}
+
+// Default date
+document.getElementById("updateDate").value = new Date().toISOString().split("T")[0];
+
+// Char count
+const contentEl = document.getElementById("updateContent");
+contentEl.addEventListener("input", () => {
+  document.getElementById("charCount").textContent = contentEl.value.length;
+});
+
+// ── Preview ────────────────────────────────────────────────────────────────
+document.getElementById("previewBtn").addEventListener("click", () => {
+  const title   = document.getElementById("updateTitle").value.trim();
+  const date    = document.getElementById("updateDate").value;
+  const content = contentEl.value.trim();
+  const type    = document.getElementById("updateTypeInput").value;
+  const author  = document.getElementById("authorName").value.trim();
+  const role    = document.getElementById("authorRole").value.trim();
+
+  if (!title && !content) { showToast("Fill in a title and content to preview.", "error"); return; }
+
+  document.getElementById("previewContent").innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
+      <div>
+        <div style="font-weight:700;font-size:.95rem;">${title || "(No title)"}</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:3px;">
+          <span class="badge" style="background:${getUpdateBadgeColor(type)};font-size:.65rem;">${type}</span>
+          &nbsp;${date ? formatDate(date) : ""}
+          ${author ? ` · By ${author}${role ? `, ${role}` : ""}` : ""}
+        </div>
+      </div>
+    </div>
+    <div style="font-size:.87rem;color:#475569;line-height:1.65;white-space:pre-line;">${content || "(No content)"}</div>`;
+
+  const box = document.getElementById("previewBox");
+  box.classList.add("show");
+  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const clubId  = clubSelect.value;
+  const title   = document.getElementById("updateTitle").value.trim();
+  const date    = document.getElementById("updateDate").value;
+  const content = contentEl.value.trim();
+  const type    = document.getElementById("updateTypeInput").value;
+  const author  = document.getElementById("authorName").value.trim();
+  const role    = document.getElementById("authorRole").value.trim();
+
+  if (!clubId)          { showToast("Please select your club.", "error"); return; }
+  if (!author)          { showToast("Please enter your name.", "error"); return; }
+  if (!date)            { showToast("Please select a date.", "error"); return; }
+  if (!title)           { showToast("Please enter a title.", "error"); return; }
+  if (!content)         { showToast("Please enter content.", "error"); return; }
+  if (content.length > 2000) { showToast("Content too long (max 2000 chars).", "error"); return; }
+
+  const ok = addUpdateToClub(clubId, {
+    date, type, title, content,
+    author: role ? `${author}, ${role}` : author
+  });
+
+  if (!ok) { showToast("Error saving. Please try again.", "error"); return; }
+
+  document.getElementById("formView").classList.add("hide");
+  document.getElementById("successView").classList.add("show");
+  document.getElementById("viewClubBtn").href = `club.html?id=${clubId}&tab=${type === "recap" ? "recaps" : type === "announcement" ? "announcements" : "agendas"}`;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+document.getElementById("submitAnotherBtn").addEventListener("click", () => {
+  document.getElementById("updateForm").reset();
+  selectType("agenda");
+  document.getElementById("updateDate").value = new Date().toISOString().split("T")[0];
+  document.getElementById("charCount").textContent = "0";
+  document.getElementById("previewBox").classList.remove("show");
+  document.getElementById("formView").classList.remove("hide");
+  document.getElementById("successView").classList.remove("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, type = "success") {
+  const toast = document.getElementById("toast");
+  document.getElementById("toastMsg").textContent = msg;
+  document.getElementById("toastIcon").textContent = type === "success" ? "✓" : "✕";
+  toast.className = `toast ${type}`;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim();
+    if (q) location.href = `clubs.html?q=${encodeURIComponent(q)}`;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clubs Directory — Interlake Student Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .clubs-header { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
+    .clubs-header h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+    .clubs-header p { opacity: .75; font-size: 1rem; max-width: 500px; }
+    .controls-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 0; position: sticky; top: 64px; z-index: 50; }
+    .controls-inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .controls-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+    .results-count { font-size: .85rem; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
+    .clubs-main { padding: 40px 0 80px; }
+    .no-results { grid-column: 1/-1; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon">🏫</div>
+      <div class="brand-text">
+        <span class="brand-name">Interlake Hub</span>
+        <span class="brand-sub">Student Activity Center</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="clubs.html" class="nav-link active">Clubs</a>
+      <a href="submit.html" class="nav-link">Update Your Page Info</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="navSearch" placeholder="Search clubs…" autocomplete="off">
+      </div>
+      <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div class="clubs-header">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:12px;">
+      <a href="index.html">Home</a><span class="sep">›</span><span>Clubs</span>
+    </div>
+    <h1>Club Directory</h1>
+    <p>Explore all active clubs at Interlake. Filter by category, sort by day or size, or search by name.</p>
+  </div>
+</div>
+
+<div class="controls-bar">
+  <div class="container controls-inner">
+    <!-- Search -->
+    <div class="search-bar" style="max-width:240px;">
+      <span class="icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search…" autocomplete="off">
+    </div>
+
+    <div class="controls-divider"></div>
+
+    <!-- Category filter pills -->
+    <div class="filter-bar" id="filterBar" style="margin-bottom:0;flex:1;"></div>
+
+    <div class="controls-divider"></div>
+
+    <!-- Sort by -->
+    <div class="sort-bar">
+      <span class="sort-bar-label">Sort:</span>
+      <button class="sort-btn active" data-sort="default">Default</button>
+      <button class="sort-btn" data-sort="day">Day</button>
+      <button class="sort-btn" data-sort="category">Category</button>
+      <button class="sort-btn" data-sort="size">Size</button>
+    </div>
+
+    <span class="results-count" id="resultsCount"></span>
+  </div>
+</div>
+
+<div class="clubs-main">
+  <div class="container">
+    <div class="clubs-grid" id="clubsGrid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand">🏫 Interlake Student Hub</div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+const clubs = getClubs();
+let currentCat   = "all";
+let currentQuery = "";
+let currentSort  = "default";
+
+const params = new URLSearchParams(location.search);
+if (params.has("cat")) currentCat   = params.get("cat");
+if (params.has("q"))   currentQuery = params.get("q");
+
+const EMOJI = { engineering:"🔧", science:"🔬", diplomatic:"🌐", creative:"🎨", service:"🤝", cultural:"🎭", leadership:"⭐" };
+
+// Day ordering for sort
+const DAY_ORDER = { 0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat" };
+function getPrimaryDay(club) {
+  if (typeof getClubMeetingDays === "function") {
+    const days = getClubMeetingDays(club);
+    return days.length > 0 ? days[0] : 9;
+  }
+  const str = club.meetingDays.toLowerCase();
+  if (str.includes("sun")) return 0;
+  if (str.includes("mon")) return 1;
+  if (str.includes("tue")) return 2;
+  if (str.includes("wed")) return 3;
+  if (str.includes("thu")) return 4;
+  if (str.includes("fri")) return 5;
+  if (str.includes("sat")) return 6;
+  return 9;
+}
+
+// Build filter pills
+const filterBar = document.getElementById("filterBar");
+CATEGORIES.forEach(cat => {
+  const pill = document.createElement("button");
+  pill.className = "filter-pill" + (cat.id === currentCat ? " active" : "");
+  if (cat.id === currentCat) pill.style.background = cat.color;
+  pill.dataset.cat = cat.id;
+  const count = cat.id === "all" ? clubs.length : clubs.filter(c => c.category === cat.id).length;
+  pill.innerHTML = `${cat.label} <span class="count-chip" style="${cat.id===currentCat?'background:rgba(255,255,255,.25);color:#fff;':''}"> ${count}</span>`;
+  filterBar.appendChild(pill);
+});
+
+filterBar.addEventListener("click", e => {
+  const pill = e.target.closest(".filter-pill");
+  if (!pill) return;
+  currentCat = pill.dataset.cat;
+  document.querySelectorAll(".filter-pill").forEach(p => {
+    p.classList.remove("active");
+    p.style.background = "";
+    const chip = p.querySelector(".count-chip");
+    if (chip) chip.style.cssText = "";
+  });
+  pill.classList.add("active");
+  const color = getCategoryColor(currentCat);
+  pill.style.background = color;
+  const chip = pill.querySelector(".count-chip");
+  if (chip) chip.style.cssText = "background:rgba(255,255,255,.25);color:#fff;";
+  renderClubs();
+  history.replaceState(null, "", `clubs.html?cat=${currentCat}`);
+});
+
+// Search
+const searchInput = document.getElementById("searchInput");
+if (currentQuery) searchInput.value = currentQuery;
+searchInput.addEventListener("input", () => {
+  currentQuery = searchInput.value.trim().toLowerCase();
+  renderClubs();
+});
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    currentQuery = e.target.value.trim().toLowerCase();
+    searchInput.value = currentQuery;
+    renderClubs();
+  }
+});
+
+// Sort buttons
+document.querySelectorAll(".sort-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentSort = btn.dataset.sort;
+    renderClubs();
+  });
+});
+
+function applySorting(list) {
+  switch (currentSort) {
+    case "day":
+      return [...list].sort((a, b) => getPrimaryDay(a) - getPrimaryDay(b));
+    case "category":
+      return [...list].sort((a, b) => getCategoryLabel(a.category).localeCompare(getCategoryLabel(b.category)));
+    case "size":
+      return [...list].sort((a, b) => (b.members || 0) - (a.members || 0));
+    default:
+      return list;
+  }
+}
+
+function renderClubs() {
+  let list = currentCat === "all" ? [...clubs] : clubs.filter(c => c.category === currentCat);
+  if (currentQuery) {
+    list = list.filter(c =>
+      c.name.toLowerCase().includes(currentQuery)        ||
+      c.description.toLowerCase().includes(currentQuery) ||
+      (c.tags || []).some(t => t.toLowerCase().includes(currentQuery))
+    );
+  }
+  list = applySorting(list);
+
+  document.getElementById("resultsCount").textContent = `${list.length} club${list.length !== 1 ? "s" : ""}`;
+
+  const grid = document.getElementById("clubsGrid");
+  if (!list.length) {
+    grid.innerHTML = `<div class="no-results empty-state"><div class="empty-icon">🔍</div><h3>No clubs found</h3><p>Try a different search or category.</p></div>`;
+    return;
+  }
+
+  // When sorting by day, show day label dividers
+  let prevDay = null;
+  grid.innerHTML = "";
+
+  if (currentSort === "day") {
+    list.forEach(c => {
+      const dayIdx = getPrimaryDay(c);
+      const dayLabel = dayIdx <= 6 ? DAY_ORDER[dayIdx] : "Other";
+      if (dayLabel !== prevDay) {
+        prevDay = dayLabel;
+        const divider = document.createElement("div");
+        divider.style.cssText = "grid-column:1/-1;padding:8px 0 4px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);border-bottom:2px solid var(--border);margin-bottom:4px;";
+        divider.textContent = dayLabel;
+        grid.appendChild(divider);
+      }
+      grid.appendChild(makeClubCard(c));
+    });
+  } else if (currentSort === "category") {
+    let prevCat = null;
+    list.forEach(c => {
+      const catLabel = getCategoryLabel(c.category);
+      if (catLabel !== prevCat) {
+        prevCat = catLabel;
+        const divider = document.createElement("div");
+        divider.style.cssText = "grid-column:1/-1;padding:8px 0 4px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);border-bottom:2px solid var(--border);margin-bottom:4px;";
+        divider.textContent = catLabel;
+        grid.appendChild(divider);
+      }
+      grid.appendChild(makeClubCard(c));
+    });
+  } else {
+    grid.innerHTML = list.map(c => makeClubCard(c).outerHTML).join("");
+  }
+}
+
+function makeClubCard(c) {
+  const color = getCategoryColor(c.category);
+  const emoji = EMOJI[c.category] || "📌";
+  const latestUpdate = (c.updates || [])[0];
+  const updateBadge  = latestUpdate
+    ? `<span class="badge" style="background:${getUpdateBadgeColor(latestUpdate.type)};font-size:.65rem;">${latestUpdate.type}</span>`
+    : "";
+  const el = document.createElement("div");
+  el.className = "card club-card";
+  el.onclick = () => location.href = `club.html?id=${c.id}`;
+  el.innerHTML = `
+    <div class="club-card-header">
+      <div class="club-avatar" style="background:${color};">${emoji}</div>
+      <div class="club-header-info">
+        <div class="club-name">${c.name}</div>
+        <div class="club-tagline">${c.tagline}</div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+          <span class="badge" style="background:${color};">${getCategoryLabel(c.category)}</span>
+          ${updateBadge}
+        </div>
+      </div>
+    </div>
+    <div class="club-card-body"><p class="club-desc">${c.description}</p></div>
+    <div class="club-card-footer">
+      <div class="club-meta-row">
+        <span class="club-meta-item">👥 ${c.members}</span>
+        <span class="club-meta-item">📅 ${c.meetingDays}</span>
+      </div>
+      <span class="club-card-link">Details →</span>
+    </div>`;
+  return el;
+}
+
+renderClubs();
+</script>
+</body>
+</html>
