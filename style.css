@@ -518,6 +518,8 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
+.club-card-header .badge { background: #1e3a8a !important; }
+
 .club-card-link:hover { color: var(--primary-light); gap: 7px; }
 
 /* ── Category Filters ─────────────────────────────────────────────────────── */

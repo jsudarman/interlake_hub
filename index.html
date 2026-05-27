@@ -47,7 +47,7 @@
 <nav class="navbar">
   <div class="container navbar-inner">
     <a href="index.html" class="navbar-brand">
-      <div class="brand-icon"><img src="images/logo.svg" alt="Interlake Hub"></div>
+      <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
         <span class="brand-name">Interlake Hub</span>
         <span class="brand-sub">Student Activity Center</span>
@@ -56,6 +56,7 @@
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link active">Home</a>
       <a href="clubs.html" class="nav-link">Clubs</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
       <a href="submit.html" class="nav-link">Update Your Page Info</a>
     </nav>
     <div class="navbar-actions">
@@ -82,20 +83,6 @@
       <div class="hero-cta">
         <a href="clubs.html" class="btn btn-accent">Explore Clubs →</a>
         <a href="#events" class="btn btn-ghost">View Events</a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="stat-number" id="statClubs">—</div>
-        <div class="stat-label">Active Clubs</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-number" id="statEvents">—</div>
-        <div class="stat-label">Upcoming Events</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-number" id="statMembers">—</div>
-        <div class="stat-label">Student Members</div>
       </div>
     </div>
   </div>
@@ -162,7 +149,7 @@
     <div class="section-header">
       <div class="header-row">
         <div>
-          <h2>📅 Activity Calendar</h2>
+          <h2>Activity Calendar</h2>
           <p>All club events and school activities in one place. Click any date to see details.</p>
         </div>
       </div>
@@ -181,7 +168,17 @@
       </div>
       <!-- Upcoming in next 14 days -->
       <div>
-        <h3 style="font-size:1rem;font-weight:700;color:var(--primary-dark);margin-bottom:14px;">⏰ Coming Up Soon</h3>
+        <h3 style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Color Key</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1d4ed8;flex-shrink:0;"></span>Competition</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0;"></span>Arts</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0891b2;flex-shrink:0;"></span>Service</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1e40af;flex-shrink:0;"></span>Cultural</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2563eb;flex-shrink:0;"></span>STEM</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#4338ca;flex-shrink:0;"></span>Leadership</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0f2450;flex-shrink:0;"></span>All-School</div>
+        </div>
+        <h3 style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Coming Up Soon</h3>
         <div class="mini-events-list" id="miniEventsList"></div>
       </div>
     </div>
@@ -220,12 +217,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/logo.svg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="clubs.html">Clubs</a>
+      <a href="calendar.html">Calendar</a>
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
@@ -235,13 +233,6 @@
 <script>
 const clubs  = getClubs();
 const events = getEvents();
-
-// Stats
-document.getElementById("statClubs").textContent   = clubs.length;
-document.getElementById("statEvents").textContent  = events.length;
-const totalMembers = clubs.reduce((s, c) => s + (c.members || 0), 0);
-document.getElementById("statMembers").textContent = totalMembers > 999
-  ? (totalMembers / 1000).toFixed(1) + "k" : totalMembers;
 
 // ── Events grid ────────────────────────────────────────────────────────────
 let currentFilter = "all";
@@ -270,12 +261,11 @@ function renderEvents() {
         <div class="event-body">
           <h3>${ev.title}</h3>
           <div class="event-meta">
-            <span>🕐 ${ev.time}</span>
-            <span>📍 ${ev.location}</span>
-            ${dl ? `<span style="font-weight:600;color:${days<=3?'#2563eb':days<=7?'#3b82f6':'var(--text-muted)'}">⏰ ${dl}</span>` : ""}
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${ev.time}</span>
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${ev.location}</span>
+            ${dl ? `<span style="font-weight:600;color:${days<=3?'#2563eb':days<=7?'#3b82f6':'var(--text-muted)'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/></svg>${dl}</span>` : ""}
           </div>
           <p class="event-desc">${ev.description.slice(0,110)}${ev.description.length>110?"…":""}</p>
-          <div class="event-tags">${ev.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
         </div>
       </div>`;
   }).join("");
@@ -406,7 +396,7 @@ function selectCalDay(dateStr) {
         <div class="cal-detail-dot" style="background:${getEventColor(e.category)};"></div>
         <div>
           <div style="font-weight:700;">${e.title}</div>
-          <div style="color:var(--text-muted);font-size:.78rem;">🕐 ${e.time} &nbsp; 📍 ${e.location}</div>
+          <div style="color:var(--text-muted);font-size:.78rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${e.time} &nbsp; <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.location}</div>
           <div style="font-size:.78rem;color:#475569;margin-top:3px;">${e.description.slice(0,100)}…</div>
         </div>
       </div>`).join("");
@@ -447,8 +437,8 @@ document.getElementById("miniEventsList").innerHTML = upcoming.length
   ? upcoming.map(e => `
       <div class="mini-event-item">
         <div class="mini-event-title">${e.title}</div>
-        <div class="mini-event-meta">📅 ${formatDateShort(e.date)} · ${e.time}</div>
-        <div class="mini-event-meta">📍 ${e.location}</div>
+        <div class="mini-event-meta"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatDateShort(e.date)} · ${e.time}</div>
+        <div class="mini-event-meta"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.location}</div>
       </div>`).join("")
   : `<div style="color:var(--text-muted);font-size:.88rem;">No events in the next 14 days.</div>`;
 
@@ -472,8 +462,8 @@ document.getElementById("featuredClubs").innerHTML = featured.map(c => {
       <div class="club-card-body"><p class="club-desc">${c.description}</p></div>
       <div class="club-card-footer">
         <div class="club-meta-row">
-          <span class="club-meta-item">👥 ${c.members} members</span>
-          <span class="club-meta-item">📅 ${c.meetingDays}</span>
+          <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${c.members} members</span>
+          <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.meetingDays}</span>
         </div>
         <span class="club-card-link">View club →</span>
       </div>

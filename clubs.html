@@ -22,7 +22,7 @@
 <nav class="navbar">
   <div class="container navbar-inner">
     <a href="index.html" class="navbar-brand">
-      <div class="brand-icon"><img src="images/logo.svg" alt="Interlake Hub"></div>
+      <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
         <span class="brand-name">Interlake Hub</span>
         <span class="brand-sub">Student Activity Center</span>
@@ -31,6 +31,7 @@
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link">Home</a>
       <a href="clubs.html" class="nav-link active">Clubs</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
       <a href="submit.html" class="nav-link">Update Your Page Info</a>
     </nav>
     <div class="navbar-actions">
@@ -90,12 +91,13 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/logo.svg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="clubs.html">Clubs</a>
+      <a href="calendar.html">Calendar</a>
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
@@ -258,10 +260,6 @@ function renderClubs() {
 function makeClubCard(c) {
   const color = getCategoryColor(c.category);
   const emoji = EMOJI[c.category] || "📌";
-  const latestUpdate = (c.updates || [])[0];
-  const updateBadge  = latestUpdate
-    ? `<span class="badge" style="background:${getUpdateBadgeColor(latestUpdate.type)};font-size:.65rem;">${latestUpdate.type}</span>`
-    : "";
   const el = document.createElement("div");
   el.className = "card club-card";
   el.onclick = () => location.href = `club.html?id=${c.id}`;
@@ -273,15 +271,14 @@ function makeClubCard(c) {
         <div class="club-tagline">${c.tagline}</div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
           <span class="badge" style="background:${color};">${getCategoryLabel(c.category)}</span>
-          ${updateBadge}
         </div>
       </div>
     </div>
     <div class="club-card-body"><p class="club-desc">${c.description}</p></div>
     <div class="club-card-footer">
       <div class="club-meta-row">
-        <span class="club-meta-item">👥 ${c.members}</span>
-        <span class="club-meta-item">📅 ${c.meetingDays}</span>
+        <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${c.members}</span>
+        <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.meetingDays}</span>
       </div>
       <span class="club-card-link">Details →</span>
     </div>`;
