@@ -27,6 +27,12 @@
     .not-found { text-align: center; padding: 80px 24px; }
     .empty-updates { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px; text-align: center; }
     .empty-updates .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: .4; }
+    .officers-photo-wrap { border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; }
+    .officers-photo-wrap img { width: 100%; display: block; max-height: 220px; object-fit: cover; }
+    .officers-names-row { display: flex; justify-content: space-between; gap: 8px; padding: 14px 20px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+    .officer-name-item { text-align: center; flex: 1; min-width: 80px; }
+    .officer-name-item .oname { font-size: .82rem; font-weight: 700; color: var(--text); }
+    .officer-name-item .orole { font-size: .72rem; color: var(--text-muted); margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -150,6 +156,21 @@ if (!club) {
 
   const submitBase = `submit.html?club=${club.id}`;
 
+  // Latest recap for overview snapshot
+  const latestRecap = recaps[0] || null;
+
+  // Upcoming events relevant to this club (category match or name mention)
+  const allEvents = getEvents();
+  const nameLower = club.name.toLowerCase();
+  const relevantEvents = allEvents
+    .filter(ev => daysUntil(ev.date) >= 0 && (
+      ev.category === club.category ||
+      ev.title.toLowerCase().includes(nameLower) ||
+      ev.description.toLowerCase().includes(nameLower)
+    ))
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 3);
+
   content.innerHTML = `
     <div class="club-hero">
       <div class="container">
@@ -193,6 +214,17 @@ if (!club) {
         <div>
           <!-- Overview -->
           <div class="tab-section active" id="tab-overview">
+
+            <!-- 1. Leadership photo + officer names -->
+            <div class="info-card" style="margin-bottom:24px;overflow:hidden;">
+              <div class="officers-photo-wrap">
+                <img src="https://placehold.co/800x220/1e3a8a/ffffff?text=Leadership+Photo"
+                     alt="${club.name} Leadership">
+              </div>
+              ${officers.length ? `<div class="officers-names-row">${officers.map(o => `<div class="officer-name-item"><div class="oname">${o.name}</div><div class="orole">${o.role}</div></div>`).join("")}</div>` : ""}
+            </div>
+
+            <!-- 2. About -->
             <div class="info-card" style="margin-bottom:24px;">
               <div class="info-card-header"><span>📖</span><h3>About ${club.name}</h3></div>
               <div class="info-card-body">
@@ -200,6 +232,26 @@ if (!club) {
                 ${club.tags ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;">${club.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>` : ""}
               </div>
             </div>
+
+            <!-- 3. Latest Recap -->
+            <div class="info-card" style="margin-bottom:24px;">
+              <div class="info-card-header" style="justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;"><span>📰</span><h3>Latest Recap</h3></div>
+                ${recaps.length ? `<a href="#" id="viewAllRecaps" style="font-size:.8rem;font-weight:600;color:var(--primary);text-decoration:none;">View all →</a>` : ""}
+              </div>
+              <div class="info-card-body">
+                ${latestRecap ? `
+                  <div class="update-item" style="border-left-color:${getUpdateBadgeColor("recap")};margin-bottom:0;">
+                    <div class="update-title">${latestRecap.title}</div>
+                    <div class="update-meta" style="margin-bottom:8px;font-size:.78rem;color:var(--text-muted);">
+                      ${formatDate(latestRecap.date)}${latestRecap.author ? ` · By ${latestRecap.author}` : ""}
+                    </div>
+                    <div class="update-content">${latestRecap.content.slice(0, 200)}${latestRecap.content.length > 200 ? "…" : ""}</div>
+                  </div>` : `<p style="font-size:.88rem;color:var(--text-muted);">No recaps yet — check back after the next meeting!</p>`}
+              </div>
+            </div>
+
+            <!-- 4. Next Meeting Agenda -->
             ${club.nextMeeting ? `
             <div class="info-card" style="margin-bottom:24px;">
               <div class="info-card-header"><span>📋</span><h3>Next Meeting Agenda</h3></div>
@@ -217,6 +269,34 @@ if (!club) {
                 </div>
               </div>
             </div>` : ""}
+
+            <!-- 5. Upcoming Events (only shown when relevant events exist) -->
+            ${relevantEvents.length ? `
+            <div class="info-card" style="margin-bottom:24px;">
+              <div class="info-card-header"><span>🗓️</span><h3>Upcoming Events</h3></div>
+              <div class="info-card-body" style="padding:14px 16px;display:flex;flex-direction:column;gap:14px;">
+                ${relevantEvents.map(ev => {
+                  const d     = new Date(ev.date + "T00:00:00");
+                  const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+                  const day   = d.getDate();
+                  return `<div style="display:flex;gap:14px;align-items:flex-start;">
+                    <div style="background:var(--primary);color:#fff;min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
+                      <span style="font-size:.62rem;font-weight:700;letter-spacing:.08em;opacity:.8;">${month}</span>
+                      <span style="font-size:1.5rem;font-weight:900;line-height:1;">${day}</span>
+                    </div>
+                    <div style="flex:1;min-width:0;padding-top:2px;">
+                      <div style="font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:5px;">${ev.title}</div>
+                      <div style="display:flex;flex-direction:column;gap:3px;">
+                        <span style="font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${ev.time}</span>
+                        <span style="font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${ev.location}</span>
+                      </div>
+                    </div>
+                  </div>`;
+                }).join("")}
+              </div>
+            </div>` : ""}
+
+            <!-- Participation Requirements -->
             <div class="info-card">
               <div class="info-card-header"><span>✅</span><h3>Participation Requirements</h3></div>
               <div class="info-card-body">
@@ -351,6 +431,16 @@ if (!club) {
       document.getElementById("tab-" + link.dataset.tab).classList.add("active");
     });
   });
+
+  // "View all recaps" link in overview switches to recaps tab
+  const viewAllRecaps = document.getElementById("viewAllRecaps");
+  if (viewAllRecaps) {
+    viewAllRecaps.addEventListener("click", e => {
+      e.preventDefault();
+      const recapsTab = document.querySelector('.tab-link[data-tab="recaps"]');
+      if (recapsTab) recapsTab.click();
+    });
+  }
 
   // Related clubs
   const allClubs = getClubs();
