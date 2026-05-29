@@ -255,7 +255,7 @@ function renderClubs() {
       grid.appendChild(makeClubCard(c));
     });
   } else {
-    grid.innerHTML = list.map(c => makeClubCard(c).outerHTML).join("");
+    list.forEach(c => grid.appendChild(makeClubCard(c)));
   }
 }
 
