@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Office — Interlake Student Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .classoffice-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
+    .classoffice-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+    .classoffice-hero p { opacity: .75; font-size: 1rem; max-width: 500px; }
+    .class-cards-section { padding: 48px 0 80px; }
+    .class-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 620px) { .class-cards-grid { grid-template-columns: 1fr; } }
+    .class-year-card {
+      display: flex; flex-direction: column; padding: 36px 32px;
+      text-decoration: none; color: var(--text);
+      border: 2px solid transparent; transition: var(--transition);
+    }
+    .class-year-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .class-year-num { font-size: 3.2rem; font-weight: 900; color: var(--primary); line-height: 1; margin-bottom: 6px; letter-spacing: -.03em; }
+    .class-year-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 14px; }
+    .class-year-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.6; flex: 1; margin-bottom: 24px; }
+    .class-year-cta { font-size: .88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; transition: var(--transition); }
+    .class-year-card:hover .class-year-cta { gap: 10px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
+      <div class="brand-text">
+        <span class="brand-name">Interlake Hub</span>
+        <span class="brand-sub">Student Activity Center</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="clubs.html" class="nav-link">Clubs</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="classoffice.html" class="nav-link active">Class Office</a>
+      <a href="submit.html" class="nav-link">Update Your Page Info</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="navSearch" placeholder="Search clubs…" autocomplete="off">
+      </div>
+      <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div class="classoffice-hero">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:12px;">
+      <a href="index.html">Home</a><span class="sep">›</span><span>Class Office</span>
+    </div>
+    <h1>Class Office</h1>
+    <p>Meet your class officers and stay connected with what each class is planning and working on.</p>
+  </div>
+</div>
+
+<div class="class-cards-section">
+  <div class="container">
+    <div class="class-cards-grid">
+
+      <a href="class.html?year=2027" class="card class-year-card">
+        <div class="class-year-num">2027</div>
+        <div class="class-year-label">Seniors · Class of 2027</div>
+        <div class="class-year-desc">
+          Your senior class officers working on graduation events, senior sunrise, prom, and class fundraisers for the final stretch.
+        </div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2028" class="card class-year-card">
+        <div class="class-year-num">2028</div>
+        <div class="class-year-label">Juniors · Class of 2028</div>
+        <div class="class-year-desc">
+          Junior class officers planning prom, junior events, and building toward a memorable senior year ahead.
+        </div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2029" class="card class-year-card">
+        <div class="class-year-num">2029</div>
+        <div class="class-year-label">Sophomores · Class of 2029</div>
+        <div class="class-year-desc">
+          Sophomore class officers building class spirit, organizing activities, and setting the tone for the years ahead.
+        </div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2030" class="card class-year-card">
+        <div class="class-year-num">2030</div>
+        <div class="class-year-label">Freshmen · Class of 2030</div>
+        <div class="class-year-desc">
+          Freshman class officers kicking off high school with fresh ideas, their first class events, and a lot of energy.
+        </div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;">
+        <img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;">
+        Interlake Student Hub
+      </div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="classoffice.html">Class Office</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim();
+    if (q) location.href = `clubs.html?q=${encodeURIComponent(q)}`;
+  }
+});
+</script>
+</body>
+</html>
