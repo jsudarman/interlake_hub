@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Info — Interlake Student Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Language visibility */
+    [data-lang="es"] .en-only { display: none !important; }
+    [data-lang="en"] .es-only { display: none !important; }
+
+    .general-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
+    .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+    .general-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
+    .lang-toggle { display: inline-flex; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+    .lang-btn { padding: 7px 22px; font-size: .85rem; font-weight: 700; background: transparent; color: rgba(255,255,255,.6); cursor: pointer; border: none; transition: background .15s, color .15s; }
+    .lang-btn.active { background: rgba(255,255,255,.2); color: #fff; }
+
+    .gen-wrap { padding: 0 0 80px; }
+    .gen-section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .gen-section:last-child { border-bottom: none; }
+    .gen-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .gen-icon { width: 42px; height: 42px; border-radius: 11px; background: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .gen-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .gen-section-title { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+    .gen-section-sub { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Announcements */
+    .announce-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .announce-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); font-size: .9rem; color: var(--text); line-height: 1.5; }
+    .announce-meta { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .announce-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); display: inline-block; }
+
+    /* Barking with Bernie */
+    .bernie-card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 22px; border: 2px solid var(--border); text-decoration: none; color: var(--text); transition: var(--transition); }
+    .bernie-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .bernie-yt { width: 54px; height: 54px; background: #ff0000; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .bernie-yt svg { width: 28px; height: 28px; fill: #fff; }
+    .bernie-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .bernie-sub { font-size: .84rem; color: var(--text-muted); margin-top: 3px; }
+    .bernie-arrow { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
+
+    /* Daily Bulletin */
+    .bulletin-datechip { display: inline-block; background: var(--primary); color: #fff; font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
+    .bulletin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 680px) { .bulletin-grid { grid-template-columns: 1fr; } }
+    .bulletin-col-head { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
+    .bulletin-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .bulletin-items li { font-size: .87rem; color: var(--text); padding: 10px 14px; background: #eff6ff; border-radius: var(--radius-sm); line-height: 1.5; }
+    .menu-bar { margin-top: 18px; background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid #f59e0b; }
+    .menu-bar-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #d97706; margin-bottom: 6px; }
+    .menu-bar-text { font-size: .9rem; color: var(--text); }
+    .bulletin-articles { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .b-article { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .b-article summary { cursor: pointer; padding: 13px 18px; font-size: .9rem; font-weight: 700; color: var(--text); background: var(--card); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .b-article summary::-webkit-details-marker { display: none; }
+    .b-article summary .expand-icon { font-size: .95rem; color: var(--text-muted); flex-shrink: 0; transition: transform .2s; }
+    .b-article[open] summary .expand-icon { transform: rotate(45deg); }
+    .b-article-body { padding: 16px 18px; font-size: .87rem; line-height: 1.75; color: var(--text); border-top: 1px solid var(--border); background: #fafbff; }
+    .lang-label { display: inline-block; font-size: .67rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px; }
+    .lang-label.en { background: #dbeafe; color: #1e40af; }
+    .lang-label.es { background: #fef3c7; color: #92400e; }
+    .art-divider { margin: 14px 0; border: none; border-top: 1px dashed var(--border); }
+
+    /* Testing season */
+    .testing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid #7c3aed; display: flex; align-items: flex-start; gap: 14px; }
+    .testing-badge { background: #7c3aed; color: #fff; font-size: .7rem; font-weight: 700; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .testing-title { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .testing-note { font-size: .8rem; color: var(--text-muted); margin-top: 3px; }
+    .testing-note-es { font-size: .78rem; color: var(--text-muted); margin-top: 2px; font-style: italic; }
+
+    /* Lunch menu */
+    .lunch-week-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 16px; }
+    .lunch-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    @media (max-width: 720px) { .lunch-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .lunch-grid { grid-template-columns: 1fr; } }
+    .lunch-day { background: var(--card); border-radius: var(--radius-sm); padding: 14px 12px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
+    .lunch-day.today { border-top-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,.2); }
+    .lunch-day-name { font-size: .69rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 4px; }
+    .lunch-day.today .lunch-day-name { color: #2563eb; }
+    .lunch-day-date { font-size: .68rem; color: var(--text-muted); margin-bottom: 9px; }
+    .lunch-day-meal { font-size: .8rem; color: var(--text); line-height: 1.5; }
+    .lunch-day-meal-es { font-size: .76rem; color: var(--text-muted); margin-top: 7px; line-height: 1.45; font-style: italic; }
+    .today-chip { display: inline-block; font-size: .65rem; font-weight: 800; background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 3px; margin-left: 6px; }
+
+    /* BSD */
+    .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+    .bsd-card-head { background: linear-gradient(90deg, var(--primary-dark) 0%, #1d4ed8 100%); padding: 20px 24px; color: #fff; }
+    .bsd-card-head h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .bsd-card-head p { font-size: .82rem; opacity: .75; }
+    .bsd-card-body { padding: 20px 24px; }
+    .bsd-updates { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .bsd-update { display: flex; gap: 12px; align-items: flex-start; font-size: .87rem; color: var(--text); line-height: 1.6; }
+    .bsd-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 7px; }
+    .bsd-footer-row { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .bsd-footer-label { font-size: .8rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
+      <div class="brand-text">
+        <span class="brand-name">Interlake Hub</span>
+        <span class="brand-sub">Student Activity Center</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="clubs.html" class="nav-link">Clubs</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="classoffice.html" class="nav-link">Class Office</a>
+      <a href="general.html" class="nav-link active">General</a>
+      <a href="submit.html" class="nav-link">Update Your Page Info</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search clubs…" autocomplete="off">
+      </div>
+      <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div class="general-hero">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:12px;">
+      <a href="index.html">Home</a><span class="sep">›</span><span>General</span>
+    </div>
+    <h1 class="en-only">General School Info</h1>
+    <h1 class="es-only">Información General de la Escuela</h1>
+    <p class="en-only">Announcements, daily bulletin, testing, lunch menu, and district updates — all in one place.</p>
+    <p class="es-only">Anuncios, boletín diario, temporada de exámenes, menú del almuerzo y novedades del distrito, todo en un solo lugar.</p>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">English</button>
+      <button class="lang-btn" id="btnES" onclick="setLang('es')">Español</button>
+    </div>
+  </div>
+</div>
+
+<div class="gen-wrap">
+  <div class="container">
+
+    <!-- ── 1. SCHOOLWIDE ANNOUNCEMENTS ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Schoolwide Announcements</div>
+          <div class="gen-section-title es-only">Anuncios de Toda la Escuela</div>
+          <div class="gen-section-sub en-only">Latest news from Interlake administration</div>
+          <div class="gen-section-sub es-only">Últimas noticias de la administración de Interlake</div>
+        </div>
+      </div>
+
+      <ul class="announce-list">
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 3, 2026 · Athletics</span><span class="es-only">3 de jun, 2026 · Atletismo</span></div>
+          <span class="en-only">Girls Soccer informational meeting for new and returning players — <strong>Wed. June 3rd at 1 PM, Portable 10.</strong></span>
+          <span class="es-only">Reunión informativa de fútbol femenino para jugadoras nuevas y veteranas — <strong>miérc. 3 de junio a la 1:00 p.m., Aula Portátil 10.</strong></span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 3, 2026 · Academics</span><span class="es-only">3 de jun, 2026 · Académico</span></div>
+          <span class="en-only"><strong>Smarter Balanced testing starts Wednesday, June 3rd.</strong> Check your schedule and arrive on time.</span>
+          <span class="es-only"><strong>Las pruebas Smarter Balanced comienzan el miércoles 3 de junio.</strong> Revisa tu horario y llega a tiempo.</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 1–5, 2026 · Activities</span><span class="es-only">1–5 de jun, 2026 · Actividades</span></div>
+          <span class="en-only"><strong>Drill Team Try-outs:</strong> 5:30–8:00 PM, Main Gym — June 1st through June 5th.</span>
+          <span class="es-only"><strong>Audiciones para el equipo de exhibición:</strong> 5:30–8:00 PM, Gimnasio Principal — del 1 al 5 de junio.</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 1, 2026 · Events</span><span class="es-only">1 de jun, 2026 · Eventos</span></div>
+          <span class="en-only"><strong>Speech and Debate Banquet</strong> — 4:30–8:30 PM in the Commons.</span>
+          <span class="es-only"><strong>Banquete de Oratoria y Debate</strong> — 4:30–8:30 PM en el Área Común.</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 3, 2026 · Community</span><span class="es-only">3 de jun, 2026 · Comunidad</span></div>
+          <span class="en-only"><strong>Senior Alumni Reunion</strong> for Spiritridge &amp; Eastgate graduates — June 3rd at 3:45 PM at Spiritridge Elementary. Bring cap and gown for a group photo!</span>
+          <span class="es-only"><strong>Reunión de Exalumnos de Último Año</strong> para egresados de Spiritridge y Eastgate — 3 de junio a las 3:45 p.m. en Spiritridge Elementary. ¡Traigan toga y birrete para la foto grupal!</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 2026 · Technology</span><span class="es-only">Jun 2026 · Tecnología</span></div>
+          <span class="en-only"><strong>Laptop collection happening in June.</strong> Back up your files to OneDrive. Make sure your name label and barcode are on the bottom of your device. See the full notice in the bulletin below.</span>
+          <span class="es-only"><strong>La recolección de laptops se realizará en junio.</strong> Haz una copia de seguridad de tus archivos en OneDrive. Asegúrate de que tu etiqueta de nombre y código de barras estén en la parte inferior del dispositivo. Consulta el aviso completo en el boletín de abajo.</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 2026 · Parking</span><span class="es-only">Jun 2026 · Estacionamiento</span></div>
+          <span class="en-only"><strong>Parking applications now available</strong> in the main office — for Juniors/Seniors in WANIC, Internship, part-time Running Start, or carpooling 3+.</span>
+          <span class="es-only"><strong>Solicitudes de estacionamiento ya disponibles</strong> en la oficina principal — para estudiantes de Junior/Senior en WANIC, pasantías, Running Start a tiempo parcial o que forman carpool de 3 o más.</span>
+        </li>
+        <li class="announce-item">
+          <div class="announce-meta"><span class="announce-dot"></span><span class="en-only">Jun 2026 · Seniors</span><span class="es-only">Jun 2026 · Seniors</span></div>
+          <span class="en-only"><strong>IHS Senior Scholarship Award Nominations</strong> are open — see your counselor for details.</span>
+          <span class="es-only"><strong>Las nominaciones para la Beca para Estudiantes de Último Año del IHS</strong> están abiertas — consulta a tu consejero para más detalles.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── 2. BARKING WITH BERNIE ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon" style="background:#dc2626;">
+          <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Barking with Bernie</div>
+          <div class="gen-section-title es-only">Barking with Bernie</div>
+          <div class="gen-section-sub en-only">School news and updates from Interlake's Link Crew — watch on YouTube</div>
+          <div class="gen-section-sub es-only">Noticias de la escuela presentadas por el Link Crew de Interlake — mira en YouTube</div>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/@InterlakeLinkCrew" target="_blank" rel="noopener" class="bernie-card">
+        <div class="bernie-yt">
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#ff0000" style="fill:#ff0000"/></svg>
+        </div>
+        <div>
+          <div class="bernie-title en-only">Barking with Bernie — Interlake Link Crew</div>
+          <div class="bernie-title es-only">Barking with Bernie — Interlake Link Crew</div>
+          <div class="bernie-sub en-only">Watch the latest school news segments on YouTube. New episodes posted regularly.</div>
+          <div class="bernie-sub es-only">Mira los últimos segmentos de noticias escolares en YouTube. Nuevos episodios publicados regularmente.</div>
+        </div>
+        <div class="bernie-arrow en-only">Watch on YouTube →</div>
+        <div class="bernie-arrow es-only">Ver en YouTube →</div>
+      </a>
+    </div>
+
+    <!-- ── 3. DAILY BULLETIN ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Daily Bulletin</div>
+          <div class="gen-section-title es-only">Boletín Diario</div>
+          <div class="gen-section-sub en-only">Official school bulletin — updated each school day</div>
+          <div class="gen-section-sub es-only">Boletín oficial de la escuela — actualizado cada día escolar</div>
+        </div>
+      </div>
+
+      <div class="bulletin-datechip en-only">June 1, 2026</div>
+      <div class="bulletin-datechip es-only">1 de junio de 2026</div>
+
+      <!-- Announcements grid -->
+      <div class="bulletin-grid">
+        <div>
+          <div class="bulletin-col-head en-only">Today's Announcements</div>
+          <div class="bulletin-col-head es-only">Anuncios de Hoy</div>
+          <ul class="bulletin-items en-only">
+            <li>Parking Applications now Available</li>
+            <li>Speech and Debate Banquet — 4:30–8:30 PM, Commons</li>
+            <li>Drill Team Try-outs — 5:30–8:00 PM, Main Gym (June 1–5)</li>
+            <li>Girls Soccer Meeting for New &amp; Returning Players — Wed. June 3rd, 1 PM @ Portable 10</li>
+            <li>Smarter Balance testing starting Wednesday, June 3rd</li>
+            <li>Spiritridge &amp; Eastgate Senior Alumni Reunion — Spiritridge, June 3rd at 3:45 PM</li>
+            <li>Laptop Collection — June</li>
+            <li>IHS Senior Scholarship Award Nominations</li>
+          </ul>
+          <ul class="bulletin-items es-only">
+            <li>Solicitudes de estacionamiento ya disponibles</li>
+            <li>Banquete de Oratoria y Debate — 4:30–8:30 PM (Área común)</li>
+            <li>Audiciones para el equipo de exhibición — 5:30–8:00 PM, Gimnasio (1–5 de junio)</li>
+            <li>Reunión de fútbol femenino para jugadoras nuevas y veteranas — miérc. 3 de junio, 1:00 p.m., Aula Portátil 10</li>
+            <li>Las pruebas Smarter Balance comienzan el miércoles 3 de junio</li>
+            <li>Reunión de exalumnos de Spiritridge y Eastgate — Spiritridge, 3 de junio a las 3:45 p.m.</li>
+            <li>Recolección de laptops en junio</li>
+            <li>Nominaciones para la Beca para Estudiantes de Último Año del IHS</li>
+          </ul>
+        </div>
+        <div>
+          <div class="bulletin-col-head en-only">Today's Menu — June 1</div>
+          <div class="bulletin-col-head es-only">Menú de Hoy — 1 de junio</div>
+          <div class="menu-bar">
+            <div class="menu-bar-label en-only">Lunch</div>
+            <div class="menu-bar-label es-only">Almuerzo</div>
+            <div class="menu-bar-text en-only">Chicken Alfredo <em>or</em> Vegetarian Alfredo with Penne Pasta and Garlic Bread</div>
+            <div class="menu-bar-text es-only">Pollo Alfredo <em>o</em> Alfredo Vegetariano con Pasta Penne y Pan de Ajo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expandable articles -->
+      <div class="bulletin-articles">
+
+        <details class="b-article">
+          <summary>
+            <span class="en-only">Parking Applications Available</span>
+            <span class="es-only">Solicitudes de Estacionamiento Disponibles</span>
+            <span class="expand-icon">+</span>
+          </summary>
+          <div class="b-article-body">
+            <div class="lang-label en en-only">English</div>
+            <p class="en-only">Priority parking applications are now available in the main office. If you will be a Junior or Senior next year <strong>AND</strong> you will be in WANIC, Internship, Part-time Running Start, or driving a carpool of 3, you can submit a Priority application. Details and forms available in the main office.</p>
+            <hr class="art-divider en-only">
+            <div class="lang-label es es-only">Español</div>
+            <p class="es-only">Las solicitudes de estacionamiento prioritario ya están disponibles en la oficina principal. Si el próximo año cursará el penúltimo o último año escolar (Junior o Senior) <strong>Y</strong> participará en WANIC, en un programa de pasantías, en el programa Running Start a tiempo parcial, o si conducirá un vehículo compartido con 3 ocupantes, podrá presentar una solicitud prioritaria. Los detalles y los formularios están disponibles en la oficina principal.</p>
+          </div>
+        </details>
+
+        <details class="b-article">
+          <summary>
+            <span class="en-only">Girls Soccer — Meeting for New &amp; Returning Players</span>
+            <span class="es-only">Fútbol Femenino — Reunión para Jugadoras Nuevas y Veteranas</span>
+            <span class="expand-icon">+</span>
+          </summary>
+          <div class="b-article-body">
+            <div class="lang-label en en-only">English</div>
+            <p class="en-only">Saints! Interested in Girls Soccer? New and returning players are invited to come to an informational meeting to learn about summer opportunities and the upcoming fall season. <strong>Wednesday, June 3rd at 1 PM in Portable 10.</strong></p>
+            <hr class="art-divider en-only">
+            <div class="lang-label es es-only">Español</div>
+            <p class="es-only">¡Saints! ¿Les interesa el fútbol femenino? Se invita a las jugadoras, tanto nuevas como las que regresan, a asistir a una reunión informativa para conocer las oportunidades de verano y la próxima temporada de otoño. <strong>Miércoles 3 de junio a la 1:00 p.m. en el Aula Portátil 10.</strong></p>
+          </div>
+        </details>
+
+        <details class="b-article">
+          <summary>
+            <span class="en-only">Senior Alumni Reunion — Spiritridge &amp; Eastgate</span>
+            <span class="es-only">Reunión de Exalumnos de Último Año — Spiritridge y Eastgate</span>
+            <span class="expand-icon">+</span>
+          </summary>
+          <div class="b-article-body">
+            <div class="lang-label en en-only">English</div>
+            <p class="en-only">Attention Seniors from Spiritridge and Eastgate Elementary — you are invited to the <strong>Senior Alumni Reunion on June 3rd at 3:45 PM at Spiritridge Elementary.</strong> We want to celebrate and give our seniors the opportunity to visit with previous elementary classmates and teachers. Please bring your cap and gown for a group photo.</p>
+            <hr class="art-divider en-only">
+            <div class="lang-label es es-only">Español</div>
+            <p class="es-only">Atención, estudiantes de último año de Spiritridge y Eastgate Elementary: están invitados a la <strong>Reunión de Exalumnos de Último Año el 3 de junio, a las 3:45 p.m., en Spiritridge Elementary.</strong> Queremos celebrar y brindar a nuestros estudiantes de último año la oportunidad de reencontrarse con sus antiguos compañeros y maestros de primaria. Por favor, traigan su toga y birrete para una foto grupal.</p>
+          </div>
+        </details>
+
+        <details class="b-article">
+          <summary>
+            <span class="en-only">Laptop Check-Out &amp; June Collection</span>
+            <span class="es-only">Préstamo de Laptops y Recolección en Junio</span>
+            <span class="expand-icon">+</span>
+          </summary>
+          <div class="b-article-body">
+            <div class="lang-label en en-only">English</div>
+            <p class="en-only"><strong>Loaners:</strong> Student loaner laptops are available when a student's assigned device is not working due to damage. If a laptop is accidentally left at home, unfortunately we're not able to provide a loaner from the Tech office. With upcoming SBA testing, all remaining loaner devices will be designated for testing use.</p>
+            <p class="en-only" style="margin-top:10px;"><strong>Laptop Collection:</strong> We'll be collecting all student laptops in June. Please keep all peripherals (chargers, cases) at home over the summer. Before turning yours in, make sure your name label <em>and</em> the computer barcode are attached to the bottom of your laptop — these help us re-assign the same laptop to you in September. If either label is missing, stop by the Tech Office ASAP. Back up all important files to your OneDrive. If your laptop is damaged, bring it to the Tech Center before June so it can be repaired. Questions? Send Mrs. Stone a Teams message.</p>
+            <hr class="art-divider en-only">
+            <div class="lang-label es es-only">Español</div>
+            <p class="es-only"><strong>Equipos de préstamo:</strong> Hay computadoras portátiles de préstamo disponibles cuando el dispositivo asignado no funciona debido a algún daño. Si una laptop se olvida en casa, lamentablemente no podremos proporcionar un equipo de préstamo desde la Oficina de Tecnología. Con las próximas pruebas SBA, todos los dispositivos de préstamo restantes se destinarán exclusivamente para las evaluaciones.</p>
+            <p class="es-only" style="margin-top:10px;"><strong>Recolección de laptops:</strong> Recogeremos todas las computadoras portátiles en junio. Conserva en casa durante el verano todos los periféricos (cargadores, fundas). Antes de entregar tu equipo, asegúrate de que tu etiqueta de nombre <em>y</em> el código de barras estén en la parte inferior — esto nos ayuda a reasignarte la misma laptop en septiembre. Si falta alguna etiqueta, acércate a la Oficina de Tecnología a la brevedad. Haz una copia de seguridad de todos tus archivos en OneDrive. Si tu laptop está dañada, tráela al Centro de Tecnología antes de junio. ¿Preguntas? Envía un mensaje a la Sra. Stone por Teams.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- ── 4. TESTING SEASON ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon" style="background:#7c3aed;">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Testing Season</div>
+          <div class="gen-section-title es-only">Temporada de Exámenes</div>
+          <div class="gen-section-sub en-only">Upcoming assessments — check with your teacher for your specific schedule</div>
+          <div class="gen-section-sub es-only">Evaluaciones próximas — consulta a tu maestro para tu horario específico</div>
+        </div>
+      </div>
+
+      <ul class="testing-list">
+        <li class="testing-item">
+          <span class="testing-badge en-only">Ongoing</span>
+          <span class="testing-badge es-only">En curso</span>
+          <div>
+            <div class="testing-title en-only">Individual Orals — Language &amp; Literature</div>
+            <div class="testing-title es-only">Presentaciones Orales Individuales — Lengua y Literatura</div>
+            <div class="testing-note en-only">Individual oral exams are currently taking place in Language &amp; Literature classes. Check with your teacher to confirm your scheduled date and time.</div>
+            <div class="testing-note es-only">Los exámenes orales individuales se están llevando a cabo en las clases de Lengua y Literatura. Consulta a tu maestro para confirmar tu fecha y hora programada.</div>
+          </div>
+        </li>
+        <li class="testing-item">
+          <span class="testing-badge en-only">Ongoing</span>
+          <span class="testing-badge es-only">En curso</span>
+          <div>
+            <div class="testing-title en-only">Individual Orals — Literature</div>
+            <div class="testing-title es-only">Presentaciones Orales Individuales — Literatura</div>
+            <div class="testing-note en-only">Individual oral exams are also underway in Literature classes. Speak with your teacher to find out when yours is scheduled.</div>
+            <div class="testing-note es-only">Los exámenes orales individuales también están en curso en las clases de Literatura. Habla con tu maestro para saber cuándo está programado el tuyo.</div>
+          </div>
+        </li>
+        <li class="testing-item">
+          <span class="testing-badge en-only">Jun 3+</span>
+          <span class="testing-badge es-only">3 de jun+</span>
+          <div>
+            <div class="testing-title en-only">Smarter Balanced Assessment (SBA)</div>
+            <div class="testing-title es-only">Evaluación Smarter Balanced (SBA)</div>
+            <div class="testing-note en-only">Starting Wednesday, June 3rd. Check your schedule for your testing day and room assignment.</div>
+            <div class="testing-note es-only">A partir del miércoles 3 de junio. Consulta tu horario para tu día de evaluación y asignación de aula.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── 5. LUNCH MENU CALENDAR ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon" style="background:#d97706;">
+          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Lunch Menu</div>
+          <div class="gen-section-title es-only">Menú del Almuerzo</div>
+          <div class="gen-section-sub en-only">Weekly cafeteria menu — week of June 1–5, 2026</div>
+          <div class="gen-section-sub es-only">Menú semanal de la cafetería — semana del 1 al 5 de junio de 2026</div>
+        </div>
+      </div>
+
+      <div class="lunch-week-label en-only">Week of June 1 – 5, 2026</div>
+      <div class="lunch-week-label es-only">Semana del 1 al 5 de junio de 2026</div>
+
+      <div class="lunch-grid">
+        <div class="lunch-day today">
+          <div class="lunch-day-name en-only">Mon <span class="today-chip">Today</span></div>
+          <div class="lunch-day-name es-only">Lun <span class="today-chip">Hoy</span></div>
+          <div class="lunch-day-date en-only">June 1</div>
+          <div class="lunch-day-date es-only">1 de junio</div>
+          <div class="lunch-day-meal en-only">Chicken Alfredo <em>or</em> Vegetarian Alfredo with Penne Pasta &amp; Garlic Bread</div>
+          <div class="lunch-day-meal es-only">Pollo Alfredo <em>o</em> Alfredo Vegetariano con Pasta Penne y Pan de Ajo</div>
+        </div>
+        <div class="lunch-day">
+          <div class="lunch-day-name en-only">Tue</div>
+          <div class="lunch-day-name es-only">Mar</div>
+          <div class="lunch-day-date en-only">June 2</div>
+          <div class="lunch-day-date es-only">2 de junio</div>
+          <div class="lunch-day-meal en-only">Teriyaki Chicken Bowl with Steamed Rice &amp; Broccoli</div>
+          <div class="lunch-day-meal es-only">Tazón de Pollo Teriyaki con Arroz al Vapor y Brócoli</div>
+        </div>
+        <div class="lunch-day">
+          <div class="lunch-day-name en-only">Wed</div>
+          <div class="lunch-day-name es-only">Miérc</div>
+          <div class="lunch-day-date en-only">June 3</div>
+          <div class="lunch-day-date es-only">3 de junio</div>
+          <div class="lunch-day-meal en-only">Beef Tacos with Black Beans, Salsa &amp; Tortilla Chips</div>
+          <div class="lunch-day-meal es-only">Tacos de Res con Frijoles Negros, Salsa y Tortillas</div>
+        </div>
+        <div class="lunch-day">
+          <div class="lunch-day-name en-only">Thu</div>
+          <div class="lunch-day-name es-only">Juev</div>
+          <div class="lunch-day-date en-only">June 4</div>
+          <div class="lunch-day-date es-only">4 de junio</div>
+          <div class="lunch-day-meal en-only">Pepperoni Pizza <em>or</em> Cheese Pizza with Garden Salad</div>
+          <div class="lunch-day-meal es-only">Pizza de Pepperoni <em>o</em> Pizza de Queso con Ensalada</div>
+        </div>
+        <div class="lunch-day">
+          <div class="lunch-day-name en-only">Fri</div>
+          <div class="lunch-day-name es-only">Vier</div>
+          <div class="lunch-day-date en-only">June 5</div>
+          <div class="lunch-day-date es-only">5 de junio</div>
+          <div class="lunch-day-meal en-only">Mac &amp; Cheese with Cornbread &amp; Green Beans</div>
+          <div class="lunch-day-meal es-only">Mac &amp; Cheese con Pan de Maíz y Ejotes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 6. BELLEVUE SCHOOL DISTRICT ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon" style="background:#0369a1;">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Bellevue School District</div>
+          <div class="gen-section-title es-only">Distrito Escolar de Bellevue</div>
+          <div class="gen-section-sub en-only">School board updates and district information</div>
+          <div class="gen-section-sub es-only">Actualizaciones de la junta escolar e información del distrito</div>
+        </div>
+      </div>
+
+      <div class="bsd-card">
+        <div class="bsd-card-head">
+          <h3 class="en-only">BSD School Board — Recent Updates</h3>
+          <h3 class="es-only">Junta Escolar del BSD — Actualizaciones Recientes</h3>
+          <p class="en-only">Bellevue School District serves approximately 20,000 students across 35+ schools.</p>
+          <p class="es-only">El Distrito Escolar de Bellevue atiende a aproximadamente 20,000 estudiantes en más de 35 escuelas.</p>
+        </div>
+        <div class="bsd-card-body">
+          <ul class="bsd-updates">
+            <li class="bsd-update">
+              <span class="bsd-dot"></span>
+              <span class="en-only">The Board of Directors meets regularly to vote on district policy, budget, and curriculum matters. Meetings are open to the public and include time for community comment.</span>
+              <span class="es-only">La Junta Directiva se reúne regularmente para votar sobre políticas del distrito, el presupuesto y asuntos curriculares. Las reuniones son abiertas al público e incluyen tiempo para comentarios de la comunidad.</span>
+            </li>
+            <li class="bsd-update">
+              <span class="bsd-dot"></span>
+              <span class="en-only">BSD's Strategic Plan focuses on equity, academic excellence, and preparing every student for post-secondary success.</span>
+              <span class="es-only">El Plan Estratégico del BSD se enfoca en la equidad, la excelencia académica y la preparación de cada estudiante para el éxito después de la escuela secundaria.</span>
+            </li>
+            <li class="bsd-update">
+              <span class="bsd-dot"></span>
+              <span class="en-only">Community members can submit public comments or view upcoming board meeting agendas on the BSD website.</span>
+              <span class="es-only">Los miembros de la comunidad pueden enviar comentarios públicos o ver los próximos órdenes del día de las reuniones de la junta en el sitio web del BSD.</span>
+            </li>
+            <li class="bsd-update">
+              <span class="bsd-dot"></span>
+              <span class="en-only">Board meeting dates, minutes, and recorded video archives are all available online.</span>
+              <span class="es-only">Las fechas de reuniones de la junta, las actas y los archivos de video grabados están disponibles en línea.</span>
+            </li>
+          </ul>
+          <div class="bsd-footer-row">
+            <span class="bsd-footer-label en-only">Visit the official BSD School Board page for meeting schedules, agendas, and more.</span>
+            <span class="bsd-footer-label es-only">Visita la página oficial de la Junta Escolar del BSD para conocer horarios de reuniones, órdenes del día y más.</span>
+            <a href="https://www.bsd405.org/departments/school-board/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.85rem;padding:8px 18px;">
+              <span class="en-only">BSD School Board →</span>
+              <span class="es-only">Junta Escolar BSD →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="classoffice.html">Class Office</a>
+      <a href="general.html">General</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.getElementById("btnEN").classList.toggle("active", lang === "en");
+  document.getElementById("btnES").classList.toggle("active", lang === "es");
+}
+</script>
+</body>
+</html>
