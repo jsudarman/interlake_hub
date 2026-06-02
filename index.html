@@ -6,43 +6,57 @@
   <title>Interlake Student Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .featured-clubs .clubs-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
-    .events-tabs { display: flex; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 0; flex-wrap: wrap; }
-    .events-tab { padding: 8px 18px 12px; font-size: .88rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: var(--transition); }
-    .events-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-    .events-tab:hover:not(.active) { color: var(--text); }
-    .banner { background: linear-gradient(90deg, #0f2450 0%, #1d4ed8 100%); padding: 11px 0; }
-    .banner-inner { display: flex; align-items: center; gap: 12px; font-size: .88rem; font-weight: 600; color: #fff; }
-    .banner-label { background: rgba(255,255,255,.15); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
-    .banner a { color: #93c5fd; }
-    .quick-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-    .quick-link-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--text); transition: var(--transition); border: 2px solid transparent; }
-    .quick-link-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .quick-link-icon { font-size: 1.6rem; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .quick-link-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
-    .quick-link-title { font-size: .95rem; font-weight: 700; color: var(--text); margin-top: 2px; }
-    .upcoming-dot { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.35} }
-    .cal-section { background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .cal-layout { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
-    @media(max-width:860px){ .cal-layout{ grid-template-columns:1fr; } }
-    .mini-events-list { display: flex; flex-direction: column; gap: 10px; }
-    .mini-event-item { background: #eff6ff; border-radius: var(--radius-sm); padding: 12px 14px; border-left: 3px solid var(--primary); }
-    .mini-event-title { font-size: .88rem; font-weight: 700; color: var(--text); }
-    .mini-event-meta { font-size: .75rem; color: var(--text-muted); margin-top: 2px; }
+    .home-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 52px 0 56px; color: #fff; text-align: center; }
+    .home-hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; margin-bottom: 12px; }
+    .home-hero h1 span { color: #93c5fd; }
+    .home-hero p { font-size: 1rem; opacity: .8; max-width: 520px; margin: 0 auto 28px; line-height: 1.7; }
+    .home-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .hub-section { padding: 48px 0 80px; }
+    .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 720px) { .hub-grid { grid-template-columns: 1fr; } }
+
+    .hub-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: var(--transition); }
+    .hub-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .hub-card-head { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; }
+    .hub-card-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .hub-card-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .hub-card-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .hub-card-sub { font-size: .8rem; color: var(--text-muted); margin-top: 2px; }
+    .hub-card-body { padding: 18px 24px; flex: 1; }
+    .hub-card-footer { padding: 14px 24px 20px; }
+
+    /* Preview items */
+    .preview-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .preview-item { font-size: .86rem; color: var(--text); padding: 9px 13px; background: #eff6ff; border-radius: var(--radius-sm); border-left: 2px solid var(--primary); line-height: 1.5; }
+    .preview-item-meta { font-size: .71rem; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+
+    /* Calendar previews */
+    .cal-preview-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .cal-preview-item:last-child { border-bottom: none; }
+    .cal-preview-badge { min-width: 38px; text-align: center; background: var(--primary); color: #fff; border-radius: 6px; padding: 4px 6px; }
+    .cal-preview-badge .cpb-m { font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+    .cal-preview-badge .cpb-d { font-size: 1rem; font-weight: 900; line-height: 1; }
+    .cal-preview-title { font-size: .87rem; font-weight: 700; color: var(--text); }
+    .cal-preview-meta { font-size: .75rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Class year pills */
+    .class-year-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .class-pill { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #eff6ff; border-radius: var(--radius-sm); text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: var(--transition); }
+    .class-pill:hover { border-color: var(--primary); background: #dbeafe; }
+    .class-pill-year { font-size: 1.1rem; font-weight: 900; color: var(--primary); }
+    .class-pill-label { font-size: .72rem; color: var(--text-muted); margin-top: 1px; }
+    .class-pill-arrow { color: var(--primary); font-size: .9rem; }
+
+    /* Club previews */
+    .club-preview-item { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .club-preview-item:last-child { border-bottom: none; }
+    .club-preview-dot { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .9rem; }
+    .club-preview-name { font-size: .87rem; font-weight: 700; color: var(--text); }
+    .club-preview-meta { font-size: .74rem; color: var(--text-muted); margin-top: 1px; }
   </style>
 </head>
 <body>
-
-<div class="banner">
-  <div class="container">
-    <div class="banner-inner">
-      <span class="banner-label">📢 New</span>
-      <span>Spring Club Fair is <strong>May 20</strong> — 11 AM–1 PM in the Main Gym!</span>
-      <a href="clubs.html">Explore clubs →</a>
-    </div>
-  </div>
-</div>
 
 <nav class="navbar">
   <div class="container navbar-inner">
@@ -55,166 +69,145 @@
     </a>
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link active">Home</a>
-      <a href="clubs.html" class="nav-link">Clubs</a>
       <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="classoffice.html" class="nav-link">Class Office</a>
       <a href="general.html" class="nav-link">General</a>
-      <a href="submit.html" class="nav-link">Update Your Page Info</a>
+      <a href="classoffice.html" class="nav-link">Class Office</a>
+      <a href="clubs.html" class="nav-link">Clubs</a>
     </nav>
     <div class="navbar-actions">
       <div class="nav-search">
         <span class="search-icon">🔍</span>
-        <input type="text" id="navSearch" placeholder="Search clubs…" autocomplete="off">
+        <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="container hero-content">
-    <div class="hero-left">
-      <div class="hero-eyebrow">⚡ Your School. Your Community.</div>
-      <h1>Welcome to the<br><span>Interlake</span> Student Hub</h1>
-      <p class="hero-desc">
-        Your one-stop destination for everything happening at Interlake High School —
-        upcoming events, club directories, meeting agendas, recaps, and more.
-        Find your people. Get involved. Make an impact.
-      </p>
-      <div class="hero-cta">
-        <a href="clubs.html" class="btn btn-accent">Explore Clubs →</a>
-        <a href="#events" class="btn btn-ghost">View Events</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Quick Links -->
-<section class="section-sm" style="background:#fff; border-bottom:1px solid var(--border);">
+<section class="home-hero">
   <div class="container">
-    <div class="quick-links">
-      <a href="clubs.html?cat=engineering" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">🔧</div>
-        <div><div class="quick-link-label">Category</div><div class="quick-link-title">Engineering</div></div>
-      </a>
-      <a href="clubs.html?cat=science" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">🔬</div>
-        <div><div class="quick-link-label">Category</div><div class="quick-link-title">Science</div></div>
-      </a>
-      <a href="clubs.html?cat=diplomatic" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">🌐</div>
-        <div><div class="quick-link-label">Category</div><div class="quick-link-title">Diplomatic</div></div>
-      </a>
-      <a href="clubs.html?cat=creative" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">🎨</div>
-        <div><div class="quick-link-label">Category</div><div class="quick-link-title">Creative</div></div>
-      </a>
-      <a href="clubs.html?cat=service" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">🤝</div>
-        <div><div class="quick-link-label">Category</div><div class="quick-link-title">Service</div></div>
-      </a>
-      <a href="submit.html" class="quick-link-card">
-        <div class="quick-link-icon" style="background:#eff6ff;">📝</div>
-        <div><div class="quick-link-label">For Officers</div><div class="quick-link-title">Update Your Page</div></div>
-      </a>
+    <h1>Welcome to <span>Interlake</span> Student Hub</h1>
+    <p>Your one-stop destination for everything happening at Interlake High School — announcements, events, clubs, and more.</p>
+    <div class="home-hero-btns">
+      <a href="general.html" class="btn btn-accent">Today's Bulletin →</a>
+      <a href="clubs.html" class="btn btn-ghost">Browse Clubs</a>
     </div>
   </div>
 </section>
 
-<!-- Upcoming Events -->
-<section class="section" id="events">
+<div class="hub-section">
   <div class="container">
-    <div class="section-header">
-      <div class="header-row">
-        <div>
-          <h2><span class="upcoming-dot"></span>Upcoming Events</h2>
-          <p>Everything happening at Interlake in the next few weeks.</p>
-        </div>
-        <div class="events-tabs" id="eventsTabs">
-          <div class="events-tab active" data-filter="all">All</div>
-          <div class="events-tab" data-filter="competition">Competitions</div>
-          <div class="events-tab" data-filter="arts">Arts</div>
-          <div class="events-tab" data-filter="service">Service</div>
-          <div class="events-tab" data-filter="cultural">Cultural</div>
-          <div class="events-tab" data-filter="stem">STEM</div>
-        </div>
-      </div>
-    </div>
-    <div class="events-grid stagger" id="eventsGrid"></div>
-  </div>
-</section>
+    <div class="hub-grid">
 
-<!-- Full Calendar -->
-<section class="section cal-section" id="calendar">
-  <div class="container">
-    <div class="section-header">
-      <div class="header-row">
-        <div>
-          <h2>Activity Calendar</h2>
-          <p>All club events and school activities in one place. Click any date to see details.</p>
+      <!-- General Info card -->
+      <div class="hub-card">
+        <div class="hub-card-head">
+          <div class="hub-card-icon" style="background:var(--primary);">
+            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div>
+            <div class="hub-card-title">General Info</div>
+            <div class="hub-card-sub">Announcements · Bulletin · Lunch · BSD</div>
+          </div>
+        </div>
+        <div class="hub-card-body">
+          <ul class="preview-list">
+            <li class="preview-item">
+              <div class="preview-item-meta">Jun 3 · Academics</div>
+              Smarter Balanced testing starts Wednesday, June 3rd
+            </li>
+            <li class="preview-item">
+              <div class="preview-item-meta">Jun 1–5 · Activities</div>
+              Drill Team Try-outs — 5:30–8:00 PM, Main Gym
+            </li>
+            <li class="preview-item">
+              <div class="preview-item-meta">Jun 2026 · Technology</div>
+              Laptop collection happening in June — back up your files to OneDrive
+            </li>
+          </ul>
+        </div>
+        <div class="hub-card-footer">
+          <a href="general.html" class="btn btn-primary" style="width:100%;justify-content:center;">View All Announcements &amp; Bulletin →</a>
         </div>
       </div>
-    </div>
-    <div class="cal-layout">
-      <div class="calendar-widget">
-        <div class="cal-header">
-          <button class="cal-nav-btn" id="calPrev">‹</button>
-          <h3 id="calMonthLabel"></h3>
-          <button class="cal-nav-btn" id="calNext">›</button>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-detail-panel" id="calDetail">
-          <div style="color:var(--text-muted);font-size:.88rem;">Click a date to see events and club meetings.</div>
-        </div>
-      </div>
-      <!-- Upcoming in next 14 days -->
-      <div>
-        <h3 style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Color Key</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:22px;">
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1d4ed8;flex-shrink:0;"></span>Competition</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0;"></span>Arts</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0891b2;flex-shrink:0;"></span>Service</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1e40af;flex-shrink:0;"></span>Cultural</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2563eb;flex-shrink:0;"></span>STEM</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#4338ca;flex-shrink:0;"></span>Leadership</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0f2450;flex-shrink:0;"></span>All-School</div>
-        </div>
-        <h3 style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">Coming Up Soon</h3>
-        <div class="mini-events-list" id="miniEventsList"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Featured Clubs -->
-<section class="section featured-clubs" style="background:#fff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div class="section-header">
-      <div class="header-row">
-        <div>
-          <h2>Featured Clubs</h2>
-          <p>Active clubs looking for new members right now.</p>
+      <!-- Calendar card -->
+      <div class="hub-card">
+        <div class="hub-card-head">
+          <div class="hub-card-icon" style="background:#0891b2;">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div class="hub-card-title">Calendar</div>
+            <div class="hub-card-sub">Events · Club meetings · School activities</div>
+          </div>
         </div>
-        <a href="clubs.html" class="btn btn-outline" style="font-size:.85rem;">View All Clubs →</a>
+        <div class="hub-card-body" id="calPreview">
+          <div style="color:var(--text-muted);font-size:.88rem;">Loading events…</div>
+        </div>
+        <div class="hub-card-footer">
+          <a href="calendar.html" class="btn btn-primary" style="width:100%;justify-content:center;background:#0891b2;border-color:#0891b2;">View Full Calendar →</a>
+        </div>
       </div>
-    </div>
-    <div class="clubs-grid stagger" id="featuredClubs"></div>
-  </div>
-</section>
 
-<!-- Officer CTA -->
-<section class="section" style="background:linear-gradient(135deg,var(--primary-dark),var(--primary-light));color:#fff;">
-  <div class="container" style="text-align:center;max-width:640px;">
-    <div style="font-size:2.5rem;margin-bottom:16px;">📋</div>
-    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:12px;">Are you a Club Officer?</h2>
-    <p style="opacity:.8;font-size:1rem;margin-bottom:28px;line-height:1.7;">
-      Keep your club's page up to date by submitting weekly agendas, meeting recaps, and announcements.
-      The more you share, the more students can stay connected — even when they miss a meeting.
-    </p>
-    <a href="submit.html" class="btn btn-accent">Update Your Club Page →</a>
+      <!-- Class Office card -->
+      <div class="hub-card">
+        <div class="hub-card-head">
+          <div class="hub-card-icon" style="background:#7c3aed;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="hub-card-title">Class Office</div>
+            <div class="hub-card-sub">Officers · Events · Fundraisers · Polls</div>
+          </div>
+        </div>
+        <div class="hub-card-body">
+          <div class="class-year-pills">
+            <a href="class.html?year=2027" class="class-pill">
+              <div><div class="class-pill-year">2027</div><div class="class-pill-label">Seniors</div></div>
+              <span class="class-pill-arrow">→</span>
+            </a>
+            <a href="class.html?year=2028" class="class-pill">
+              <div><div class="class-pill-year">2028</div><div class="class-pill-label">Juniors</div></div>
+              <span class="class-pill-arrow">→</span>
+            </a>
+            <a href="class.html?year=2029" class="class-pill">
+              <div><div class="class-pill-year">2029</div><div class="class-pill-label">Sophomores</div></div>
+              <span class="class-pill-arrow">→</span>
+            </a>
+            <a href="class.html?year=2030" class="class-pill">
+              <div><div class="class-pill-year">2030</div><div class="class-pill-label">Freshmen</div></div>
+              <span class="class-pill-arrow">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <a href="classoffice.html" class="btn btn-primary" style="width:100%;justify-content:center;background:#7c3aed;border-color:#7c3aed;">View Class Office →</a>
+        </div>
+      </div>
+
+      <!-- Clubs card -->
+      <div class="hub-card">
+        <div class="hub-card-head">
+          <div class="hub-card-icon" style="background:#d97706;">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div>
+            <div class="hub-card-title">Clubs Directory</div>
+            <div class="hub-card-sub">Browse &amp; filter all active clubs</div>
+          </div>
+        </div>
+        <div class="hub-card-body" id="clubsPreview">
+          <div style="color:var(--text-muted);font-size:.88rem;">Loading clubs…</div>
+        </div>
+        <div class="hub-card-footer">
+          <a href="clubs.html" class="btn btn-primary" style="width:100%;justify-content:center;background:#d97706;border-color:#d97706;">Browse All Clubs →</a>
+        </div>
+      </div>
+
+    </div>
   </div>
-</section>
+</div>
 
 <footer class="footer">
   <div class="container footer-inner">
@@ -235,246 +228,55 @@
 
 <script src="data.js"></script>
 <script>
-const clubs  = getClubs();
 const events = getEvents();
+const clubs  = getClubs();
 
-// ── Events grid ────────────────────────────────────────────────────────────
-let currentFilter = "all";
-
-function renderEvents() {
-  const sorted   = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
-  const filtered = currentFilter === "all" ? sorted : sorted.filter(e => e.category === currentFilter);
-  const grid     = document.getElementById("eventsGrid");
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📅</div><h3>No events in this category</h3></div>`;
-    return;
-  }
-  grid.innerHTML = filtered.map(ev => {
-    const d     = new Date(ev.date + "T00:00:00");
-    const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
-    const day   = d.getDate();
-    const days  = daysUntil(ev.date);
-    const sc    = days === 0 ? "today" : days <= 5 ? "soon" : "";
-    const dl    = days === 0 ? "Today!" : days === 1 ? "Tomorrow" : days < 0 ? "" : `In ${days}d`;
-    return `
-      <div class="card event-card">
-        <div class="event-date-badge ${sc}">
-          <span class="month">${month}</span>
-          <span class="day">${day}</span>
-        </div>
-        <div class="event-body">
-          <h3>${ev.title}</h3>
-          <div class="event-meta">
-            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${ev.time}</span>
-            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${ev.location}</span>
-            ${dl ? `<span style="font-weight:600;color:${days<=3?'#2563eb':days<=7?'#3b82f6':'var(--text-muted)'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/></svg>${dl}</span>` : ""}
-          </div>
-          <p class="event-desc">${ev.description.slice(0,110)}${ev.description.length>110?"…":""}</p>
-        </div>
-      </div>`;
-  }).join("");
-}
-
-document.getElementById("eventsTabs").addEventListener("click", e => {
-  const tab = e.target.closest(".events-tab");
-  if (!tab) return;
-  currentFilter = tab.dataset.filter;
-  document.querySelectorAll(".events-tab").forEach(t => t.classList.remove("active"));
-  tab.classList.add("active");
-  renderEvents();
-});
-
-renderEvents();
-
-// ── Calendar ───────────────────────────────────────────────────────────────
-let calYear, calMonth, selectedDate = null;
-
-const now = new Date();
-calYear  = now.getFullYear();
-calMonth = now.getMonth();
-
-const MONTH_NAMES = ["January","February","March","April","May","June",
-                     "July","August","September","October","November","December"];
-const DAY_HEADERS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-
-// Event colors (all blue shades)
-const EVENT_CAT_COLOR = {
-  competition: "#1d4ed8", arts: "#3b82f6", service: "#0891b2",
-  cultural: "#1e40af", stem: "#2563eb", leadership: "#4338ca", "all-school": "#0f2450"
-};
-
-function getEventColor(cat) { return EVENT_CAT_COLOR[cat] || "#3b82f6"; }
-
-function renderCalendar() {
-  document.getElementById("calMonthLabel").textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
-  const grid = document.getElementById("calGrid");
-
-  // Day headers
-  let html = DAY_HEADERS.map(d => `<div class="cal-day-header">${d}</div>`).join("");
-
-  const firstDay    = new Date(calYear, calMonth, 1).getDay();
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  const prevDays    = new Date(calYear, calMonth, 0).getDate();
-  const totalCells  = Math.ceil((firstDay + daysInMonth) / 7) * 7;
-
-  const todayStr = now.toISOString().split("T")[0];
-
-  for (let i = 0; i < totalCells; i++) {
-    let cellDate, otherMonth = false;
-    if (i < firstDay) {
-      const d = prevDays - firstDay + i + 1;
-      cellDate = `${calYear}-${String(calMonth === 0 ? 12 : calMonth).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      otherMonth = true;
-    } else if (i >= firstDay + daysInMonth) {
-      const d = i - firstDay - daysInMonth + 1;
-      const m = calMonth === 11 ? 1 : calMonth + 2;
-      const y = calMonth === 11 ? calYear + 1 : calYear;
-      cellDate = `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      otherMonth = true;
-    } else {
-      const d = i - firstDay + 1;
-      cellDate = `${calYear}-${String(calMonth+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-    }
-
-    const dayNum = parseInt(cellDate.split("-")[2]);
-    const isToday    = cellDate === todayStr;
-    const isSelected = cellDate === selectedDate;
-    const dayOfWeek  = new Date(cellDate + "T00:00:00").getDay();
-
-    // Events on this date
-    const dayEvents = events.filter(e => e.date === cellDate);
-
-    // Clubs meeting on this day
-    const meetingClubs = clubs.filter(c => {
-      if (typeof getClubMeetingDays === "function") {
-        return getClubMeetingDays(c).includes(dayOfWeek);
-      }
-      return false;
-    });
-
-    const eventChips = dayEvents.slice(0, 2).map(e =>
-      `<div class="cal-event-chip" style="background:${getEventColor(e.category)};" title="${e.title}">${e.title.slice(0,14)}${e.title.length>14?"…":""}</div>`
-    ).join("");
-
-    const meetingIndicator = meetingClubs.length > 0 && !otherMonth
-      ? `<div class="cal-meetings-row"><span class="cal-meeting-dot"></span>${meetingClubs.length} mtg${meetingClubs.length>1?"s":""}</div>`
-      : "";
-
-    html += `
-      <div class="cal-day${otherMonth?" other-month":""}${isToday?" today":""}${isSelected?" selected":""}"
-           data-date="${cellDate}" onclick="selectCalDay('${cellDate}')">
-        <div class="cal-day-num">${dayNum}</div>
-        <div class="cal-events">${eventChips}</div>
-        ${meetingIndicator}
-      </div>`;
-  }
-
-  grid.innerHTML = html;
-}
-
-function selectCalDay(dateStr) {
-  selectedDate = dateStr;
-  renderCalendar();
-
-  const dayOfWeek  = new Date(dateStr + "T00:00:00").getDay();
-  const dayEvents  = events.filter(e => e.date === dateStr);
-  const meetingClubs = clubs.filter(c => {
-    if (typeof getClubMeetingDays === "function") {
-      return getClubMeetingDays(c).includes(dayOfWeek);
-    }
-    return false;
-  });
-
-  const panel = document.getElementById("calDetail");
-
-  if (!dayEvents.length && !meetingClubs.length) {
-    panel.innerHTML = `<div style="color:var(--text-muted);font-size:.88rem;">Nothing scheduled on ${formatDate(dateStr)}.</div>`;
-    return;
-  }
-
-  let html = `<h4>${formatDate(dateStr)}</h4>`;
-
-  if (dayEvents.length) {
-    html += dayEvents.map(e => `
-      <div class="cal-detail-event">
-        <div class="cal-detail-dot" style="background:${getEventColor(e.category)};"></div>
-        <div>
-          <div style="font-weight:700;">${e.title}</div>
-          <div style="color:var(--text-muted);font-size:.78rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${e.time} &nbsp; <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.location}</div>
-          <div style="font-size:.78rem;color:#475569;margin-top:3px;">${e.description.slice(0,100)}…</div>
-        </div>
-      </div>`).join("");
-  }
-
-  if (meetingClubs.length) {
-    html += `<div style="font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 6px;">Club Meetings</div>`;
-    html += meetingClubs.map(c => `
-      <div class="cal-detail-meeting">
-        <span class="cal-meeting-dot"></span>
-        <div style="flex:1;">
-          <a href="club.html?id=${c.id}" style="font-weight:700;color:var(--primary);font-size:.85rem;">${c.name}</a>
-          <div style="font-size:.75rem;color:var(--text-muted);">${c.meetingTime} · ${c.meetingLocation}</div>
-        </div>
-      </div>`).join("");
-  }
-
-  panel.innerHTML = html;
-}
-
-document.getElementById("calPrev").addEventListener("click", () => {
-  calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
-  renderCalendar();
-});
-document.getElementById("calNext").addEventListener("click", () => {
-  calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
-  renderCalendar();
-});
-
-renderCalendar();
-
-// Mini events list (next 14 days)
+// Calendar preview — next 3 events
 const upcoming = [...events]
-  .filter(e => { const d = daysUntil(e.date); return d >= 0 && d <= 14; })
+  .filter(e => daysUntil(e.date) >= 0)
   .sort((a, b) => new Date(a.date) - new Date(b.date))
-  .slice(0, 6);
-document.getElementById("miniEventsList").innerHTML = upcoming.length
-  ? upcoming.map(e => `
-      <div class="mini-event-item">
-        <div class="mini-event-title">${e.title}</div>
-        <div class="mini-event-meta"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatDateShort(e.date)} · ${e.time}</div>
-        <div class="mini-event-meta"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.location}</div>
-      </div>`).join("")
-  : `<div style="color:var(--text-muted);font-size:.88rem;">No events in the next 14 days.</div>`;
+  .slice(0, 3);
 
-// ── Featured clubs ─────────────────────────────────────────────────────────
+const calEl = document.getElementById("calPreview");
+if (upcoming.length) {
+  calEl.innerHTML = upcoming.map(ev => {
+    const d = new Date(ev.date + "T00:00:00");
+    return `
+    <div class="cal-preview-item">
+      <div class="cal-preview-badge">
+        <div class="cpb-m">${d.toLocaleDateString("en-US",{month:"short"}).toUpperCase()}</div>
+        <div class="cpb-d">${d.getDate()}</div>
+      </div>
+      <div>
+        <div class="cal-preview-title">${ev.title}</div>
+        <div class="cal-preview-meta">${ev.time} · ${ev.location}</div>
+      </div>
+    </div>`;
+  }).join("");
+} else {
+  calEl.innerHTML = `<div style="color:var(--text-muted);font-size:.88rem;">No upcoming events.</div>`;
+}
+
+// Clubs preview — 3 featured clubs
 const EMOJI = { engineering:"🔧", science:"🔬", diplomatic:"🌐", creative:"🎨", service:"🤝", cultural:"🎭", leadership:"⭐" };
-const featured = clubs.filter(c => c.featured);
+const featured = clubs.filter(c => c.featured).slice(0, 3);
+const fallback = clubs.slice(0, 3);
+const showClubs = featured.length ? featured : fallback;
 
-document.getElementById("featuredClubs").innerHTML = featured.map(c => {
+document.getElementById("clubsPreview").innerHTML = showClubs.map(c => {
   const color = getCategoryColor(c.category);
   const emoji = EMOJI[c.category] || "📌";
   return `
-    <div class="card club-card" onclick="location.href='club.html?id=${c.id}'">
-      <div class="club-card-header">
-        <div class="club-avatar" style="background:${color};">${emoji}</div>
-        <div class="club-header-info">
-          <div class="club-name">${c.name}</div>
-          <div class="club-tagline">${c.tagline}</div>
-          <span class="badge" style="background:${color};margin-top:6px;">${getCategoryLabel(c.category)}</span>
-        </div>
-      </div>
-      <div class="club-card-body"><p class="club-desc">${c.description}</p></div>
-      <div class="club-card-footer">
-        <div class="club-meta-row">
-          <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${c.members} members</span>
-          <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.meetingDays}</span>
-        </div>
-        <span class="club-card-link">View club →</span>
-      </div>
-    </div>`;
-}).join("");
+  <div class="club-preview-item">
+    <div class="club-preview-dot" style="background:${color};">${emoji}</div>
+    <div>
+      <div class="club-preview-name">${c.name}</div>
+      <div class="club-preview-meta">${getCategoryLabel(c.category)} · ${c.members} members</div>
+    </div>
+  </div>`;
+}).join("") + `<div style="font-size:.78rem;color:var(--text-muted);margin-top:10px;">${clubs.length} clubs total — filter by category, day, or size</div>`;
 
-// Nav search
+// Nav search → clubs page
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const q = e.target.value.trim();
