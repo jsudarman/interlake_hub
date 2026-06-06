@@ -8,7 +8,7 @@
   <style>
     /* ── Page Hero ─────────────────────────────────────────────────────────── */
     .cal-page-hero {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+      background: var(--primary-dark);
       padding: 48px 0 52px;
       color: #fff;
     }
@@ -139,7 +139,7 @@
     .cal-full-day.other-month { background: #f8faff; }
     .cal-full-day.other-month .cal-full-day-num { color: #c8d8ec; }
     .cal-full-day.today .cal-full-day-num {
-      background: var(--primary);
+      background: var(--primary-dark);
       color: #fff;
       width: 28px;
       height: 28px;
@@ -150,7 +150,7 @@
       font-weight: 600;
     }
     .cal-full-day.selected {
-      background: #eff6ff;
+      background: var(--highlight);
       outline: 2px solid var(--primary-light);
       outline-offset: -2px;
     }
@@ -214,7 +214,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #93c5fd;
+      background: var(--primary);
       flex-shrink: 0;
     }
 
@@ -269,7 +269,7 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #93c5fd;
+      background: var(--primary);
       flex-shrink: 0;
     }
     .cal-legend-divider {
@@ -286,7 +286,7 @@
       overflow: hidden;
     }
     .cal-detail-card-header {
-      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      background: var(--primary-dark);
       padding: 14px 18px;
       color: #fff;
     }
@@ -370,7 +370,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #93c5fd;
+      background: var(--primary);
       flex-shrink: 0;
       margin-top: 4px;
     }
@@ -431,12 +431,12 @@
       flex-shrink: 0;
       width: 44px;
       text-align: center;
-      background: var(--primary);
+      background: var(--primary-dark);
       color: #fff;
       border-radius: 8px;
       padding: 5px 4px;
     }
-    .upcoming-date-badge.today { background: var(--primary); }
+    .upcoming-date-badge.today { background: #111; }
     .upcoming-date-badge.soon { background: var(--primary-dark); }
     .upcoming-date-month {
       font-size: .62rem;
@@ -616,17 +616,17 @@
   // ── Constants ────────────────────────────────────────────────────────────────
   const EVENT_CAT_COLOR = {
     "clubs":          "#3b82f6",
-    "school-events":  "#1e3a8a",
-    "fundraisers":    "#0f1f3d",
+    "school-events":  "var(--primary-dark)",
+    "fundraisers":    "var(--primary-dark)",
     "sports":         "#111111",
     // legacy aliases
     "competition":    "#111111",
-    "arts":           "#1e3a8a",
-    "service":        "#1e3a8a",
-    "cultural":       "#1e3a8a",
+    "arts":           "var(--primary-dark)",
+    "service":        "var(--primary-dark)",
+    "cultural":       "var(--primary-dark)",
     "stem":           "#3b82f6",
-    "leadership":     "#1e3a8a",
-    "all-school":     "#0f1f3d"
+    "leadership":     "var(--primary-dark)",
+    "all-school":     "var(--primary-dark)"
   };
 
   const EVENT_CAT_LABEL = {
@@ -720,7 +720,7 @@
       let chipsHtml = "";
       dayEvents.slice(0, maxChips).forEach(function(ev) {
         const label = ev.title.length > 17 ? ev.title.slice(0, 16) + "…" : ev.title;
-        chipsHtml += '<div class="cal-full-chip" style="background:#dbeafe;color:#0f172a;" title="' + ev.title + '">' + label + '</div>';
+        chipsHtml += '<div class="cal-full-chip" style="background:var(--highlight);color:#0f172a;" title="' + ev.title + '">' + label + '</div>';
       });
       if (dayEvents.length > maxChips) {
         chipsHtml += '<div class="cal-full-more">+' + (dayEvents.length - maxChips) + ' more</div>';
@@ -783,7 +783,7 @@
           : ev.description;
         bodyHtml +=
           '<div class="cal-detail-ev">' +
-            '<div class="cal-detail-ev-dot" style="background:#4B9CD3;"></div>' +
+            '<div class="cal-detail-ev-dot" style="background:var(--primary-dark);"></div>' +
             '<div style="flex:1;min-width:0;">' +
               '<div class="cal-detail-ev-title">' + ev.title + '</div>' +
               '<div class="cal-detail-ev-meta">' +
@@ -863,7 +863,7 @@
       const whenLabel = days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
 
       return '<div class="upcoming-item" onclick="jumpToDate(\'' + ev.date + '\')">' +
-        '<div class="' + badgeClass + '" style="background:#4B9CD3;">' +
+        '<div class="' + badgeClass + '" style="background:var(--primary-dark);">' +
           '<div class="upcoming-date-month">' + mon + '</div>' +
           '<div class="upcoming-date-day">' + dayN + '</div>' +
         '</div>' +
