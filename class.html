@@ -67,9 +67,10 @@
     .instagram-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: var(--shadow-md); }
     .tiktok-btn {
       display: inline-flex; align-items: center; gap: 10px;
-      background: #000; color: #fff; padding: 12px 24px; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #010101 0%, #69C9D0 100%);
+      color: #fff; padding: 12px 24px; border-radius: var(--radius-sm);
       font-size: .9rem; font-weight: 600; text-decoration: none;
-      transition: var(--transition); margin-top: 10px;
+      transition: var(--transition);
     }
     .tiktok-btn:hover { opacity: .85; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
@@ -125,6 +126,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>
@@ -414,7 +416,7 @@ if (!data) {
       </div>
 
       <!-- Social -->
-      <div style="text-align:center;padding:8px 0 16px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div style="text-align:center;padding:8px 0 16px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
         <a href="${data.instagram}" target="_blank" rel="noopener" class="instagram-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           Follow Class of ${year} on Instagram

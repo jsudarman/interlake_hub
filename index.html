@@ -224,6 +224,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>
@@ -263,10 +264,8 @@ const fallback = clubs.slice(0, 3);
 const showClubs = featured.length ? featured : fallback;
 
 document.getElementById("clubsPreview").innerHTML = showClubs.map(c => {
-  const color = getCategoryColor(c.category);
   return `
   <div class="club-preview-item">
-    <div class="club-preview-dot" style="background:${color};"></div>
     <div>
       <div class="club-preview-name">${c.name}</div>
       <div class="club-preview-meta">${getCategoryLabel(c.category)} · ${c.members} members</div>
