@@ -10,7 +10,7 @@
     [data-lang="es"] .en-only { display: none !important; }
     [data-lang="en"] .es-only { display: none !important; }
 
-    .general-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
+    .general-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 48px 0 52px; color: #fff; }
     .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .general-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
     .lang-toggle { display: inline-flex; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; overflow: hidden; margin-top: 20px; }
@@ -88,7 +88,7 @@
 
     /* BSD */
     .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
-    .bsd-card-head { background: linear-gradient(90deg, var(--primary-dark) 0%, #1d4ed8 100%); padding: 20px 24px; color: #fff; }
+    .bsd-card-head { background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 20px 24px; color: #fff; }
     .bsd-card-head h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
     .bsd-card-head p { font-size: .82rem; opacity: .75; }
     .bsd-card-body { padding: 20px 24px; }
@@ -132,8 +132,8 @@
     <div class="breadcrumb" style="margin-bottom:12px;">
       <a href="index.html">Home</a><span class="sep">›</span><span>IHS General</span>
     </div>
-    <h1 class="en-only">IHS General</h1>
-    <h1 class="es-only">IHS General</h1>
+    <h1 class="en-only">Interlake General</h1>
+    <h1 class="es-only">Interlake General</h1>
     <p class="en-only">Announcements, daily bulletin, testing, lunch menu, and district updates — all in one place.</p>
     <p class="es-only">Anuncios, boletín diario, temporada de exámenes, menú del almuerzo y novedades del distrito, todo en un solo lugar.</p>
     <div class="lang-toggle">
@@ -239,6 +239,53 @@
           </ul>
       </div>
 
+    </div>
+
+    <!-- ── 5. LUNCH MENU CALENDAR ── -->
+    <div class="gen-section">
+      <div class="gen-section-header">
+        <div class="gen-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <div>
+          <div class="gen-section-title en-only">Lunch Menu</div>
+          <div class="gen-section-title es-only">Menú del Almuerzo</div>
+          <div class="gen-section-sub en-only">Weekly cafeteria menu — week of June 1–5, 2026</div>
+          <div class="gen-section-sub es-only">Menú semanal de la cafetería — semana del 1 al 5 de junio de 2026</div>
+        </div>
+      </div>
+
+      <div id="todayLunchCard"></div>
+
+      <div class="lunch-week-label en-only">June 2026 — Week of <span id="lunchWeekLabel">Jun 1–5</span></div>
+      <div class="lunch-week-label es-only">Junio 2026 — Semana del <span id="lunchWeekLabelEs">1–5 de jun</span></div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="lunchWeekTabs"></div>
+
+      <div id="lunchGrid" class="lunch-grid"></div>
+
+      <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);">
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="en-only">Daily Options</div>
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="es-only">Opciones Diarias</div>
+        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="en-only">
+          <li><strong>Burger Bar</strong> — Spicy Chicken, Cheeseburger, Hamburger, Kickin' Burger</li>
+          <li><strong>Pizza</strong> — Cheese or Meat Lovers</li>
+          <li><strong>Grab n Go</strong> — Italian Turkey Sub, Cheese Sub, Sunbutter &amp; Jelly + String Cheese, Hummus Plate</li>
+          <li><strong>Boxed Salad</strong> — Grilled Chicken Caesar or Mozzarella Caesar</li>
+          <li><strong>Hand-Wrapped Burrito</strong> — Green Chili Bean &amp; Cheese</li>
+          <li>Milk and salad bar with fresh fruits &amp; vegetables</li>
+        </ul>
+        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="es-only">
+          <li><strong>Barra de hamburguesas</strong> — Pollo picante, hamburguesa con queso, hamburguesa, Kickin' Burger</li>
+          <li><strong>Pizza</strong> — Queso o Amantes de la Carne</li>
+          <li><strong>Para llevar (Grab n Go)</strong> — Sub de pavo italiano, sub de queso, Sunbutter y mermelada + queso en barra, plato de hummus</li>
+          <li><strong>Ensalada en caja</strong> — César con pollo a la parrilla o César con mozzarella</li>
+          <li><strong>Burrito enrollado</strong> — Frijoles con chile verde y queso</li>
+          <li>Leche y barra de ensaladas con frutas y verduras frescas</li>
+        </ul>
+      </div>
+      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="en-only">On weekends and holidays, the most recent school day's menu is shown.</div>
+      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="es-only">Los fines de semana y feriados se muestra el menú del último día escolar.</div>
     </div>
 
     <!-- ── 1. SCHOOLWIDE ANNOUNCEMENTS ── -->
@@ -374,53 +421,6 @@
           </div>
         </li>
       </ul>
-    </div>
-
-    <!-- ── 5. LUNCH MENU CALENDAR ── -->
-    <div class="gen-section">
-      <div class="gen-section-header">
-        <div class="gen-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
-        </div>
-        <div>
-          <div class="gen-section-title en-only">Lunch Menu</div>
-          <div class="gen-section-title es-only">Menú del Almuerzo</div>
-          <div class="gen-section-sub en-only">Weekly cafeteria menu — week of June 1–5, 2026</div>
-          <div class="gen-section-sub es-only">Menú semanal de la cafetería — semana del 1 al 5 de junio de 2026</div>
-        </div>
-      </div>
-
-      <div id="todayLunchCard"></div>
-
-      <div class="lunch-week-label en-only">June 2026 — Week of <span id="lunchWeekLabel">Jun 1–5</span></div>
-      <div class="lunch-week-label es-only">Junio 2026 — Semana del <span id="lunchWeekLabelEs">1–5 de jun</span></div>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="lunchWeekTabs"></div>
-
-      <div id="lunchGrid" class="lunch-grid"></div>
-
-      <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);">
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="en-only">Daily Options</div>
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="es-only">Opciones Diarias</div>
-        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="en-only">
-          <li><strong>Burger Bar</strong> — Spicy Chicken, Cheeseburger, Hamburger, Kickin' Burger</li>
-          <li><strong>Pizza</strong> — Cheese or Meat Lovers</li>
-          <li><strong>Grab n Go</strong> — Italian Turkey Sub, Cheese Sub, Sunbutter &amp; Jelly + String Cheese, Hummus Plate</li>
-          <li><strong>Boxed Salad</strong> — Grilled Chicken Caesar or Mozzarella Caesar</li>
-          <li><strong>Hand-Wrapped Burrito</strong> — Green Chili Bean &amp; Cheese</li>
-          <li>Milk and salad bar with fresh fruits &amp; vegetables</li>
-        </ul>
-        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="es-only">
-          <li><strong>Barra de hamburguesas</strong> — Pollo picante, hamburguesa con queso, hamburguesa, Kickin' Burger</li>
-          <li><strong>Pizza</strong> — Queso o Amantes de la Carne</li>
-          <li><strong>Para llevar (Grab n Go)</strong> — Sub de pavo italiano, sub de queso, Sunbutter y mermelada + queso en barra, plato de hummus</li>
-          <li><strong>Ensalada en caja</strong> — César con pollo a la parrilla o César con mozzarella</li>
-          <li><strong>Burrito enrollado</strong> — Frijoles con chile verde y queso</li>
-          <li>Leche y barra de ensaladas con frutas y verduras frescas</li>
-        </ul>
-      </div>
-      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="en-only">On weekends and holidays, the most recent school day's menu is shown.</div>
-      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="es-only">Los fines de semana y feriados se muestra el menú del último día escolar.</div>
     </div>
 
     <!-- ── 6. BELLEVUE SCHOOL DISTRICT ── -->

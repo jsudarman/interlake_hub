@@ -6,7 +6,8 @@
 :root {
   --primary:        #4B9CD3;   /* Carolina blue — buttons, links, borders */
   --primary-mid:    #2b7fc4;   /* hover / deeper shade */
-  --primary-dark:   #0f1f3d;   /* dark navy — hero backgrounds only */
+  --primary-dark:   #1e3a8a;   /* deep royal blue — heroes, navbar, footer */
+  --primary-light:  #60a5fa;   /* light blue — accents, hover states */
   --highlight:      #dbeafe;   /* very light blue — all chips/badges/highlights */
   --accent:         #93c5fd;   /* sky blue accent */
   --accent-light:   #bae6fd;   /* lightest blue */
@@ -240,7 +241,7 @@ ul { list-style: none; }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 .hero {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 55%, #2563c4 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 55%, var(--primary) 100%);
   padding: 72px 0 80px;
   position: relative;
   overflow: hidden;
@@ -349,7 +350,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
 
 /* ── Banner ───────────────────────────────────────────────────────────────── */
 .banner {
-  background: linear-gradient(90deg, #1e3a8a 0%, #1d4ed8 100%);
+  background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
   color: #fff;
 }
 
@@ -540,7 +541,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
   transition: var(--transition);
 }
 
-.club-card-header .badge { background: #1e3a8a !important; }
+.club-card-header .badge { background: #dbeafe !important; color: #0f172a !important; }
 
 .club-card-link:hover { color: var(--primary-light); gap: 7px; }
 
@@ -829,7 +830,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
 }
 
 .form-card-header {
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-mid));
   padding: 32px 32px 28px;
   color: #fff;
 }

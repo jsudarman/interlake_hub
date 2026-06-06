@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update Your Page Info — Saints Station</title>
+  <title>Update Your Page — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .page-bg { min-height: 100vh; background: var(--bg); }
@@ -133,7 +133,7 @@
   <div class="breadcrumb" style="margin-bottom:24px;">
     <a href="index.html">Home</a><span class="sep">›</span>
     <a href="clubs.html">Clubs</a><span class="sep">›</span>
-    <span>Update Your Page Info</span>
+    <span>Update Your Page</span>
   </div>
 
   <div class="form-card">
@@ -310,7 +310,7 @@ const clubSelect = document.getElementById("clubSelect");
 clubs.forEach(c => {
   const opt = document.createElement("option");
   opt.value = c.id;
-  opt.textContent = `${c.name} (${getCategoryLabel(c.category)})`;
+  opt.textContent = c.name;
   clubSelect.appendChild(opt);
 });
 
