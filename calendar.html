@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Activity Calendar — Interlake Student Hub</title>
+  <title>Activity Calendar — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     /* ── Page Hero ─────────────────────────────────────────────────────────── */
@@ -178,11 +178,11 @@
       flex: 1;
     }
     .cal-full-chip {
-      font-size: .65rem;
+      font-size: .72rem;
       font-weight: 600;
       padding: 2px 6px;
       border-radius: 4px;
-      color: #fff;
+      color: #0f172a;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -490,8 +490,8 @@
     <a href="index.html" class="navbar-brand">
       <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
-        <span class="brand-name">Interlake Hub</span>
-        <span class="brand-sub">Student Activity Center</span>
+        <span class="brand-name">Saints Station</span>
+        <span class="brand-sub">Interlake High School</span>
       </div>
     </a>
     <nav class="navbar-nav">
@@ -595,7 +595,7 @@
     <div>
       <div class="footer-brand" style="display:flex;align-items:center;gap:8px;">
         <img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;">
-        Interlake Student Hub
+        Saints Station
       </div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
@@ -718,9 +718,8 @@
       const maxChips = 3;
       let chipsHtml = "";
       dayEvents.slice(0, maxChips).forEach(function(ev) {
-        const color = getEventColor(ev.category);
         const label = ev.title.length > 17 ? ev.title.slice(0, 16) + "…" : ev.title;
-        chipsHtml += '<div class="cal-full-chip" style="background:' + color + ';" title="' + ev.title + '">' + label + '</div>';
+        chipsHtml += '<div class="cal-full-chip" style="background:#dbeafe;color:#0f172a;" title="' + ev.title + '">' + label + '</div>';
       });
       if (dayEvents.length > maxChips) {
         chipsHtml += '<div class="cal-full-more">+' + (dayEvents.length - maxChips) + ' more</div>';
@@ -777,14 +776,13 @@
 
     if (dayEvents.length) {
       dayEvents.forEach(function(ev) {
-        const color = getEventColor(ev.category);
         const catLabel = EVENT_CAT_LABEL[ev.category] || ev.category;
         const desc = ev.description.length > 120
           ? ev.description.slice(0, 120) + "…"
           : ev.description;
         bodyHtml +=
           '<div class="cal-detail-ev">' +
-            '<div class="cal-detail-ev-dot" style="background:' + color + ';"></div>' +
+            '<div class="cal-detail-ev-dot" style="background:#4B9CD3;"></div>' +
             '<div style="flex:1;min-width:0;">' +
               '<div class="cal-detail-ev-title">' + ev.title + '</div>' +
               '<div class="cal-detail-ev-meta">' +
@@ -864,7 +862,7 @@
       const whenLabel = days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
 
       return '<div class="upcoming-item" onclick="jumpToDate(\'' + ev.date + '\')">' +
-        '<div class="' + badgeClass + '" style="background:#1e3a8a;">' +
+        '<div class="' + badgeClass + '" style="background:#4B9CD3;">' +
           '<div class="upcoming-date-month">' + mon + '</div>' +
           '<div class="upcoming-date-day">' + dayN + '</div>' +
         '</div>' +
