@@ -254,6 +254,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
 </footer>
 
 <div class="toast" id="toast">
@@ -284,7 +285,6 @@ function doLogin() {
     document.getElementById("loginOverlay").style.display = "none";
     document.getElementById("loggedInBar").style.display = "block";
     document.getElementById("userBadge").textContent = user.split("@")[0];
-    sessionStorage.setItem("hub_logged_in", "1");
   } else {
     err.classList.add("show");
     document.getElementById("loginPass").value = "";
@@ -293,7 +293,6 @@ function doLogin() {
 }
 
 function doSignOut() {
-  sessionStorage.removeItem("hub_logged_in");
   document.getElementById("loginOverlay").style.display = "flex";
   document.getElementById("loggedInBar").style.display = "none";
 }
@@ -304,12 +303,6 @@ function doSignOut() {
     if (e.key === "Enter") doLogin();
   });
 });
-
-// Persist login across page-within-session reloads
-if (sessionStorage.getItem("hub_logged_in")) {
-  document.getElementById("loginOverlay").style.display = "none";
-  document.getElementById("loggedInBar").style.display = "block";
-}
 
 // ── Club dropdown ──────────────────────────────────────────────────────────
 const clubs = getClubs().sort((a, b) => a.name.localeCompare(b.name));

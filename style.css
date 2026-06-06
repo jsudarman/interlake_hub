@@ -4,17 +4,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --primary:        #4B9CD3;
-  --primary-med:    #2b7fc4;
-  --primary-light:  #2563eb;
-  --primary-dark:   #0f1f3d;
-  --accent:         #87CEFA;
-  --accent-light:   #60a5fa;
-  --bg:             #eff6ff;
+  --primary:        #4B9CD3;   /* Carolina blue — buttons, links, borders */
+  --primary-mid:    #2b7fc4;   /* hover / deeper shade */
+  --primary-dark:   #0f1f3d;   /* dark navy — hero backgrounds only */
+  --highlight:      #dbeafe;   /* very light blue — all chips/badges/highlights */
+  --accent:         #93c5fd;   /* sky blue accent */
+  --accent-light:   #bae6fd;   /* lightest blue */
+  --bg:             #f0f9ff;   /* page background */
   --card:           #ffffff;
   --text:           #0f172a;
   --text-muted:     #475569;
-  --border:         #bfdbfe;
+  --border:         #bae6fd;
   --radius:         12px;
   --radius-sm:      8px;
   --shadow:         0 2px 8px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
@@ -141,19 +141,20 @@ ul { list-style: none; }
 .navbar-brand .brand-icon {
   width: 36px;
   height: 36px;
-  border-radius: 8px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  overflow: hidden;
-  flex-shrink: 0;
 }
 
 .navbar-brand .brand-icon img {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
+  width: 160%;
+  height: 160%;
+  object-fit: cover;
+  margin: -30%;
   display: block;
 }
 

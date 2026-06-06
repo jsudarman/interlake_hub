@@ -27,10 +27,11 @@
     .gen-section-sub { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
 
     /* Announcements */
-    .announce-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .announce-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); font-size: .9rem; color: var(--text); line-height: 1.5; }
-    .announce-meta { font-size: .71rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
-    .announce-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); display: inline-block; }
+    .announce-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .announce-item { background: transparent; padding: 13px 0; border-bottom: 1px solid var(--border); font-size: .88rem; color: var(--text); line-height: 1.6; }
+    .announce-item:last-child { border-bottom: none; }
+    .announce-meta { font-size: .69rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .announce-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); display: inline-block; flex-shrink: 0; }
 
     /* Barking with Bernie */
     .bernie-card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 22px; border: 2px solid var(--border); text-decoration: none; color: var(--text); transition: var(--transition); }
@@ -65,8 +66,8 @@
 
     /* Testing season */
     .testing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); display: flex; align-items: flex-start; gap: 14px; }
-    .testing-badge { background: var(--primary); color: #fff; font-size: .7rem; font-weight: 700; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); display: flex; align-items: flex-start; gap: 14px; }
+    .testing-badge { background: #dbeafe; color: #0f172a; font-size: .7rem; font-weight: 600; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
     .testing-title { font-size: .9rem; font-weight: 700; color: var(--text); }
     .testing-note { font-size: .8rem; color: var(--text-muted); margin-top: 3px; }
     .testing-note-es { font-size: .78rem; color: var(--text-muted); margin-top: 2px; font-style: italic; }
@@ -162,11 +163,10 @@
       <div class="bulletin-datechip en-only">June 5, 2026</div>
       <div class="bulletin-datechip es-only">5 de junio de 2026</div>
 
-      <!-- Announcements grid -->
-      <div class="bulletin-grid">
-        <div>
-          <div class="bulletin-col-head en-only">Today's Announcements</div>
-          <div class="bulletin-col-head es-only">Anuncios de Hoy</div>
+      <!-- Announcements -->
+      <div>
+        <div class="bulletin-col-head en-only">Today's Announcements</div>
+        <div class="bulletin-col-head es-only">Anuncios de Hoy</div>
           <ul class="bulletin-items en-only">
             <li>
               <strong>Parking Applications now Available</strong>
@@ -237,17 +237,6 @@
             </li>
             <li>Nominaciones para la Beca para Estudiantes de Último Año del IHS — ver al consejero</li>
           </ul>
-        </div>
-        <div>
-          <div class="bulletin-col-head en-only">Today's Menu — June 5</div>
-          <div class="bulletin-col-head es-only">Menú de Hoy — 5 de junio</div>
-          <div class="menu-bar">
-            <div class="menu-bar-label en-only">Lunch</div>
-            <div class="menu-bar-label es-only">Almuerzo</div>
-            <div class="menu-bar-text en-only">Mac &amp; Cheese with Cornbread &amp; Green Beans</div>
-            <div class="menu-bar-text es-only">Mac &amp; Cheese con Pan de Maíz y Ejotes</div>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -401,6 +390,8 @@
         </div>
       </div>
 
+      <div id="todayLunchCard"></div>
+
       <div class="lunch-week-label en-only">June 2026 — Week of <span id="lunchWeekLabel">Jun 1–5</span></div>
       <div class="lunch-week-label es-only">Junio 2026 — Semana del <span id="lunchWeekLabelEs">1–5 de jun</span></div>
 
@@ -408,15 +399,25 @@
 
       <div id="lunchGrid" class="lunch-grid"></div>
 
-      <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);border-left:3px solid var(--primary);">
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="en-only">Daily Options</div>
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="es-only">Opciones Diarias</div>
-        <div style="font-size:.85rem;color:var(--text);line-height:1.6;" class="en-only">
-          Burger Bar (Spicy Chicken, Cheeseburger, Hamburger, Kickin' Burger) · Pizza (Cheese or Meat Lovers) · Grab n Go (Italian Turkey Sub, Cheese Sub, Sunbutter &amp; Jelly + String Cheese, Hummus Plate) · Boxed Salad (Grilled Chicken Caesar or Mozzarella Caesar) · Hand-Wrapped Burrito (Green Chili Bean &amp; Cheese) · Plus milk and salad bar with fresh fruits &amp; vegetables
-        </div>
-        <div style="font-size:.85rem;color:var(--text);line-height:1.6;" class="es-only">
-          Barra de hamburguesas · Pizza · Para llevar · Ensalada en caja · Burrito enrollado · Más leche y barra de ensaladas con frutas y verduras frescas
-        </div>
+      <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);">
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="en-only">Daily Options</div>
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:10px;" class="es-only">Opciones Diarias</div>
+        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="en-only">
+          <li><strong>Burger Bar</strong> — Spicy Chicken, Cheeseburger, Hamburger, Kickin' Burger</li>
+          <li><strong>Pizza</strong> — Cheese or Meat Lovers</li>
+          <li><strong>Grab n Go</strong> — Italian Turkey Sub, Cheese Sub, Sunbutter &amp; Jelly + String Cheese, Hummus Plate</li>
+          <li><strong>Boxed Salad</strong> — Grilled Chicken Caesar or Mozzarella Caesar</li>
+          <li><strong>Hand-Wrapped Burrito</strong> — Green Chili Bean &amp; Cheese</li>
+          <li>Milk and salad bar with fresh fruits &amp; vegetables</li>
+        </ul>
+        <ul style="font-size:.85rem;color:var(--text);line-height:1.75;margin:0;padding-left:18px;" class="es-only">
+          <li><strong>Barra de hamburguesas</strong> — Pollo picante, hamburguesa con queso, hamburguesa, Kickin' Burger</li>
+          <li><strong>Pizza</strong> — Queso o Amantes de la Carne</li>
+          <li><strong>Para llevar (Grab n Go)</strong> — Sub de pavo italiano, sub de queso, Sunbutter y mermelada + queso en barra, plato de hummus</li>
+          <li><strong>Ensalada en caja</strong> — César con pollo a la parrilla o César con mozzarella</li>
+          <li><strong>Burrito enrollado</strong> — Frijoles con chile verde y queso</li>
+          <li>Leche y barra de ensaladas con frutas y verduras frescas</li>
+        </ul>
       </div>
       <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="en-only">On weekends and holidays, the most recent school day's menu is shown.</div>
       <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="es-only">Los fines de semana y feriados se muestra el menú del último día escolar.</div>
@@ -496,6 +497,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
 </footer>
 
 <script>
@@ -642,6 +644,47 @@ function setLang(lang) {
     }).join('');
   }
 
+  function renderTodayCard() {
+    var card = document.getElementById('todayLunchCard');
+    if (!card) return;
+    var isEs = lang() === 'es';
+    var todayDay = null;
+    for (var wi = 0; wi < MENU_WEEKS.length; wi++) {
+      for (var di = 0; di < MENU_WEEKS[wi].days.length; di++) {
+        if (MENU_WEEKS[wi].days[di].date === todayStr) { todayDay = MENU_WEEKS[wi].days[di]; break; }
+      }
+      if (todayDay) break;
+    }
+    if (!todayDay) {
+      var past = [];
+      for (var wi = 0; wi < MENU_WEEKS.length; wi++) {
+        for (var di = 0; di < MENU_WEEKS[wi].days.length; di++) {
+          if (MENU_WEEKS[wi].days[di].date < todayStr) past.push(MENU_WEEKS[wi].days[di]);
+        }
+      }
+      past.sort(function(a, b) { return b.date.localeCompare(a.date); });
+      todayDay = past[0] || null;
+    }
+    if (!todayDay) { card.innerHTML = ''; return; }
+    var isActuallyToday = todayDay.date === todayStr;
+    var noMeal = todayDay.meal.indexOf('Summer Break') !== -1 || todayDay.meal.indexOf('No meal') !== -1 || todayDay.meal.indexOf('No School') !== -1;
+    var meal = isEs ? todayDay.mealEs : todayDay.meal;
+    var dayName = isEs ? todayDay.nameEs : todayDay.name;
+    var dayDate = isEs ? todayDay.displayEs : todayDay.display;
+    var label = isEs ? 'Menú de Hoy' : "Today's Lunch";
+    var note = isActuallyToday ? '' : (' <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem;color:var(--text-muted);">' + (isEs ? '(último día escolar)' : '(most recent school day)') + '</span>');
+    card.innerHTML = '<div style="background:#dbeafe;border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;">' +
+      '<div style="min-width:42px;text-align:center;background:var(--primary);color:#fff;border-radius:6px;padding:5px 8px;flex-shrink:0;">' +
+      '<div style="font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">' + dayName + '</div>' +
+      '<div style="font-size:.7rem;font-weight:700;line-height:1.3;margin-top:2px;">' + dayDate + '</div>' +
+      '</div>' +
+      '<div>' +
+      '<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:5px;">' + label + note + '</div>' +
+      '<div style="font-size:.92rem;font-weight:600;color:var(--text)' + (noMeal ? ';font-style:italic;color:var(--text-muted)' : '') + ';">' + meal + '</div>' +
+      '</div>' +
+      '</div>';
+  }
+
   window._lunchSetWeek = function(idx) {
     activeWeek = idx;
     renderWeekTabs();
@@ -649,15 +692,18 @@ function setLang(lang) {
   };
 
   window._lunchRender = function() {
+    renderTodayCard();
     renderWeekTabs();
     renderLunchGrid();
   };
 
   document.addEventListener('DOMContentLoaded', function() {
+    renderTodayCard();
     renderWeekTabs();
     renderLunchGrid();
   });
   if (document.readyState !== 'loading') {
+    renderTodayCard();
     renderWeekTabs();
     renderLunchGrid();
   }
