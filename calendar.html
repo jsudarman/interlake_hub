@@ -14,7 +14,7 @@
     }
     .cal-page-hero h1 {
       font-size: clamp(1.6rem, 4vw, 2.5rem);
-      font-weight: 900;
+      font-weight: 700;
       margin-bottom: 8px;
       letter-spacing: -.02em;
     }
@@ -58,7 +58,7 @@
     }
     .cal-full-month-label {
       font-size: 1.3rem;
-      font-weight: 800;
+      font-weight: 600;
       letter-spacing: -.01em;
     }
     .cal-full-nav {
@@ -147,7 +147,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
+      font-weight: 600;
     }
     .cal-full-day.selected {
       background: #eff6ff;
@@ -238,7 +238,7 @@
     }
     .cal-legend-title {
       font-size: .82rem;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--primary-dark);
       text-transform: uppercase;
       letter-spacing: .06em;
@@ -292,7 +292,7 @@
     }
     .cal-detail-card-date {
       font-size: .95rem;
-      font-weight: 800;
+      font-weight: 600;
     }
     .cal-detail-card-hint {
       font-size: .75rem;
@@ -350,7 +350,7 @@
     /* Detail meetings section */
     .cal-detail-mtg-label {
       font-size: .72rem;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: .07em;
@@ -403,7 +403,7 @@
     }
     .upcoming-card-title {
       font-size: .82rem;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--primary-dark);
       text-transform: uppercase;
       letter-spacing: .06em;
@@ -447,7 +447,7 @@
     }
     .upcoming-date-day {
       font-size: 1.3rem;
-      font-weight: 900;
+      font-weight: 700;
       line-height: 1;
     }
     .upcoming-item-info { flex: 1; min-width: 0; }
@@ -564,38 +564,6 @@
       <!-- RIGHT: Legend + Detail + Upcoming -->
       <div class="cal-right-panel">
 
-        <!-- Color Legend -->
-        <div class="cal-legend-card">
-          <div class="cal-legend-header">
-            <div class="cal-legend-title">Event Types</div>
-          </div>
-          <div class="cal-legend-body">
-            <div class="cal-legend-grid">
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#1e3a8a;"></div>
-                <span>Clubs</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#0f1f3d;"></div>
-                <span>School Events</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#3b82f6;"></div>
-                <span>Fundraisers</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#111111;"></div>
-                <span>Sports Games</span>
-              </div>
-            </div>
-            <hr class="cal-legend-divider">
-            <div class="cal-legend-item">
-              <div class="cal-legend-dot"></div>
-              <span>Club Meeting</span>
-            </div>
-          </div>
-        </div>
-
         <!-- Day Detail Panel -->
         <div class="cal-detail-card">
           <div class="cal-detail-card-header" id="calDetailHeader">
@@ -685,7 +653,7 @@
   const clubs  = getClubs();
   const events = getEvents();
 
-  const now = new Date();
+  const now = new Date('2026-06-05T00:00:00');
   let calYear     = now.getFullYear();
   let calMonth    = now.getMonth();
   let selectedDate = null;
@@ -896,7 +864,7 @@
       const whenLabel = days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
 
       return '<div class="upcoming-item" onclick="jumpToDate(\'' + ev.date + '\')">' +
-        '<div class="' + badgeClass + '" style="background:' + color + ';">' +
+        '<div class="' + badgeClass + '" style="background:#1e3a8a;">' +
           '<div class="upcoming-date-month">' + mon + '</div>' +
           '<div class="upcoming-date-day">' + dayN + '</div>' +
         '</div>' +

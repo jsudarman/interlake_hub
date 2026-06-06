@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .clubs-header { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
-    .clubs-header h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+    .clubs-header h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .clubs-header p { opacity: .75; font-size: 1rem; max-width: 500px; }
     .controls-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 0; position: sticky; top: 64px; z-index: 50; }
     .controls-inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -117,7 +117,6 @@ const params = new URLSearchParams(location.search);
 if (params.has("cat")) currentCat   = params.get("cat");
 if (params.has("q"))   currentQuery = params.get("q");
 
-const EMOJI = { engineering:"🔧", science:"🔬", diplomatic:"🌐", creative:"🎨", service:"🤝", cultural:"🎭", leadership:"⭐" };
 
 // Day ordering for sort
 const DAY_ORDER = { 0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat" };
@@ -262,16 +261,13 @@ function renderClubs() {
 
 function makeClubCard(c) {
   const color = getCategoryColor(c.category);
-  const emoji = EMOJI[c.category] || "📌";
   const el = document.createElement("div");
   el.className = "card club-card";
   el.onclick = () => location.href = `club.html?id=${c.id}`;
   el.innerHTML = `
     <div class="club-card-header">
-      <div class="club-avatar" style="background:${color};">${emoji}</div>
       <div class="club-header-info">
         <div class="club-name">${c.name}</div>
-        <div class="club-tagline">${c.tagline}</div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
           <span class="badge" style="background:${color};">${getCategoryLabel(c.category)}</span>
         </div>

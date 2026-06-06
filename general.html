@@ -11,7 +11,7 @@
     [data-lang="en"] .es-only { display: none !important; }
 
     .general-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
-    .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+    .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .general-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
     .lang-toggle { display: inline-flex; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; overflow: hidden; margin-top: 20px; }
     .lang-btn { padding: 7px 22px; font-size: .85rem; font-weight: 700; background: transparent; color: rgba(255,255,255,.6); cursor: pointer; border: none; transition: background .15s, color .15s; }
@@ -21,15 +21,15 @@
     .gen-section { padding: 40px 0; border-bottom: 1px solid var(--border); }
     .gen-section:last-child { border-bottom: none; }
     .gen-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
-    .gen-icon { width: 42px; height: 42px; border-radius: 11px; background: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .gen-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .gen-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .gen-icon svg { width: 22px; height: 22px; stroke: #111; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .gen-section-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
     .gen-section-sub { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
 
     /* Announcements */
     .announce-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .announce-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); font-size: .9rem; color: var(--text); line-height: 1.5; }
-    .announce-meta { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .announce-meta { font-size: .71rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
     .announce-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); display: inline-block; }
 
     /* Barking with Bernie */
@@ -37,7 +37,7 @@
     .bernie-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
     .bernie-yt { width: 54px; height: 54px; background: #ff0000; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .bernie-yt svg { width: 28px; height: 28px; fill: #fff; }
-    .bernie-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .bernie-title { font-size: 1.05rem; font-weight: 600; color: var(--text); }
     .bernie-sub { font-size: .84rem; color: var(--text-muted); margin-top: 3px; }
     .bernie-arrow { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
 
@@ -45,7 +45,7 @@
     .bulletin-datechip { display: inline-block; background: var(--primary); color: #fff; font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
     .bulletin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 680px) { .bulletin-grid { grid-template-columns: 1fr; } }
-    .bulletin-col-head { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
+    .bulletin-col-head { font-size: .71rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
     .bulletin-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .bulletin-items li { font-size: .87rem; color: var(--text); padding: 10px 14px; background: #eff6ff; border-radius: var(--radius-sm); line-height: 1.5; }
     .menu-bar { margin-top: 18px; background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); }
@@ -58,7 +58,7 @@
     .b-article summary .expand-icon { font-size: .95rem; color: var(--text-muted); flex-shrink: 0; transition: transform .2s; }
     .b-article[open] summary .expand-icon { transform: rotate(45deg); }
     .b-article-body { padding: 16px 18px; font-size: .87rem; line-height: 1.75; color: var(--text); border-top: 1px solid var(--border); background: #fafbff; }
-    .lang-label { display: inline-block; font-size: .67rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px; }
+    .lang-label { display: inline-block; font-size: .67rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px; }
     .lang-label.en { background: #dbeafe; color: #1e40af; }
     .lang-label.es { background: #fef3c7; color: #92400e; }
     .art-divider { margin: 14px 0; border: none; border-top: 1px dashed var(--border); }
@@ -88,7 +88,7 @@
     /* BSD */
     .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
     .bsd-card-head { background: linear-gradient(90deg, var(--primary-dark) 0%, #1d4ed8 100%); padding: 20px 24px; color: #fff; }
-    .bsd-card-head h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .bsd-card-head h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
     .bsd-card-head p { font-size: .82rem; opacity: .75; }
     .bsd-card-body { padding: 20px 24px; }
     .bsd-updates { list-style: none; display: flex; flex-direction: column; gap: 12px; }

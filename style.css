@@ -28,6 +28,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 
 body {
   font-family: var(--font);
+  font-weight: 400;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -163,9 +164,11 @@ ul { list-style: none; }
 
 .navbar-brand .brand-name {
   font-size: .9rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #fff;
-  letter-spacing: .02em;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .navbar-brand .brand-sub {
@@ -275,17 +278,25 @@ ul { list-style: none; }
 
 .hero h1 {
   font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 900;
+  font-weight: 700;
   color: #fff;
   line-height: 1.1;
   margin-bottom: 16px;
   letter-spacing: -.02em;
 }
 
-h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classoffice-hero h1, .class-hero h1 {
+h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classoffice-hero h1, .class-hero h1, .cal-header h1, .calendar-hero h1 {
   font-family: var(--font-display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-weight: 700;
+}
+
+.gen-section-title, .section-header h2, .hub-card-title, .cal-legend-title, .upcoming-card-title, .bsd-card-head h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
 }
 
 .hero h1 span { color: #93c5fd; }
@@ -322,7 +333,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
 
 .hero-stat .stat-number {
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 700;
   color: #93c5fd;
   line-height: 1;
 }
@@ -393,7 +404,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
 
 .event-date-badge .day {
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -623,7 +634,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
 
 .club-hero-info h1 {
   font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 900;
+  font-weight: 700;
   color: var(--primary-dark);
   line-height: 1.1;
   margin-bottom: 8px;
@@ -1027,7 +1038,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   background: var(--primary);
   color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; font-weight: 800;
+  font-size: 1.3rem; font-weight: 600;
   margin: 0 auto 12px;
 }
 .officer-name { font-size: .95rem; font-weight: 700; }
@@ -1061,7 +1072,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   padding: 16px 20px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.cal-header h3 { font-size: 1.1rem; font-weight: 800; }
+.cal-header h3 { font-size: 1.1rem; font-weight: 600; }
 .cal-nav-btn {
   background: rgba(255,255,255,.12); border: none; color: #fff;
   width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
@@ -1141,7 +1152,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   padding: 32px; text-align: center; color: #fff;
 }
 .login-header .login-icon { font-size: 2.5rem; margin-bottom: 10px; }
-.login-header h2 { font-size: 1.3rem; font-weight: 800; }
+.login-header h2 { font-size: 1.3rem; font-weight: 600; }
 .login-header p { font-size: .85rem; opacity: .75; margin-top: 4px; }
 .login-body { padding: 28px; }
 .login-demo-box {
