@@ -24,56 +24,6 @@
       max-width: 500px;
     }
 
-    /* ── Category Filter Strip ─────────────────────────────────────────────── */
-    .cat-filter-bar {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 0;
-      position: sticky;
-      top: 64px;
-      z-index: 50;
-    }
-    .cat-filter-inner {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .cat-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: .82rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 2px solid var(--border);
-      background: var(--card);
-      color: var(--text-muted);
-      transition: var(--transition);
-      white-space: nowrap;
-      user-select: none;
-    }
-    .cat-pill:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .cat-pill.active {
-      color: #fff;
-      border-color: transparent;
-    }
-    .cat-pill .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      background: rgba(255,255,255,.75);
-    }
-    .cat-pill:not(.active) .dot {
-      background: var(--accent);
-    }
-
     /* ── Main Page Layout ──────────────────────────────────────────────────── */
     .cal-page-body {
       padding: 40px 0 80px;
@@ -486,8 +436,8 @@
       border-radius: 8px;
       padding: 5px 4px;
     }
-    .upcoming-date-badge.today { background: #0ea5e9; }
-    .upcoming-date-badge.soon { background: #2563eb; }
+    .upcoming-date-badge.today { background: var(--primary); }
+    .upcoming-date-badge.soon { background: #1e3a8a; }
     .upcoming-date-month {
       font-size: .62rem;
       font-weight: 700;
@@ -547,7 +497,8 @@
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link">Home</a>
       <a href="calendar.html" class="nav-link active">Calendar</a>
-      <a href="general.html" class="nav-link">General</a>
+      <a href="general.html" class="nav-link">IHS General</a>
+
       <a href="classoffice.html" class="nav-link">Class Office</a>
       <a href="clubs.html" class="nav-link">Clubs</a>
     </nav>
@@ -569,38 +520,8 @@
     <div class="breadcrumb" style="margin-bottom:12px;">
       <a href="index.html">Home</a><span class="sep">›</span><span>Calendar</span>
     </div>
-    <h1>Activity Calendar</h1>
+    <h1>Calendar</h1>
     <p>Every club event and school activity, all in one place.</p>
-  </div>
-</div>
-
-<!-- Category Filter Strip -->
-<div class="cat-filter-bar">
-  <div class="container">
-    <div class="cat-filter-inner" id="catFilterBar">
-      <button class="cat-pill active" data-cat="all">All Events</button>
-      <button class="cat-pill" data-cat="competition" data-color="#1d4ed8">
-        <span class="dot" style="background:#1d4ed8;"></span>Competitions
-      </button>
-      <button class="cat-pill" data-cat="arts" data-color="#3b82f6">
-        <span class="dot" style="background:#3b82f6;"></span>Arts &amp; Culture
-      </button>
-      <button class="cat-pill" data-cat="service" data-color="#0891b2">
-        <span class="dot" style="background:#0891b2;"></span>Service
-      </button>
-      <button class="cat-pill" data-cat="cultural" data-color="#1e40af">
-        <span class="dot" style="background:#1e40af;"></span>Cultural
-      </button>
-      <button class="cat-pill" data-cat="stem" data-color="#2563eb">
-        <span class="dot" style="background:#2563eb;"></span>STEM
-      </button>
-      <button class="cat-pill" data-cat="leadership" data-color="#4338ca">
-        <span class="dot" style="background:#4338ca;"></span>Leadership
-      </button>
-      <button class="cat-pill" data-cat="all-school" data-color="#0f2450">
-        <span class="dot" style="background:#0f2450;"></span>All-School
-      </button>
-    </div>
   </div>
 </div>
 
@@ -651,32 +572,20 @@
           <div class="cal-legend-body">
             <div class="cal-legend-grid">
               <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#1d4ed8;"></div>
-                <span>Competitions</span>
+                <div class="cal-legend-swatch" style="background:#1e3a8a;"></div>
+                <span>Clubs</span>
+              </div>
+              <div class="cal-legend-item">
+                <div class="cal-legend-swatch" style="background:#0f1f3d;"></div>
+                <span>School Events</span>
               </div>
               <div class="cal-legend-item">
                 <div class="cal-legend-swatch" style="background:#3b82f6;"></div>
-                <span>Arts &amp; Culture</span>
+                <span>Fundraisers</span>
               </div>
               <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#0891b2;"></div>
-                <span>Service</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#1e40af;"></div>
-                <span>Cultural</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#2563eb;"></div>
-                <span>STEM</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#4338ca;"></div>
-                <span>Leadership</span>
-              </div>
-              <div class="cal-legend-item">
-                <div class="cal-legend-swatch" style="background:#0f2450;"></div>
-                <span>All-School</span>
+                <div class="cal-legend-swatch" style="background:#111111;"></div>
+                <span>Sports Games</span>
               </div>
             </div>
             <hr class="cal-legend-divider">
@@ -727,7 +636,7 @@
       <a href="clubs.html">Clubs</a>
       <a href="calendar.html">Calendar</a>
       <a href="classoffice.html">Class Office</a>
-      <a href="general.html">General</a>
+      <a href="general.html">IHS General</a>
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
@@ -737,23 +646,32 @@
 <script>
   // ── Constants ────────────────────────────────────────────────────────────────
   const EVENT_CAT_COLOR = {
-    competition:  "#1d4ed8",
-    arts:         "#3b82f6",
-    service:      "#0891b2",
-    cultural:     "#1e40af",
-    stem:         "#2563eb",
-    leadership:   "#4338ca",
-    "all-school": "#0f2450"
+    "clubs":          "#3b82f6",
+    "school-events":  "#1e3a8a",
+    "fundraisers":    "#0f1f3d",
+    "sports":         "#111111",
+    // legacy aliases
+    "competition":    "#111111",
+    "arts":           "#1e3a8a",
+    "service":        "#1e3a8a",
+    "cultural":       "#1e3a8a",
+    "stem":           "#3b82f6",
+    "leadership":     "#1e3a8a",
+    "all-school":     "#0f1f3d"
   };
 
   const EVENT_CAT_LABEL = {
-    competition:  "Competitions",
-    arts:         "Arts & Culture",
-    service:      "Service",
-    cultural:     "Cultural",
-    stem:         "STEM",
-    leadership:   "Leadership",
-    "all-school": "All-School"
+    "clubs":        "Clubs",
+    "school-events":"School Events",
+    "fundraisers":  "Fundraisers",
+    "sports":       "Sports Games",
+    "competition":  "Sports Games",
+    "arts":         "School Events",
+    "service":      "School Events",
+    "cultural":     "School Events",
+    "stem":         "Clubs",
+    "leadership":   "School Events",
+    "all-school":   "School Events"
   };
 
   const MONTH_NAMES = [
@@ -771,36 +689,10 @@
   let calYear     = now.getFullYear();
   let calMonth    = now.getMonth();
   let selectedDate = null;
-  let activeFilter = "all";
-
-  // ── Category filter pills ─────────────────────────────────────────────────────
-  document.getElementById("catFilterBar").addEventListener("click", function(e) {
-    const pill = e.target.closest(".cat-pill");
-    if (!pill) return;
-    activeFilter = pill.dataset.cat;
-    // Update active state
-    document.querySelectorAll(".cat-pill").forEach(function(p) {
-      const color = p.dataset.color;
-      p.classList.remove("active");
-      p.style.background = "";
-      p.style.borderColor = "";
-      p.style.color = "";
-    });
-    pill.classList.add("active");
-    if (pill.dataset.color) {
-      pill.style.background = pill.dataset.color;
-    } else {
-      pill.style.background = "var(--primary-dark)";
-    }
-    renderCalendar();
-    renderUpcoming();
-    // If a date is selected, re-render detail (filters don't change detail)
-  });
 
   // ── Calendar rendering ────────────────────────────────────────────────────────
   function visibleEvents() {
-    if (activeFilter === "all") return events;
-    return events.filter(function(e) { return e.category === activeFilter; });
+    return events;
   }
 
   function renderCalendar() {
@@ -986,8 +878,7 @@
     const container = document.getElementById("upcomingList");
 
     if (!upcoming.length) {
-      container.innerHTML = '<div class="upcoming-empty">No upcoming events in the next 14 days' +
-        (activeFilter !== "all" ? " for this category" : "") + '.</div>';
+      container.innerHTML = '<div class="upcoming-empty">No upcoming events in the next 14 days.</div>';
       return;
     }
 

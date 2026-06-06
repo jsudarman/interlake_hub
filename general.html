@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>General Info — Interlake Student Hub</title>
+  <title>IHS General — Interlake Student Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
     /* Language visibility */
@@ -23,7 +23,7 @@
     .gen-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
     .gen-icon { width: 42px; height: 42px; border-radius: 11px; background: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .gen-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .gen-section-title { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+    .gen-section-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
     .gen-section-sub { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
 
     /* Announcements */
@@ -48,8 +48,8 @@
     .bulletin-col-head { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
     .bulletin-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .bulletin-items li { font-size: .87rem; color: var(--text); padding: 10px 14px; background: #eff6ff; border-radius: var(--radius-sm); line-height: 1.5; }
-    .menu-bar { margin-top: 18px; background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid #f59e0b; }
-    .menu-bar-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #d97706; margin-bottom: 6px; }
+    .menu-bar { margin-top: 18px; background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); }
+    .menu-bar-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 6px; }
     .menu-bar-text { font-size: .9rem; color: var(--text); }
     .bulletin-articles { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
     .b-article { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
@@ -65,8 +65,8 @@
 
     /* Testing season */
     .testing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid #7c3aed; display: flex; align-items: flex-start; gap: 14px; }
-    .testing-badge { background: #7c3aed; color: #fff; font-size: .7rem; font-weight: 700; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); display: flex; align-items: flex-start; gap: 14px; }
+    .testing-badge { background: var(--primary); color: #fff; font-size: .7rem; font-weight: 700; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
     .testing-title { font-size: .9rem; font-weight: 700; color: var(--text); }
     .testing-note { font-size: .8rem; color: var(--text-muted); margin-top: 3px; }
     .testing-note-es { font-size: .78rem; color: var(--text-muted); margin-top: 2px; font-style: italic; }
@@ -77,13 +77,13 @@
     @media (max-width: 720px) { .lunch-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 400px) { .lunch-grid { grid-template-columns: 1fr; } }
     .lunch-day { background: var(--card); border-radius: var(--radius-sm); padding: 14px 12px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
-    .lunch-day.today { border-top-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,.2); }
-    .lunch-day-name { font-size: .69rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 4px; }
-    .lunch-day.today .lunch-day-name { color: #2563eb; }
+    .lunch-day.today { border-top-color: #111111; box-shadow: 0 0 0 2px rgba(0,0,0,.12); }
+    .lunch-day-name { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 4px; }
+    .lunch-day.today .lunch-day-name { color: #111111; }
     .lunch-day-date { font-size: .68rem; color: var(--text-muted); margin-bottom: 9px; }
     .lunch-day-meal { font-size: .8rem; color: var(--text); line-height: 1.5; }
     .lunch-day-meal-es { font-size: .76rem; color: var(--text-muted); margin-top: 7px; line-height: 1.45; font-style: italic; }
-    .today-chip { display: inline-block; font-size: .65rem; font-weight: 800; background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 3px; margin-left: 6px; }
+    .today-chip { display: inline-block; font-size: .65rem; font-weight: 700; background: #111111; color: #fff; padding: 1px 6px; border-radius: 3px; margin-left: 6px; }
 
     /* BSD */
     .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
@@ -112,7 +112,7 @@
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link">Home</a>
       <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="general.html" class="nav-link active">General</a>
+      <a href="general.html" class="nav-link active">IHS General</a>
       <a href="classoffice.html" class="nav-link">Class Office</a>
       <a href="clubs.html" class="nav-link">Clubs</a>
     </nav>
@@ -129,10 +129,10 @@
 <div class="general-hero">
   <div class="container">
     <div class="breadcrumb" style="margin-bottom:12px;">
-      <a href="index.html">Home</a><span class="sep">›</span><span>General</span>
+      <a href="index.html">Home</a><span class="sep">›</span><span>IHS General</span>
     </div>
-    <h1 class="en-only">General School Info</h1>
-    <h1 class="es-only">Información General de la Escuela</h1>
+    <h1 class="en-only">IHS General</h1>
+    <h1 class="es-only">IHS General</h1>
     <p class="en-only">Announcements, daily bulletin, testing, lunch menu, and district updates — all in one place.</p>
     <p class="es-only">Anuncios, boletín diario, temporada de exámenes, menú del almuerzo y novedades del distrito, todo en un solo lugar.</p>
     <div class="lang-toggle">
@@ -159,8 +159,8 @@
         </div>
       </div>
 
-      <div class="bulletin-datechip en-only">June 1, 2026</div>
-      <div class="bulletin-datechip es-only">1 de junio de 2026</div>
+      <div class="bulletin-datechip en-only">June 5, 2026</div>
+      <div class="bulletin-datechip es-only">5 de junio de 2026</div>
 
       <!-- Announcements grid -->
       <div class="bulletin-grid">
@@ -168,104 +168,88 @@
           <div class="bulletin-col-head en-only">Today's Announcements</div>
           <div class="bulletin-col-head es-only">Anuncios de Hoy</div>
           <ul class="bulletin-items en-only">
-            <li>Parking Applications now Available</li>
+            <li>
+              <strong>Parking Applications now Available</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Priority applications for Juniors/Seniors in WANIC, Internship, part-time Running Start, or carpools of 3+</li>
+                <li>Details and forms available in the main office</li>
+              </ul>
+            </li>
             <li>Speech and Debate Banquet — 4:30–8:30 PM, Commons</li>
             <li>Drill Team Try-outs — 5:30–8:00 PM, Main Gym (June 1–5)</li>
-            <li>Girls Soccer Meeting for New &amp; Returning Players — Wed. June 3rd, 1 PM @ Portable 10</li>
+            <li>
+              <strong>Girls Soccer Meeting — New &amp; Returning Players</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Wed. June 3rd at 1 PM, Portable 10</li>
+                <li>Learn about summer opportunities and the upcoming fall season</li>
+              </ul>
+            </li>
             <li>Smarter Balance testing starting Wednesday, June 3rd</li>
-            <li>Spiritridge &amp; Eastgate Senior Alumni Reunion — Spiritridge, June 3rd at 3:45 PM</li>
-            <li>Laptop Collection — June</li>
-            <li>IHS Senior Scholarship Award Nominations</li>
+            <li>
+              <strong>Spiritridge &amp; Eastgate Senior Alumni Reunion</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>June 3rd at 3:45 PM at Spiritridge Elementary</li>
+                <li>Bring cap and gown for a group photo</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Laptop Collection — June</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Back up your files to OneDrive before turning in your laptop</li>
+                <li>Make sure your name label and barcode are on the bottom of your device</li>
+                <li>Questions? Send Mrs. Stone a Teams message</li>
+              </ul>
+            </li>
+            <li>IHS Senior Scholarship Award Nominations — see your counselor</li>
           </ul>
           <ul class="bulletin-items es-only">
-            <li>Solicitudes de estacionamiento ya disponibles</li>
+            <li>
+              <strong>Solicitudes de estacionamiento ya disponibles</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Solicitudes prioritarias para Junior/Senior en WANIC, pasantías, Running Start a tiempo parcial o carpool de 3+</li>
+                <li>Detalles y formularios disponibles en la oficina principal</li>
+              </ul>
+            </li>
             <li>Banquete de Oratoria y Debate — 4:30–8:30 PM (Área común)</li>
             <li>Audiciones para el equipo de exhibición — 5:30–8:00 PM, Gimnasio (1–5 de junio)</li>
-            <li>Reunión de fútbol femenino para jugadoras nuevas y veteranas — miérc. 3 de junio, 1:00 p.m., Aula Portátil 10</li>
+            <li>
+              <strong>Reunión de fútbol femenino — Jugadoras nuevas y veteranas</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Miérc. 3 de junio a la 1:00 p.m., Aula Portátil 10</li>
+                <li>Conoce las oportunidades de verano y la próxima temporada de otoño</li>
+              </ul>
+            </li>
             <li>Las pruebas Smarter Balance comienzan el miércoles 3 de junio</li>
-            <li>Reunión de exalumnos de Spiritridge y Eastgate — Spiritridge, 3 de junio a las 3:45 p.m.</li>
-            <li>Recolección de laptops en junio</li>
-            <li>Nominaciones para la Beca para Estudiantes de Último Año del IHS</li>
+            <li>
+              <strong>Reunión de exalumnos — Spiritridge y Eastgate</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>3 de junio a las 3:45 p.m. en Spiritridge Elementary</li>
+                <li>Trae toga y birrete para la foto grupal</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Recolección de laptops — Junio</strong>
+              <ul style="margin-top:5px;padding-left:16px;list-style:disc;font-size:.82rem;color:var(--text-muted);">
+                <li>Haz una copia de seguridad de tus archivos en OneDrive antes de entregar tu laptop</li>
+                <li>Asegúrate de que tu etiqueta de nombre y código de barras estén en la parte inferior</li>
+                <li>¿Preguntas? Envía un mensaje a la Sra. Stone por Teams</li>
+              </ul>
+            </li>
+            <li>Nominaciones para la Beca para Estudiantes de Último Año del IHS — ver al consejero</li>
           </ul>
         </div>
         <div>
-          <div class="bulletin-col-head en-only">Today's Menu — June 1</div>
-          <div class="bulletin-col-head es-only">Menú de Hoy — 1 de junio</div>
+          <div class="bulletin-col-head en-only">Today's Menu — June 5</div>
+          <div class="bulletin-col-head es-only">Menú de Hoy — 5 de junio</div>
           <div class="menu-bar">
             <div class="menu-bar-label en-only">Lunch</div>
             <div class="menu-bar-label es-only">Almuerzo</div>
-            <div class="menu-bar-text en-only">Chicken Alfredo <em>or</em> Vegetarian Alfredo with Penne Pasta and Garlic Bread</div>
-            <div class="menu-bar-text es-only">Pollo Alfredo <em>o</em> Alfredo Vegetariano con Pasta Penne y Pan de Ajo</div>
+            <div class="menu-bar-text en-only">Mac &amp; Cheese with Cornbread &amp; Green Beans</div>
+            <div class="menu-bar-text es-only">Mac &amp; Cheese con Pan de Maíz y Ejotes</div>
           </div>
         </div>
       </div>
 
-      <!-- Expandable articles -->
-      <div class="bulletin-articles">
-
-        <details class="b-article">
-          <summary>
-            <span class="en-only">Parking Applications Available</span>
-            <span class="es-only">Solicitudes de Estacionamiento Disponibles</span>
-            <span class="expand-icon">+</span>
-          </summary>
-          <div class="b-article-body">
-            <div class="lang-label en en-only">English</div>
-            <p class="en-only">Priority parking applications are now available in the main office. If you will be a Junior or Senior next year <strong>AND</strong> you will be in WANIC, Internship, Part-time Running Start, or driving a carpool of 3, you can submit a Priority application. Details and forms available in the main office.</p>
-            <hr class="art-divider en-only">
-            <div class="lang-label es es-only">Español</div>
-            <p class="es-only">Las solicitudes de estacionamiento prioritario ya están disponibles en la oficina principal. Si el próximo año cursará el penúltimo o último año escolar (Junior o Senior) <strong>Y</strong> participará en WANIC, en un programa de pasantías, en el programa Running Start a tiempo parcial, o si conducirá un vehículo compartido con 3 ocupantes, podrá presentar una solicitud prioritaria. Los detalles y los formularios están disponibles en la oficina principal.</p>
-          </div>
-        </details>
-
-        <details class="b-article">
-          <summary>
-            <span class="en-only">Girls Soccer — Meeting for New &amp; Returning Players</span>
-            <span class="es-only">Fútbol Femenino — Reunión para Jugadoras Nuevas y Veteranas</span>
-            <span class="expand-icon">+</span>
-          </summary>
-          <div class="b-article-body">
-            <div class="lang-label en en-only">English</div>
-            <p class="en-only">Saints! Interested in Girls Soccer? New and returning players are invited to come to an informational meeting to learn about summer opportunities and the upcoming fall season. <strong>Wednesday, June 3rd at 1 PM in Portable 10.</strong></p>
-            <hr class="art-divider en-only">
-            <div class="lang-label es es-only">Español</div>
-            <p class="es-only">¡Saints! ¿Les interesa el fútbol femenino? Se invita a las jugadoras, tanto nuevas como las que regresan, a asistir a una reunión informativa para conocer las oportunidades de verano y la próxima temporada de otoño. <strong>Miércoles 3 de junio a la 1:00 p.m. en el Aula Portátil 10.</strong></p>
-          </div>
-        </details>
-
-        <details class="b-article">
-          <summary>
-            <span class="en-only">Senior Alumni Reunion — Spiritridge &amp; Eastgate</span>
-            <span class="es-only">Reunión de Exalumnos de Último Año — Spiritridge y Eastgate</span>
-            <span class="expand-icon">+</span>
-          </summary>
-          <div class="b-article-body">
-            <div class="lang-label en en-only">English</div>
-            <p class="en-only">Attention Seniors from Spiritridge and Eastgate Elementary — you are invited to the <strong>Senior Alumni Reunion on June 3rd at 3:45 PM at Spiritridge Elementary.</strong> We want to celebrate and give our seniors the opportunity to visit with previous elementary classmates and teachers. Please bring your cap and gown for a group photo.</p>
-            <hr class="art-divider en-only">
-            <div class="lang-label es es-only">Español</div>
-            <p class="es-only">Atención, estudiantes de último año de Spiritridge y Eastgate Elementary: están invitados a la <strong>Reunión de Exalumnos de Último Año el 3 de junio, a las 3:45 p.m., en Spiritridge Elementary.</strong> Queremos celebrar y brindar a nuestros estudiantes de último año la oportunidad de reencontrarse con sus antiguos compañeros y maestros de primaria. Por favor, traigan su toga y birrete para una foto grupal.</p>
-          </div>
-        </details>
-
-        <details class="b-article">
-          <summary>
-            <span class="en-only">Laptop Check-Out &amp; June Collection</span>
-            <span class="es-only">Préstamo de Laptops y Recolección en Junio</span>
-            <span class="expand-icon">+</span>
-          </summary>
-          <div class="b-article-body">
-            <div class="lang-label en en-only">English</div>
-            <p class="en-only"><strong>Loaners:</strong> Student loaner laptops are available when a student's assigned device is not working due to damage. If a laptop is accidentally left at home, unfortunately we're not able to provide a loaner from the Tech office. With upcoming SBA testing, all remaining loaner devices will be designated for testing use.</p>
-            <p class="en-only" style="margin-top:10px;"><strong>Laptop Collection:</strong> We'll be collecting all student laptops in June. Please keep all peripherals (chargers, cases) at home over the summer. Before turning yours in, make sure your name label <em>and</em> the computer barcode are attached to the bottom of your laptop — these help us re-assign the same laptop to you in September. If either label is missing, stop by the Tech Office ASAP. Back up all important files to your OneDrive. If your laptop is damaged, bring it to the Tech Center before June so it can be repaired. Questions? Send Mrs. Stone a Teams message.</p>
-            <hr class="art-divider en-only">
-            <div class="lang-label es es-only">Español</div>
-            <p class="es-only"><strong>Equipos de préstamo:</strong> Hay computadoras portátiles de préstamo disponibles cuando el dispositivo asignado no funciona debido a algún daño. Si una laptop se olvida en casa, lamentablemente no podremos proporcionar un equipo de préstamo desde la Oficina de Tecnología. Con las próximas pruebas SBA, todos los dispositivos de préstamo restantes se destinarán exclusivamente para las evaluaciones.</p>
-            <p class="es-only" style="margin-top:10px;"><strong>Recolección de laptops:</strong> Recogeremos todas las computadoras portátiles en junio. Conserva en casa durante el verano todos los periféricos (cargadores, fundas). Antes de entregar tu equipo, asegúrate de que tu etiqueta de nombre <em>y</em> el código de barras estén en la parte inferior — esto nos ayuda a reasignarte la misma laptop en septiembre. Si falta alguna etiqueta, acércate a la Oficina de Tecnología a la brevedad. Haz una copia de seguridad de todos tus archivos en OneDrive. Si tu laptop está dañada, tráela al Centro de Tecnología antes de junio. ¿Preguntas? Envía un mensaje a la Sra. Stone por Teams.</p>
-          </div>
-        </details>
-
-      </div>
     </div>
 
     <!-- ── 1. SCHOOLWIDE ANNOUNCEMENTS ── -->
@@ -329,7 +313,7 @@
     <!-- ── 2. BARKING WITH BERNIE ── -->
     <div class="gen-section">
       <div class="gen-section-header">
-        <div class="gen-icon" style="background:#dc2626;">
+        <div class="gen-icon">
           <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
         </div>
         <div>
@@ -358,7 +342,7 @@
     <!-- ── 4. TESTING SEASON ── -->
     <div class="gen-section">
       <div class="gen-section-header">
-        <div class="gen-icon" style="background:#7c3aed;">
+        <div class="gen-icon">
           <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         </div>
         <div>
@@ -406,7 +390,7 @@
     <!-- ── 5. LUNCH MENU CALENDAR ── -->
     <div class="gen-section">
       <div class="gen-section-header">
-        <div class="gen-icon" style="background:#d97706;">
+        <div class="gen-icon">
           <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
         </div>
         <div>
@@ -421,9 +405,9 @@
       <div class="lunch-week-label es-only">Semana del 1 al 5 de junio de 2026</div>
 
       <div class="lunch-grid">
-        <div class="lunch-day today">
-          <div class="lunch-day-name en-only">Mon <span class="today-chip">Today</span></div>
-          <div class="lunch-day-name es-only">Lun <span class="today-chip">Hoy</span></div>
+        <div class="lunch-day">
+          <div class="lunch-day-name en-only">Mon</div>
+          <div class="lunch-day-name es-only">Lun</div>
           <div class="lunch-day-date en-only">June 1</div>
           <div class="lunch-day-date es-only">1 de junio</div>
           <div class="lunch-day-meal en-only">Chicken Alfredo <em>or</em> Vegetarian Alfredo with Penne Pasta &amp; Garlic Bread</div>
@@ -453,21 +437,31 @@
           <div class="lunch-day-meal en-only">Pepperoni Pizza <em>or</em> Cheese Pizza with Garden Salad</div>
           <div class="lunch-day-meal es-only">Pizza de Pepperoni <em>o</em> Pizza de Queso con Ensalada</div>
         </div>
-        <div class="lunch-day">
-          <div class="lunch-day-name en-only">Fri</div>
-          <div class="lunch-day-name es-only">Vier</div>
+        <div class="lunch-day today">
+          <div class="lunch-day-name en-only">Fri <span class="today-chip">Fri Jun 5</span></div>
+          <div class="lunch-day-name es-only">Vier <span class="today-chip">Vier 5 jun</span></div>
           <div class="lunch-day-date en-only">June 5</div>
           <div class="lunch-day-date es-only">5 de junio</div>
           <div class="lunch-day-meal en-only">Mac &amp; Cheese with Cornbread &amp; Green Beans</div>
           <div class="lunch-day-meal es-only">Mac &amp; Cheese con Pan de Maíz y Ejotes</div>
         </div>
       </div>
+
+      <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);border-left:3px solid var(--primary);">
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="en-only">Always Available</div>
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="es-only">Siempre Disponible</div>
+        <div style="font-size:.87rem;color:var(--text);" class="en-only">Garden Salad Bar · Fresh Fruit · Assorted Bread · Low-Fat Milk · Non-Fat Yogurt</div>
+        <div style="font-size:.87rem;color:var(--text);" class="es-only">Barra de Ensalada · Fruta Fresca · Pan Surtido · Leche Baja en Grasa · Yogur Sin Grasa</div>
+      </div>
+
+      <div style="margin-top:12px;font-size:.78rem;color:var(--text-muted);" class="en-only">On weekends, the most recent school day's menu is shown. Check back Monday for the next week's menu.</div>
+      <div style="margin-top:12px;font-size:.78rem;color:var(--text-muted);" class="es-only">Los fines de semana se muestra el menú del último día escolar. Vuelve el lunes para ver el menú de la próxima semana.</div>
     </div>
 
     <!-- ── 6. BELLEVUE SCHOOL DISTRICT ── -->
     <div class="gen-section">
       <div class="gen-section-header">
-        <div class="gen-icon" style="background:#0369a1;">
+        <div class="gen-icon">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div>
@@ -511,9 +505,9 @@
           <div class="bsd-footer-row">
             <span class="bsd-footer-label en-only">Visit the official BSD School Board page for meeting schedules, agendas, and more.</span>
             <span class="bsd-footer-label es-only">Visita la página oficial de la Junta Escolar del BSD para conocer horarios de reuniones, órdenes del día y más.</span>
-            <a href="https://www.bsd405.org/departments/school-board/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.85rem;padding:8px 18px;">
-              <span class="en-only">BSD School Board →</span>
-              <span class="es-only">Junta Escolar BSD →</span>
+            <a href="https://www.bsd405.org/departments/school-board/meetings/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.85rem;padding:8px 18px;">
+              <span class="en-only">Board Meetings →</span>
+              <span class="es-only">Reuniones de la Junta →</span>
             </a>
           </div>
         </div>
@@ -534,7 +528,7 @@
       <a href="clubs.html">Clubs</a>
       <a href="calendar.html">Calendar</a>
       <a href="classoffice.html">Class Office</a>
-      <a href="general.html">General</a>
+      <a href="general.html">IHS General</a>
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>

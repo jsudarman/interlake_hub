@@ -59,7 +59,7 @@
     /* ── Instagram ── */
     .instagram-btn {
       display: inline-flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      background: var(--primary-dark);
       color: #fff; padding: 12px 24px; border-radius: var(--radius-sm);
       font-size: .9rem; font-weight: 700; text-decoration: none;
       transition: var(--transition);
@@ -84,7 +84,7 @@
     <nav class="navbar-nav">
       <a href="index.html" class="nav-link">Home</a>
       <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="general.html" class="nav-link">General</a>
+      <a href="general.html" class="nav-link">IHS General</a>
       <a href="classoffice.html" class="nav-link active">Class Office</a>
       <a href="clubs.html" class="nav-link">Clubs</a>
     </nav>
@@ -114,7 +114,7 @@
       <a href="clubs.html">Clubs</a>
       <a href="calendar.html">Calendar</a>
       <a href="classoffice.html">Class Office</a>
-      <a href="general.html">General</a>
+      <a href="general.html">IHS General</a>
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
@@ -266,12 +266,6 @@ if (!data) {
 } else {
   document.title = `Class of ${year} — Interlake Student Hub`;
 
-  const VOTE_KEY     = `hub_vote_${year}`;
-  const FEEDBACK_KEY = `hub_feedback_${year}`;
-
-  const savedVote     = (() => { try { return JSON.parse(localStorage.getItem(VOTE_KEY)); } catch { return null; } })();
-  const savedFeedback = localStorage.getItem(FEEDBACK_KEY);
-
   // Build officer names HTML
   const officerNamesHtml = data.officers.map(o => `
     <div class="officer-name-item">
@@ -298,21 +292,26 @@ if (!data) {
       <div class="fundraiser-desc">${f.desc}</div>
     </div>`).join("");
 
-  // Build poll section HTML (or result if already voted)
+  // Build poll section HTML — always show form, with name + grade fields
   function buildPollSection() {
-    if (savedVote) {
-      const tags = savedVote.options.map(o => `<span class="poll-result-tag">${o}</span>`).join("");
-      const otherTag = savedVote.other ? `<span class="poll-result-tag">Other: ${savedVote.other}</span>` : "";
-      return `
-        <div class="poll-result">
-          <div class="poll-result-title">Your vote has been recorded — thanks!</div>
-          ${tags}${otherTag}
-        </div>`;
-    }
     return `
-      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:14px;">
-        Select all options you'd like to see. Your vote is saved and won't reset on refresh.
-      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;" class="name-grade-fields">
+        <div>
+          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Name <span style="color:#c0392b;">*</span></label>
+          <input type="text" class="form-control" id="voteName" placeholder="Your name" autocomplete="off">
+        </div>
+        <div>
+          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Grade <span style="color:#c0392b;">*</span></label>
+          <select class="form-control" id="voteGrade">
+            <option value="">Select grade</option>
+            <option value="9">9th</option>
+            <option value="10">10th</option>
+            <option value="11">11th</option>
+            <option value="12">12th</option>
+          </select>
+        </div>
+      </div>
+      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:14px;">Select all options you'd like to see.</p>
       <div class="poll-options" id="pollOptions">
         <div class="poll-option" data-value="Bake Sale">Bake Sale</div>
         <div class="poll-option" data-value="Restaurant Night (Chipotle)">Restaurant Night (Chipotle)</div>
@@ -324,23 +323,34 @@ if (!data) {
         <input type="text" class="form-control" id="otherText" placeholder="What else would you suggest?">
       </div>
       <button class="btn btn-primary" id="submitVoteBtn" style="margin-top:14px;">Submit Vote →</button>
-      <div id="voteError" style="color:#ef4444;font-size:.8rem;margin-top:8px;display:none;">Please select at least one option.</div>`;
+      <div id="voteError" style="color:#c0392b;font-size:.8rem;margin-top:8px;display:none;">Please fill in your name, grade, and select at least one option.</div>`;
   }
 
-  // Build feedback section HTML
+  // Build feedback section HTML — always show form, with name + grade fields
   function buildFeedbackSection() {
-    if (savedFeedback) {
-      return `<div class="feedback-result">Thanks — we've received your feedback!</div>`;
-    }
     return `
-      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:12px;">
-        Have an idea or something you'd like class office to know? Drop it here.
-      </p>
-      <textarea class="form-control" id="feedbackText" rows="5"
-        placeholder="Your suggestions, ideas, or feedback for class office…"
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div>
+          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Name <span style="color:#c0392b;">*</span></label>
+          <input type="text" class="form-control" id="feedbackName" placeholder="Your name" autocomplete="off">
+        </div>
+        <div>
+          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Grade <span style="color:#c0392b;">*</span></label>
+          <select class="form-control" id="feedbackGrade">
+            <option value="">Select grade</option>
+            <option value="9">9th</option>
+            <option value="10">10th</option>
+            <option value="11">11th</option>
+            <option value="12">12th</option>
+          </select>
+        </div>
+      </div>
+      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:12px;">Have an idea or something you'd like class office to know? Drop it here.</p>
+      <textarea class="form-control" id="feedbackText" rows="4"
+        placeholder="Your suggestions, ideas, or feedback…"
         style="resize:vertical;margin-bottom:12px;"></textarea>
       <button class="btn btn-primary" id="submitFeedbackBtn">Submit Feedback →</button>
-      <div id="feedbackError" style="color:#ef4444;font-size:.8rem;margin-top:8px;display:none;">Please enter some feedback before submitting.</div>`;
+      <div id="feedbackError" style="color:#c0392b;font-size:.8rem;margin-top:8px;display:none;">Please fill in your name, grade, and feedback.</div>`;
   }
 
   content.innerHTML = `
@@ -371,7 +381,7 @@ if (!data) {
 
       <!-- What We've Been Doing -->
       <div class="section-card">
-        <div class="section-card-title">📋 What Class Office Has Been Doing</div>
+        <div class="section-card-title">What Class Office Has Been Doing</div>
         <div class="activity-list">${activitiesHtml}</div>
       </div>
 
@@ -386,13 +396,13 @@ if (!data) {
 
       <!-- Poll -->
       <div class="section-card">
-        <div class="section-card-title">🗳️ Vote on Future Fundraiser Ideas</div>
+        <div class="section-card-title">Vote on Future Fundraiser Ideas</div>
         <div id="pollSection">${buildPollSection()}</div>
       </div>
 
       <!-- Feedback -->
       <div class="section-card">
-        <div class="section-card-title">💬 Feedback &amp; Suggestions</div>
+        <div class="section-card-title">Feedback &amp; Suggestions</div>
         <div id="feedbackSection">${buildFeedbackSection()}</div>
       </div>
 
@@ -406,63 +416,61 @@ if (!data) {
 
     </div>`;
 
-  // Wire up poll (only if not already voted)
-  if (!savedVote) {
+  // Wire up poll — always shown, with name/grade validation
+  function wirePoll() {
     const selected = new Set();
-
     document.querySelectorAll(".poll-option").forEach(opt => {
       opt.addEventListener("click", () => {
         opt.classList.toggle("selected");
         const val = opt.dataset.value;
-        if (opt.classList.contains("selected")) {
-          selected.add(val);
-        } else {
-          selected.delete(val);
-        }
+        if (opt.classList.contains("selected")) selected.add(val);
+        else selected.delete(val);
         const otherWrap = document.getElementById("otherInputWrap");
-        if (otherWrap) {
-          otherWrap.style.display = selected.has("__other__") ? "block" : "none";
-        }
+        if (otherWrap) otherWrap.style.display = selected.has("__other__") ? "block" : "none";
       });
     });
-
     document.getElementById("submitVoteBtn").addEventListener("click", () => {
-      const errEl = document.getElementById("voteError");
-      if (selected.size === 0) { errEl.style.display = "block"; return; }
+      const errEl    = document.getElementById("voteError");
+      const nameVal  = (document.getElementById("voteName").value || "").trim();
+      const gradeVal = document.getElementById("voteGrade").value;
+      if (!nameVal || !gradeVal || selected.size === 0) { errEl.style.display = "block"; return; }
       errEl.style.display = "none";
-
-      const options = [...selected]
-        .filter(v => v !== "__other__")
-        .map(v => v);
+      const options = [...selected].filter(v => v !== "__other__");
       const otherTextEl = document.getElementById("otherText");
       const other = (selected.has("__other__") && otherTextEl) ? otherTextEl.value.trim() : "";
-
-      const voteData = { options, other };
-      localStorage.setItem(VOTE_KEY, JSON.stringify(voteData));
-
       const tags = options.map(o => `<span class="poll-result-tag">${o}</span>`).join("");
       const otherTag = other ? `<span class="poll-result-tag">Other: ${other}</span>` : "";
       document.getElementById("pollSection").innerHTML = `
         <div class="poll-result">
-          <div class="poll-result-title">Your vote has been recorded — thanks!</div>
+          <div class="poll-result-title">Thanks, ${nameVal}! Your vote has been recorded.</div>
           ${tags}${otherTag}
-        </div>`;
+        </div>
+        <button class="btn btn-outline" onclick="document.getElementById('pollSection').innerHTML = window.buildPollSection(); window.wirePoll();" style="margin-top:12px;font-size:.82rem;">← Go Back</button>`;
     });
   }
+  wirePoll();
 
-  // Wire up feedback (only if not already submitted)
-  if (!savedFeedback) {
+  // Wire up feedback — always shown, with name/grade validation
+  function wireFeedback() {
     document.getElementById("submitFeedbackBtn").addEventListener("click", () => {
-      const errEl  = document.getElementById("feedbackError");
-      const textEl = document.getElementById("feedbackText");
-      const text   = textEl.value.trim();
-      if (!text) { errEl.style.display = "block"; return; }
+      const errEl    = document.getElementById("feedbackError");
+      const nameVal  = (document.getElementById("feedbackName").value || "").trim();
+      const gradeVal = document.getElementById("feedbackGrade").value;
+      const text     = (document.getElementById("feedbackText").value || "").trim();
+      if (!nameVal || !gradeVal || !text) { errEl.style.display = "block"; return; }
       errEl.style.display = "none";
-      localStorage.setItem(FEEDBACK_KEY, text);
-      document.getElementById("feedbackSection").innerHTML =
-        `<div class="feedback-result">Thanks — we've received your feedback!</div>`;
+      document.getElementById("feedbackSection").innerHTML = `
+        <div class="feedback-result">Thanks, ${nameVal}! Your feedback has been received.</div>
+        <button class="btn btn-outline" onclick="document.getElementById('feedbackSection').innerHTML = window.buildFeedbackSection(); window.wireFeedback();" style="margin-top:12px;font-size:.82rem;">← Go Back</button>`;
     });
   }
+  wireFeedback();
+
+  // Expose rebuild functions globally for Go Back inline onclick
+  window.buildPollSection    = buildPollSection;
+  window.buildFeedbackSection = buildFeedbackSection;
+  window.wirePoll             = wirePoll;
+  window.wireFeedback         = wireFeedback;
 }
 
 document.getElementById("navSearch").addEventListener("keydown", e => {
