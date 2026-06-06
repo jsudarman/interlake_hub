@@ -6,7 +6,7 @@
   <title>Clubs Directory — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .clubs-header { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 48px 0 52px; color: #fff; }
+    .clubs-header { background: var(--primary-dark); padding: 48px 0 52px; color: #fff; }
     .clubs-header h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .clubs-header p { opacity: .75; font-size: 1rem; max-width: 500px; }
     .controls-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 0; position: sticky; top: 64px; z-index: 50; }
@@ -270,7 +270,7 @@ function makeClubCard(c) {
       <div class="club-header-info">
         <div class="club-name">${c.name}</div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-          <span class="badge" style="background:#dbeafe;color:#0f172a;">${getCategoryLabel(c.category)}</span>
+          <span class="badge" style="background:var(--highlight);color:#0f172a;">${getCategoryLabel(c.category)}</span>
         </div>
       </div>
     </div>

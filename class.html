@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     /* ── Hero ── */
-    .class-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 40px 0 44px; color: #fff; }
+    .class-hero { background: var(--primary-dark); padding: 40px 0 44px; color: #fff; }
     .class-hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 4px; }
     .class-hero .grade-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .7; }
 
@@ -47,14 +47,14 @@
       cursor: pointer; user-select: none; transition: var(--transition);
     }
     .poll-option:hover { border-color: var(--primary); color: var(--primary); }
-    .poll-option.selected { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .poll-option.selected { background: var(--primary-dark); border-color: var(--primary-dark); color: #fff; }
     .poll-other-input { margin-top: 8px; display: none; }
-    .poll-result { background: #eff6ff; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
+    .poll-result { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
     .poll-result-title { font-size: .82rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
-    .poll-result-tag { display: inline-block; background: var(--primary); color: #fff; border-radius: 20px; padding: 3px 12px; font-size: .78rem; font-weight: 600; margin: 3px 4px 3px 0; }
+    .poll-result-tag { display: inline-block; background: var(--primary-dark); color: #fff; border-radius: 20px; padding: 3px 12px; font-size: .78rem; font-weight: 600; margin: 3px 4px 3px 0; }
 
     /* ── Feedback ── */
-    .feedback-result { background: #eff6ff; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; font-size: .88rem; color: var(--primary-dark); font-weight: 600; }
+    .feedback-result { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; font-size: .88rem; color: var(--primary-dark); font-weight: 600; }
 
     /* ── Instagram ── */
     .instagram-btn {

@@ -10,7 +10,7 @@
     [data-lang="es"] .en-only { display: none !important; }
     [data-lang="en"] .es-only { display: none !important; }
 
-    .general-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 48px 0 52px; color: #fff; }
+    .general-hero { background: var(--primary-dark); padding: 48px 0 52px; color: #fff; }
     .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .general-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
     .lang-toggle { display: inline-flex; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; overflow: hidden; margin-top: 20px; }
@@ -43,12 +43,12 @@
     .bernie-arrow { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
 
     /* Daily Bulletin */
-    .bulletin-datechip { display: inline-block; background: var(--primary); color: #fff; font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
+    .bulletin-datechip { display: inline-block; background: var(--primary-dark); color: #fff; font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
     .bulletin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 680px) { .bulletin-grid { grid-template-columns: 1fr; } }
     .bulletin-col-head { font-size: .71rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
     .bulletin-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .bulletin-items li { font-size: .87rem; color: var(--text); padding: 10px 14px; background: #eff6ff; border-radius: var(--radius-sm); line-height: 1.5; }
+    .bulletin-items li { font-size: .87rem; color: var(--text); padding: 10px 14px; background: var(--highlight); border-radius: var(--radius-sm); line-height: 1.5; }
     .menu-bar { margin-top: 18px; background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); }
     .menu-bar-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 6px; }
     .menu-bar-text { font-size: .9rem; color: var(--text); }
@@ -60,14 +60,14 @@
     .b-article[open] summary .expand-icon { transform: rotate(45deg); }
     .b-article-body { padding: 16px 18px; font-size: .87rem; line-height: 1.75; color: var(--text); border-top: 1px solid var(--border); background: #fafbff; }
     .lang-label { display: inline-block; font-size: .67rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px; }
-    .lang-label.en { background: #dbeafe; color: #1e40af; }
+    .lang-label.en { background: var(--highlight); color: var(--primary-dark); }
     .lang-label.es { background: #fef3c7; color: #92400e; }
     .art-divider { margin: 14px 0; border: none; border-top: 1px dashed var(--border); }
 
     /* Testing season */
     .testing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .testing-item { background: var(--card); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow); display: flex; align-items: flex-start; gap: 14px; }
-    .testing-badge { background: #dbeafe; color: #0f172a; font-size: .7rem; font-weight: 600; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .testing-badge { background: var(--highlight); color: #0f172a; font-size: .7rem; font-weight: 600; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
     .testing-title { font-size: .9rem; font-weight: 700; color: var(--text); }
     .testing-note { font-size: .8rem; color: var(--text-muted); margin-top: 3px; }
     .testing-note-es { font-size: .78rem; color: var(--text-muted); margin-top: 2px; font-style: italic; }
@@ -79,7 +79,7 @@
     @media (max-width: 400px) { .lunch-grid { grid-template-columns: 1fr; } }
     .lunch-day { background: var(--card); border-radius: var(--radius-sm); padding: 14px 12px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
     .lunch-day.today { border-top-color: #111111; box-shadow: 0 0 0 2px rgba(0,0,0,.12); }
-    .lunch-day-name { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 4px; }
+    .lunch-day-name { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-dark); margin-bottom: 4px; }
     .lunch-day.today .lunch-day-name { color: #111111; }
     .lunch-day-date { font-size: .68rem; color: var(--text-muted); margin-bottom: 9px; }
     .lunch-day-meal { font-size: .8rem; color: var(--text); line-height: 1.5; }
@@ -88,7 +88,7 @@
 
     /* BSD */
     .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
-    .bsd-card-head { background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 20px 24px; color: #fff; }
+    .bsd-card-head { background: var(--primary-dark); padding: 20px 24px; color: #fff; }
     .bsd-card-head h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
     .bsd-card-head p { font-size: .82rem; opacity: .75; }
     .bsd-card-body { padding: 20px 24px; }
@@ -616,9 +616,9 @@ function setLang(lang) {
     const container = document.getElementById('lunchWeekTabs');
     if (!container) return;
     container.innerHTML = MENU_WEEKS.map((w, i) =>
-      '<button onclick="window._lunchSetWeek(' + i + ')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary);font-size:.78rem;font-weight:600;cursor:pointer;background:' +
-      (i === activeWeek ? 'var(--primary)' : 'transparent') +
-      ';color:' + (i === activeWeek ? '#fff' : 'var(--primary)') + ';">' +
+      '<button onclick="window._lunchSetWeek(' + i + ')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary-dark);font-size:.78rem;font-weight:600;cursor:pointer;background:' +
+      (i === activeWeek ? 'var(--primary-dark)' : 'transparent') +
+      ';color:' + (i === activeWeek ? '#fff' : 'var(--primary-dark)') + ';">' +
       (lang() === 'es' ? w.labelEs : w.label) +
       '</button>'
     ).join('');
@@ -673,8 +673,8 @@ function setLang(lang) {
     var dayDate = isEs ? todayDay.displayEs : todayDay.display;
     var label = isEs ? 'Menú de Hoy' : "Today's Lunch";
     var note = isActuallyToday ? '' : (' <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem;color:var(--text-muted);">' + (isEs ? '(último día escolar)' : '(most recent school day)') + '</span>');
-    card.innerHTML = '<div style="background:#dbeafe;border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;">' +
-      '<div style="min-width:42px;text-align:center;background:var(--primary);color:#fff;border-radius:6px;padding:5px 8px;flex-shrink:0;">' +
+    card.innerHTML = '<div style="background:var(--highlight);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;">' +
+      '<div style="min-width:42px;text-align:center;background:var(--primary-dark);color:#fff;border-radius:6px;padding:5px 8px;flex-shrink:0;">' +
       '<div style="font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">' + dayName + '</div>' +
       '<div style="font-size:.7rem;font-weight:700;line-height:1.3;margin-top:2px;">' + dayDate + '</div>' +
       '</div>' +

@@ -12,16 +12,16 @@
     .tabs-bar-inner::-webkit-scrollbar { display: none; }
     .tab-link { padding: 14px 18px; font-size: .87rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: var(--transition); }
     .tab-link:hover { color: var(--text); }
-    .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-link.active { color: var(--primary-dark); border-bottom-color: var(--primary); }
     .tab-section { display: none; }
     .tab-section.active { display: block; }
-    .join-box { background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: var(--radius); padding: 24px; color: #fff; margin-bottom: 24px; }
+    .join-box { background: var(--highlight); border-radius: var(--radius); padding: 24px; color: var(--text); margin-bottom: 24px; border: 1px solid var(--border); }
     .join-box h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
     .join-box p { font-size: .85rem; opacity: .85; line-height: 1.6; margin-bottom: 16px; }
     .contact-links { display: flex; flex-direction: column; gap: 8px; }
     .contact-link { display: flex; align-items: center; gap: 8px; font-size: .83rem; color: rgba(255,255,255,.85); }
-    .contact-link a { color: #93c5fd; font-weight: 600; }
-    .next-meeting-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 20px; margin-bottom: 0; }
+    .contact-link a { color: var(--primary); font-weight: 600; }
+    .next-meeting-box { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 0; }
     .next-meeting-box h3 { font-size: .85rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
     .next-meeting-date { font-size: 1.05rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 12px; }
     .not-found { text-align: center; padding: 80px 24px; }
@@ -182,7 +182,7 @@ if (!club) {
         </div>
         <div class="club-hero-inner" style="padding-bottom:32px;">
           <div class="club-hero-info">
-            <span class="badge" style="background:#dbeafe;color:#0f172a;margin-bottom:10px;">${getCategoryLabel(club.category)}</span>
+            <span class="badge" style="background:var(--highlight);color:#0f172a;margin-bottom:10px;">${getCategoryLabel(club.category)}</span>
             <h1>${club.name}</h1>
             <div class="club-hero-meta">
               <div class="club-hero-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:4px;opacity:.7;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><strong>${club.members} members</strong></div>
@@ -278,7 +278,7 @@ if (!club) {
                   const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
                   const day   = d.getDate();
                   return `<div style="display:flex;gap:14px;align-items:flex-start;">
-                    <div style="background:var(--primary);color:#fff;min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
+                    <div style="background:var(--primary-dark);color:#fff;min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
                       <span style="font-size:.62rem;font-weight:700;letter-spacing:.08em;opacity:.8;">${month}</span>
                       <span style="font-size:1.5rem;font-weight:900;line-height:1;">${day}</span>
                     </div>
@@ -446,7 +446,7 @@ if (!club) {
   if (related.length) {
     relEl.innerHTML = related.map(c => `
       <a href="club.html?id=${c.id}" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);text-decoration:none;transition:var(--transition);"
-         onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background=''">
+         onmouseover="this.style.background='var(--highlight)'" onmouseout="this.style.background=''">
         <div>
           <div style="font-size:.85rem;font-weight:700;color:var(--text);">${c.name}</div>
           <div style="font-size:.75rem;color:var(--text-muted);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:2px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${c.members}</div>

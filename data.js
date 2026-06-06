@@ -754,14 +754,14 @@ function addUpdateToClub(clubId, update) {
 }
 
 const CATEGORIES = [
-  { id: "all",        label: "All Clubs",    color: "#64748b" },
-  { id: "engineering",label: "Engineering",  color: "#0f2450" },
-  { id: "science",    label: "Science",      color: "#0369a1" },
-  { id: "diplomatic", label: "Diplomatic",   color: "#1d4ed8" },
-  { id: "creative",   label: "Creative",     color: "#3b82f6" },
-  { id: "service",    label: "Service",      color: "#0891b2" },
-  { id: "cultural",   label: "Cultural",     color: "#1e40af" },
-  { id: "leadership", label: "Leadership",   color: "#2563eb" }
+  { id: "all",        label: "All Clubs",    color: "#1034A6" },
+  { id: "engineering",label: "Engineering",  color: "#1034A6" },
+  { id: "science",    label: "Science",      color: "#1034A6" },
+  { id: "diplomatic", label: "Diplomatic",   color: "#1034A6" },
+  { id: "creative",   label: "Creative",     color: "#1034A6" },
+  { id: "service",    label: "Service",      color: "#1034A6" },
+  { id: "cultural",   label: "Cultural",     color: "#1034A6" },
+  { id: "leadership", label: "Leadership",   color: "#1034A6" }
 ];
 
 function getCategoryColor(catId) {
