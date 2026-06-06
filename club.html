@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Club — Interlake Student Hub</title>
+  <title>Club — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .club-hero { background: #fff; border-bottom: 1px solid var(--border); }
@@ -42,8 +42,8 @@
     <a href="index.html" class="navbar-brand">
       <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
-        <span class="brand-name">Interlake Hub</span>
-        <span class="brand-sub">Student Activity Center</span>
+        <span class="brand-name">Saints Station</span>
+        <span class="brand-sub">Interlake High School</span>
       </div>
     </a>
     <nav class="navbar-nav">
@@ -55,7 +55,7 @@
     </nav>
     <div class="navbar-actions">
       <div class="nav-search">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
@@ -68,7 +68,7 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Saints Station</div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
     <div class="footer-links">
@@ -93,7 +93,7 @@ const content = document.getElementById("pageContent");
 if (!club) {
   content.innerHTML = `
     <div class="container not-found">
-      <div style="font-size:3rem;margin-bottom:16px;">😕</div>
+      <div style="font-size:3rem;margin-bottom:16px;"></div>
       <h2>Club not found</h2>
       <p style="color:var(--text-muted);margin-bottom:24px;">We couldn't find that club.</p>
       <a href="clubs.html" class="btn btn-primary">Browse All Clubs</a>
@@ -107,12 +107,12 @@ if (!club) {
   const officers = club.officers || [];
   const agendaItems = (club.nextMeeting && club.nextMeeting.items) || [];
 
-  document.title = `${club.name} — Interlake Student Hub`;
+  document.title = `${club.name} — Saints Station`;
 
   function updateFeed(items, emptyMsg, addHref) {
     if (!items.length) return `
       <div class="empty-updates">
-        <div class="empty-icon">📝</div>
+        <div class="empty-icon"></div>
         <h3>No ${emptyMsg} yet</h3>
         <p>Club officers can submit using the form.</p>
         <a href="${addHref}" class="btn btn-primary" style="margin-top:16px;">Submit Now</a>
@@ -136,7 +136,7 @@ if (!club) {
   function officersTab() {
     if (!officers.length) return `
       <div class="empty-updates">
-        <div class="empty-icon">👥</div>
+        <div class="empty-icon"></div>
         <h3>Officers not listed yet</h3>
         <p>Club officers can add this info via the Officer Portal.</p>
       </div>`;
@@ -370,9 +370,9 @@ if (!club) {
             <h3>Interested in joining?</h3>
             <p>${club.howToJoin.slice(0,120)}${club.howToJoin.length>120?"…":""}</p>
             <div class="contact-links">
-              ${club.contactEmail ? `<div class="contact-link">✉️ <a href="mailto:${club.contactEmail}">${club.contactEmail}</a></div>` : ""}
-              ${club.instagram ? `<div class="contact-link">📸 ${club.instagram}</div>` : ""}
-              ${club.advisor ? `<div class="contact-link">👤 Advisor: ${club.advisor}</div>` : ""}
+              ${club.contactEmail ? `<div class="contact-link"><a href="mailto:${club.contactEmail}">${club.contactEmail}</a></div>` : ""}
+              ${club.instagram ? `<div class="contact-link">${club.instagram}</div>` : ""}
+              ${club.advisor ? `<div class="contact-link">Advisor: ${club.advisor}</div>` : ""}
             </div>
           </div>
 
@@ -404,7 +404,7 @@ if (!club) {
           </div>
 
           <div style="margin-top:20px;">
-            <a href="${submitBase}" class="btn btn-outline" style="width:100%;justify-content:center;">📝 Update Club Page</a>
+            <a href="${submitBase}" class="btn btn-outline" style="width:100%;justify-content:center;">Update Club Page</a>
           </div>
 
           <!-- Related clubs -->

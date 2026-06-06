@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IHS General — Interlake Student Hub</title>
+  <title>IHS General — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     /* Language visibility */
@@ -105,8 +105,8 @@
     <a href="index.html" class="navbar-brand">
       <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
-        <span class="brand-name">Interlake Hub</span>
-        <span class="brand-sub">Student Activity Center</span>
+        <span class="brand-name">Saints Station</span>
+        <span class="brand-sub">Interlake High School</span>
       </div>
     </a>
     <nav class="navbar-nav">
@@ -118,7 +118,7 @@
     </nav>
     <div class="navbar-actions">
       <div class="nav-search">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" placeholder="Search…" autocomplete="off">
       </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
@@ -401,61 +401,25 @@
         </div>
       </div>
 
-      <div class="lunch-week-label en-only">Week of June 1 – 5, 2026</div>
-      <div class="lunch-week-label es-only">Semana del 1 al 5 de junio de 2026</div>
+      <div class="lunch-week-label en-only">June 2026 — Week of <span id="lunchWeekLabel">Jun 1–5</span></div>
+      <div class="lunch-week-label es-only">Junio 2026 — Semana del <span id="lunchWeekLabelEs">1–5 de jun</span></div>
 
-      <div class="lunch-grid">
-        <div class="lunch-day">
-          <div class="lunch-day-name en-only">Mon</div>
-          <div class="lunch-day-name es-only">Lun</div>
-          <div class="lunch-day-date en-only">June 1</div>
-          <div class="lunch-day-date es-only">1 de junio</div>
-          <div class="lunch-day-meal en-only">Chicken Alfredo <em>or</em> Vegetarian Alfredo with Penne Pasta &amp; Garlic Bread</div>
-          <div class="lunch-day-meal es-only">Pollo Alfredo <em>o</em> Alfredo Vegetariano con Pasta Penne y Pan de Ajo</div>
-        </div>
-        <div class="lunch-day">
-          <div class="lunch-day-name en-only">Tue</div>
-          <div class="lunch-day-name es-only">Mar</div>
-          <div class="lunch-day-date en-only">June 2</div>
-          <div class="lunch-day-date es-only">2 de junio</div>
-          <div class="lunch-day-meal en-only">Teriyaki Chicken Bowl with Steamed Rice &amp; Broccoli</div>
-          <div class="lunch-day-meal es-only">Tazón de Pollo Teriyaki con Arroz al Vapor y Brócoli</div>
-        </div>
-        <div class="lunch-day">
-          <div class="lunch-day-name en-only">Wed</div>
-          <div class="lunch-day-name es-only">Miérc</div>
-          <div class="lunch-day-date en-only">June 3</div>
-          <div class="lunch-day-date es-only">3 de junio</div>
-          <div class="lunch-day-meal en-only">Beef Tacos with Black Beans, Salsa &amp; Tortilla Chips</div>
-          <div class="lunch-day-meal es-only">Tacos de Res con Frijoles Negros, Salsa y Tortillas</div>
-        </div>
-        <div class="lunch-day">
-          <div class="lunch-day-name en-only">Thu</div>
-          <div class="lunch-day-name es-only">Juev</div>
-          <div class="lunch-day-date en-only">June 4</div>
-          <div class="lunch-day-date es-only">4 de junio</div>
-          <div class="lunch-day-meal en-only">Pepperoni Pizza <em>or</em> Cheese Pizza with Garden Salad</div>
-          <div class="lunch-day-meal es-only">Pizza de Pepperoni <em>o</em> Pizza de Queso con Ensalada</div>
-        </div>
-        <div class="lunch-day today">
-          <div class="lunch-day-name en-only">Fri <span class="today-chip">Fri Jun 5</span></div>
-          <div class="lunch-day-name es-only">Vier <span class="today-chip">Vier 5 jun</span></div>
-          <div class="lunch-day-date en-only">June 5</div>
-          <div class="lunch-day-date es-only">5 de junio</div>
-          <div class="lunch-day-meal en-only">Mac &amp; Cheese with Cornbread &amp; Green Beans</div>
-          <div class="lunch-day-meal es-only">Mac &amp; Cheese con Pan de Maíz y Ejotes</div>
-        </div>
-      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="lunchWeekTabs"></div>
+
+      <div id="lunchGrid" class="lunch-grid"></div>
 
       <div style="margin-top:20px;background:var(--card);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow);border-left:3px solid var(--primary);">
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="en-only">Always Available</div>
-        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="es-only">Siempre Disponible</div>
-        <div style="font-size:.87rem;color:var(--text);" class="en-only">Garden Salad Bar · Fresh Fruit · Assorted Bread · Low-Fat Milk · Non-Fat Yogurt</div>
-        <div style="font-size:.87rem;color:var(--text);" class="es-only">Barra de Ensalada · Fruta Fresca · Pan Surtido · Leche Baja en Grasa · Yogur Sin Grasa</div>
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="en-only">Daily Options</div>
+        <div style="font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:8px;" class="es-only">Opciones Diarias</div>
+        <div style="font-size:.85rem;color:var(--text);line-height:1.6;" class="en-only">
+          Burger Bar (Spicy Chicken, Cheeseburger, Hamburger, Kickin' Burger) · Pizza (Cheese or Meat Lovers) · Grab n Go (Italian Turkey Sub, Cheese Sub, Sunbutter &amp; Jelly + String Cheese, Hummus Plate) · Boxed Salad (Grilled Chicken Caesar or Mozzarella Caesar) · Hand-Wrapped Burrito (Green Chili Bean &amp; Cheese) · Plus milk and salad bar with fresh fruits &amp; vegetables
+        </div>
+        <div style="font-size:.85rem;color:var(--text);line-height:1.6;" class="es-only">
+          Barra de hamburguesas · Pizza · Para llevar · Ensalada en caja · Burrito enrollado · Más leche y barra de ensaladas con frutas y verduras frescas
+        </div>
       </div>
-
-      <div style="margin-top:12px;font-size:.78rem;color:var(--text-muted);" class="en-only">On weekends, the most recent school day's menu is shown. Check back Monday for the next week's menu.</div>
-      <div style="margin-top:12px;font-size:.78rem;color:var(--text-muted);" class="es-only">Los fines de semana se muestra el menú del último día escolar. Vuelve el lunes para ver el menú de la próxima semana.</div>
+      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="en-only">On weekends and holidays, the most recent school day's menu is shown.</div>
+      <div style="margin-top:10px;font-size:.76rem;color:var(--text-muted);" class="es-only">Los fines de semana y feriados se muestra el menú del último día escolar.</div>
     </div>
 
     <!-- ── 6. BELLEVUE SCHOOL DISTRICT ── -->
@@ -505,7 +469,7 @@
           <div class="bsd-footer-row">
             <span class="bsd-footer-label en-only">Visit the official BSD School Board page for meeting schedules, agendas, and more.</span>
             <span class="bsd-footer-label es-only">Visita la página oficial de la Junta Escolar del BSD para conocer horarios de reuniones, órdenes del día y más.</span>
-            <a href="https://www.bsd405.org/departments/school-board/meetings/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.85rem;padding:8px 18px;">
+            <a href="https://www.bsd405.org/about-us/school-board/meetings" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.85rem;padding:8px 18px;">
               <span class="en-only">Board Meetings →</span>
               <span class="es-only">Reuniones de la Junta →</span>
             </a>
@@ -520,7 +484,7 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Saints Station</div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
     <div class="footer-links">
@@ -539,7 +503,165 @@ function setLang(lang) {
   document.documentElement.setAttribute("data-lang", lang);
   document.getElementById("btnEN").classList.toggle("active", lang === "en");
   document.getElementById("btnES").classList.toggle("active", lang === "es");
+  if (window._lunchRender) { window._lunchRender(); }
 }
+</script>
+<script>
+(function() {
+  const MENU_WEEKS = [
+    {
+      label: "Jun 1–5", labelEs: "1–5 jun",
+      days: [
+        { date: "2026-06-01", name: "Mon", nameEs: "Lun", display: "June 1", displayEs: "1 jun",
+          meal: "Chicken Alfredo or Vegetarian Alfredo (v) with Penne Pasta & Garlic Bread",
+          mealEs: "Pollo Alfredo o Alfredo Vegetariano (v) con Pasta Penne y Pan de Ajo" },
+        { date: "2026-06-02", name: "Tue", nameEs: "Mar", display: "June 2", displayEs: "2 jun",
+          meal: "Mandarin Orange Chicken with Steamed Broccoli & Sticky Brown Rice",
+          mealEs: "Pollo con Naranja Mandarina con Brócoli al Vapor y Arroz Integral" },
+        { date: "2026-06-03", name: "Wed", nameEs: "Miérc", display: "June 3", displayEs: "3 jun",
+          meal: "Garlic Cheese Toast (v) with Marinara Dipping Sauce",
+          mealEs: "Tostada de Queso con Ajo (v) con Salsa Marinara" },
+        { date: "2026-06-04", name: "Thu", nameEs: "Juev", display: "June 4", displayEs: "4 jun",
+          meal: "Classic Breaded Chicken Sandwich with Baked Fries & Bellevue Sauce",
+          mealEs: "Sándwich de Pollo Empanizado Clásico con Papas al Horno" },
+        { date: "2026-06-05", name: "Fri", nameEs: "Vier", display: "June 5", displayEs: "5 jun",
+          meal: "Nachos! Seasoned Beef & Beans or Refried Beans (v) with Jalapeño Cheese Sauce & WG Tortilla Chips",
+          mealEs: "¡Nachos! Carne Sazonada y Frijoles o Frijoles Refritos (v) con Salsa de Queso Jalapeño" }
+      ]
+    },
+    {
+      label: "Jun 8–12", labelEs: "8–12 jun",
+      days: [
+        { date: "2026-06-08", name: "Mon", nameEs: "Lun", display: "June 8", displayEs: "8 jun",
+          meal: "Crispy Chicken Tenders or Kickin' Nuggets (v) with Baked Fries, Wheat Roll & Honey Mustard",
+          mealEs: "Tiras de Pollo Crujiente o Nuggets (v) con Papas al Horno y Pan Integral" },
+        { date: "2026-06-09", name: "Tue", nameEs: "Mar", display: "June 9", displayEs: "9 jun",
+          meal: "Plant Powered Sizzling Pinto Bean Nachos (v) with Queso Blanco & Salsa",
+          mealEs: "Nachos de Frijoles Pintos (v) con Queso Blanco y Salsa" },
+        { date: "2026-06-10", name: "Wed", nameEs: "Miérc", display: "June 10", displayEs: "10 jun",
+          meal: "Mozzarella & Beef Pepperoni Stuffed Mini Calzones with Garlic Bread",
+          mealEs: "Mini Calzones Rellenos de Mozzarella y Pepperoni con Pan de Ajo" },
+        { date: "2026-06-11", name: "Thu", nameEs: "Juev", display: "June 11", displayEs: "11 jun",
+          meal: "Battered Alaskan Pollock Wedge with Baked Fries, Wheat Roll & Tartar Sauce",
+          mealEs: "Filete de Abadejo de Alaska con Papas al Horno y Salsa Tártara" },
+        { date: "2026-06-12", name: "Fri", nameEs: "Vier", display: "June 12", displayEs: "12 jun",
+          meal: "Turkey Bacon Cheeseburger with Baked Tots & Bellevue Sauce",
+          mealEs: "Hamburguesa con Tocino de Pavo y Queso con Tots al Horno" }
+      ]
+    },
+    {
+      label: "Jun 15–19", labelEs: "15–19 jun",
+      days: [
+        { date: "2026-06-15", name: "Mon", nameEs: "Lun", display: "June 15", displayEs: "15 jun",
+          meal: "Breaded Chicken Leg & Waffle with Warm Apple Compote",
+          mealEs: "Pierna de Pollo Empanizada con Waffle y Compota de Manzana" },
+        { date: "2026-06-16", name: "Tue", nameEs: "Mar", display: "June 16", displayEs: "16 jun",
+          meal: "Garlic Cheese Toast (v) with Marinara Dipping Sauce",
+          mealEs: "Tostada de Queso con Ajo (v) con Salsa Marinara" },
+        { date: "2026-06-17", name: "Wed", nameEs: "Miérc", display: "June 17", displayEs: "17 jun",
+          meal: "Chef's Choice",
+          mealEs: "Elección del Chef" },
+        { date: "2026-06-18", name: "Thu", nameEs: "Juev", display: "June 18", displayEs: "18 jun",
+          meal: "Chef's Choice",
+          mealEs: "Elección del Chef" },
+        { date: "2026-06-19", name: "Fri", nameEs: "Vier", display: "June 19", displayEs: "19 jun",
+          meal: "Juneteenth — No School",
+          mealEs: "Juneteenth — Sin clases" }
+      ]
+    },
+    {
+      label: "Jun 22–23", labelEs: "22–23 jun",
+      days: [
+        { date: "2026-06-22", name: "Mon", nameEs: "Lun", display: "June 22", displayEs: "22 jun",
+          meal: "Chef's Choice",
+          mealEs: "Elección del Chef" },
+        { date: "2026-06-23", name: "Tue", nameEs: "Mar", display: "June 23", displayEs: "23 jun",
+          meal: "Last Day of School — No meal service",
+          mealEs: "Último día de clases — Sin servicio de comida" },
+        { date: "2026-06-24", name: "Wed", nameEs: "Miérc", display: "June 24", displayEs: "24 jun",
+          meal: "Summer Break",
+          mealEs: "Vacaciones de Verano" },
+        { date: "2026-06-25", name: "Thu", nameEs: "Juev", display: "June 25", displayEs: "25 jun",
+          meal: "Summer Break",
+          mealEs: "Vacaciones de Verano" },
+        { date: "2026-06-26", name: "Fri", nameEs: "Vier", display: "June 26", displayEs: "26 jun",
+          meal: "Summer Break",
+          mealEs: "Vacaciones de Verano" }
+      ]
+    }
+  ];
+
+  const today = new Date('2026-06-06T00:00:00'); // override for static display; update to new Date() when going live
+  const todayStr = today.toISOString().split('T')[0];
+
+  function findCurrentWeekIdx() {
+    for (let i = 0; i < MENU_WEEKS.length; i++) {
+      const w = MENU_WEEKS[i];
+      const dates = w.days.map(d => d.date);
+      if (dates.includes(todayStr)) return i;
+    }
+    for (let i = 0; i < MENU_WEEKS.length; i++) {
+      const firstDate = MENU_WEEKS[i].days[0].date;
+      if (firstDate > todayStr) return i;
+    }
+    return MENU_WEEKS.length - 1;
+  }
+
+  let activeWeek = findCurrentWeekIdx();
+  const lang = () => document.documentElement.getAttribute('data-lang') || 'en';
+
+  function renderWeekTabs() {
+    const container = document.getElementById('lunchWeekTabs');
+    if (!container) return;
+    container.innerHTML = MENU_WEEKS.map((w, i) =>
+      '<button onclick="window._lunchSetWeek(' + i + ')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary);font-size:.78rem;font-weight:600;cursor:pointer;background:' +
+      (i === activeWeek ? 'var(--primary)' : 'transparent') +
+      ';color:' + (i === activeWeek ? '#fff' : 'var(--primary)') + ';">' +
+      (lang() === 'es' ? w.labelEs : w.label) +
+      '</button>'
+    ).join('');
+  }
+
+  function renderLunchGrid() {
+    const grid = document.getElementById('lunchGrid');
+    if (!grid) return;
+    const week = MENU_WEEKS[activeWeek];
+    const isEs = lang() === 'es';
+    const labelEl = document.getElementById('lunchWeekLabel');
+    const labelElEs = document.getElementById('lunchWeekLabelEs');
+    if (labelEl) labelEl.textContent = week.label;
+    if (labelElEs) labelElEs.textContent = week.labelEs;
+    grid.innerHTML = week.days.map(d => {
+      const isToday = d.date === todayStr;
+      const noMeal = d.meal.includes('Summer Break') || d.meal.includes('No meal') || d.meal.includes('No School') || d.meal.includes('Juneteenth');
+      return '<div class="lunch-day' + (isToday ? ' today' : '') + '">' +
+        '<div class="lunch-day-name">' + (isEs ? d.nameEs : d.name) + (isToday ? '<span class="today-chip">' + (isEs ? 'Hoy' : 'Today') + '</span>' : '') + '</div>' +
+        '<div class="lunch-day-date">' + (isEs ? d.displayEs : d.display) + '</div>' +
+        '<div class="lunch-day-meal' + (noMeal ? '" style="color:var(--text-muted);font-style:italic' : '') + '">' + (isEs ? d.mealEs : d.meal) + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  window._lunchSetWeek = function(idx) {
+    activeWeek = idx;
+    renderWeekTabs();
+    renderLunchGrid();
+  };
+
+  window._lunchRender = function() {
+    renderWeekTabs();
+    renderLunchGrid();
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderWeekTabs();
+    renderLunchGrid();
+  });
+  if (document.readyState !== 'loading') {
+    renderWeekTabs();
+    renderLunchGrid();
+  }
+})();
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clubs Directory — Interlake Student Hub</title>
+  <title>Clubs Directory — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .clubs-header { background: linear-gradient(135deg, var(--primary-dark) 0%, #1e4d9b 100%); padding: 48px 0 52px; color: #fff; }
@@ -24,8 +24,8 @@
     <a href="index.html" class="navbar-brand">
       <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
       <div class="brand-text">
-        <span class="brand-name">Interlake Hub</span>
-        <span class="brand-sub">Student Activity Center</span>
+        <span class="brand-name">Saints Station</span>
+        <span class="brand-sub">Interlake High School</span>
       </div>
     </a>
     <nav class="navbar-nav">
@@ -37,7 +37,7 @@
     </nav>
     <div class="navbar-actions">
       <div class="nav-search">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
@@ -59,7 +59,7 @@
   <div class="container controls-inner">
     <!-- Search -->
     <div class="search-bar" style="max-width:240px;">
-      <span class="icon">🔍</span>
+      <span class="icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
       <input type="text" id="searchInput" placeholder="Search…" autocomplete="off">
     </div>
 
@@ -92,7 +92,7 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Interlake Student Hub</div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Saints Station</div>
       <p>A central place for Interlake High School students to stay connected.</p>
     </div>
     <div class="footer-links">
@@ -220,7 +220,7 @@ function renderClubs() {
 
   const grid = document.getElementById("clubsGrid");
   if (!list.length) {
-    grid.innerHTML = `<div class="no-results empty-state"><div class="empty-icon">🔍</div><h3>No clubs found</h3><p>Try a different search or category.</p></div>`;
+    grid.innerHTML = `<div class="no-results empty-state"><div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>No clubs found</h3><p>Try a different search or category.</p></div>`;
     return;
   }
 
@@ -269,7 +269,7 @@ function makeClubCard(c) {
       <div class="club-header-info">
         <div class="club-name">${c.name}</div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-          <span class="badge" style="background:${color};">${getCategoryLabel(c.category)}</span>
+          <span class="badge" style="background:#dbeafe;color:#0f172a;">${getCategoryLabel(c.category)}</span>
         </div>
       </div>
     </div>
