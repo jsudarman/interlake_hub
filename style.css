@@ -4,18 +4,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --primary:        #89CFF0;   /* baby blue — buttons, borders */
-  --primary-mid:    #5ab5e8;   /* baby blue hover */
-  --primary-dark:   #1034A6;   /* Egyptian blue — navbar, footer, heroes */
-  --primary-light:  #D6EEFF;   /* pale blue fills */
-  --highlight:      #D6EEFF;   /* pale blue — chips/badges/fills */
-  --accent:         #89CFF0;   /* same as primary */
-  --accent-light:   #D6EEFF;   /* same as highlight */
-  --bg:             #f8fbff;   /* near-white page background */
+  --primary:        #3292C9;   /* Interlake blue — buttons, borders */
+  --primary-mid:    #2478a8;   /* hover — slightly darker Interlake blue */
+  --primary-dark:   #1034A6;   /* deep blue — navbar, footer, heroes */
+  --primary-light:  #83caf2;   /* lighter Interlake blue */
+  --highlight:      #83caf2;   /* lighter blue — chips, badge fills */
+  --accent:         #83caf2;   /* same */
+  --accent-light:   #cde9f8;   /* very pale — page tints */
+  --bg:             #f4f9fd;   /* near-white page background */
   --card:           #ffffff;
   --text:           #0f172a;
   --text-muted:     #475569;
-  --border:         #b8d9f0;   /* soft baby blue border */
+  --border:         #a8d5f0;   /* light blue border */
   --radius:         12px;
   --radius-sm:      8px;
   --shadow:         0 2px 8px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
@@ -149,6 +149,7 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px rgba(255,255,255,.45);
 }
 
 .navbar-brand .brand-icon img {
