@@ -9,8 +9,7 @@
     /* ── Page Hero ─────────────────────────────────────────────────────────── */
     .cal-page-hero {
       background: var(--primary-dark);
-      padding: 48px 0 52px;
-      color: #fff;
+      padding: 48px 0 52px; color: var(--text);
     }
     .cal-page-hero h1 {
       font-size: clamp(1.6rem, 4vw, 2.5rem);
@@ -48,8 +47,7 @@
 
     /* Header */
     .cal-full-header {
-      background: var(--primary-dark);
-      color: #fff;
+      background: var(--primary-dark); color: var(--text);
       padding: 20px 28px;
       display: flex;
       align-items: center;
@@ -62,9 +60,9 @@
       letter-spacing: -.01em;
     }
     .cal-full-nav {
-      background: rgba(255,255,255,.12);
+      background: rgba(50,146,201,.18);
       border: none;
-      color: #fff;
+      color: var(--text);
       width: 36px;
       height: 36px;
       border-radius: 8px;
@@ -76,7 +74,7 @@
       transition: var(--transition);
       flex-shrink: 0;
     }
-    .cal-full-nav:hover { background: rgba(255,255,255,.25); }
+    .cal-full-nav:hover { background: rgba(50,146,201,.35); }
     .cal-full-header-center {
       display: flex;
       align-items: center;
@@ -88,15 +86,15 @@
       font-size: .75rem;
       font-weight: 700;
       padding: 4px 12px;
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.25);
-      color: #fff;
+      background: rgba(50,146,201,.15);
+      border: 1px solid rgba(50,146,201,.3);
+      color: var(--text);
       border-radius: 20px;
       cursor: pointer;
       transition: var(--transition);
       letter-spacing: .03em;
     }
-    .cal-today-btn:hover { background: rgba(255,255,255,.28); }
+    .cal-today-btn:hover { background: rgba(50,146,201,.3); }
 
     /* Day-of-week headers */
     .cal-full-dow-row {
@@ -139,8 +137,7 @@
     .cal-full-day.other-month { background: #f8faff; }
     .cal-full-day.other-month .cal-full-day-num { color: #c8d8ec; }
     .cal-full-day.today .cal-full-day-num {
-      background: var(--primary-dark);
-      color: #fff;
+      background: var(--primary-dark); color: var(--text);
       width: 28px;
       height: 28px;
       border-radius: 50%;
@@ -239,7 +236,7 @@
     .cal-legend-title {
       font-size: .82rem;
       font-weight: 600;
-      color: var(--primary-dark);
+      color: var(--primary);
       text-transform: uppercase;
       letter-spacing: .06em;
     }
@@ -287,8 +284,7 @@
     }
     .cal-detail-card-header {
       background: var(--primary-dark);
-      padding: 14px 18px;
-      color: #fff;
+      padding: 14px 18px; color: var(--text);
     }
     .cal-detail-card-date {
       font-size: .95rem;
@@ -404,7 +400,7 @@
     .upcoming-card-title {
       font-size: .82rem;
       font-weight: 600;
-      color: var(--primary-dark);
+      color: var(--primary);
       text-transform: uppercase;
       letter-spacing: .06em;
     }
@@ -431,8 +427,7 @@
       flex-shrink: 0;
       width: 44px;
       text-align: center;
-      background: var(--primary-dark);
-      color: #fff;
+      background: var(--primary-dark); color: var(--text);
       border-radius: 8px;
       padding: 5px 4px;
     }
@@ -608,7 +603,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>
@@ -616,17 +611,17 @@
   // ── Constants ────────────────────────────────────────────────────────────────
   const EVENT_CAT_COLOR = {
     "clubs":          "#3b82f6",
-    "school-events":  "var(--primary-dark)",
-    "fundraisers":    "var(--primary-dark)",
+    "school-events":  "var(--primary)",
+    "fundraisers":    "var(--primary)",
     "sports":         "#111111",
     // legacy aliases
     "competition":    "#111111",
-    "arts":           "var(--primary-dark)",
-    "service":        "var(--primary-dark)",
-    "cultural":       "var(--primary-dark)",
+    "arts":           "var(--primary)",
+    "service":        "var(--primary)",
+    "cultural":       "var(--primary)",
     "stem":           "#3b82f6",
-    "leadership":     "var(--primary-dark)",
-    "all-school":     "var(--primary-dark)"
+    "leadership":     "var(--primary)",
+    "all-school":     "var(--primary)"
   };
 
   const EVENT_CAT_LABEL = {
@@ -783,7 +778,7 @@
           : ev.description;
         bodyHtml +=
           '<div class="cal-detail-ev">' +
-            '<div class="cal-detail-ev-dot" style="background:var(--primary-dark);"></div>' +
+            '<div class="cal-detail-ev-dot" style="background:var(--primary);"></div>' +
             '<div style="flex:1;min-width:0;">' +
               '<div class="cal-detail-ev-title">' + ev.title + '</div>' +
               '<div class="cal-detail-ev-meta">' +
@@ -863,7 +858,7 @@
       const whenLabel = days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
 
       return '<div class="upcoming-item" onclick="jumpToDate(\'' + ev.date + '\')">' +
-        '<div class="' + badgeClass + '" style="background:var(--primary-dark);">' +
+        '<div class="' + badgeClass + '" style="background:var(--primary);">' +
           '<div class="upcoming-date-month">' + mon + '</div>' +
           '<div class="upcoming-date-day">' + dayN + '</div>' +
         '</div>' +

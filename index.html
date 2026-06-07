@@ -6,7 +6,7 @@
   <title>Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .home-hero { background: var(--primary-dark); padding: 52px 0 56px; color: #fff; text-align: center; }
+    .home-hero { background: var(--primary-dark); padding: 52px 0 56px; text-align: center; }
     .home-hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; margin-bottom: 12px; }
     .home-hero h1 span { color: var(--primary); }
     .home-hero p { font-size: 1rem; opacity: .8; max-width: 520px; margin: 0 auto 28px; line-height: 1.7; }
@@ -34,7 +34,7 @@
     /* Calendar previews */
     .cal-preview-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
     .cal-preview-item:last-child { border-bottom: none; }
-    .cal-preview-badge { min-width: 38px; text-align: center; background: var(--primary-dark); color: #fff; border-radius: 6px; padding: 4px 6px; }
+    .cal-preview-badge { min-width: 38px; text-align: center; background: var(--primary-dark); color: var(--text); border-radius: 6px; padding: 4px 6px; }
     .cal-preview-badge .cpb-m { font-size: .58rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
     .cal-preview-badge .cpb-d { font-size: 1rem; font-weight: 700; line-height: 1; }
     .cal-preview-title { font-size: .87rem; font-weight: 700; color: var(--text); }
@@ -44,9 +44,9 @@
     .class-year-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .class-pill { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--highlight); border-radius: var(--radius-sm); text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: var(--transition); }
     .class-pill:hover { border-color: var(--primary); background: var(--highlight); }
-    .class-pill-year { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+    .class-pill-year { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
     .class-pill-label { font-size: .72rem; color: var(--text-muted); margin-top: 1px; }
-    .class-pill-arrow { color: var(--primary-dark); font-size: .9rem; }
+    .class-pill-arrow { color: var(--primary); font-size: .9rem; }
 
     /* Club previews */
     .club-preview-item { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
@@ -225,7 +225,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>

@@ -26,7 +26,7 @@
     /* ── Login overlay ── */
     .login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 24px; }
     .login-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 100%; max-width: 420px; overflow: hidden; }
-    .login-header { background: var(--primary-dark); padding: 36px 32px 28px; text-align: center; color: #fff; }
+    .login-header { background: var(--primary-dark); padding: 36px 32px 28px; text-align: center; color: var(--text); }
     .login-header .login-icon { font-size: 2.8rem; margin-bottom: 12px; }
     .login-header h2 { font-size: 1.4rem; font-weight: 600; }
     .login-header p { font-size: .85rem; opacity: .75; margin-top: 6px; }
@@ -44,8 +44,8 @@
     .login-note strong { color: var(--primary); }
 
     .logged-in-bar { background: var(--highlight); border-bottom: 1px solid var(--border); padding: 10px 0; }
-    .logged-in-bar-inner { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--primary-dark); }
-    .logged-in-bar .user-badge { background: var(--primary-dark); color: #fff; border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
+    .logged-in-bar-inner { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--primary); }
+    .logged-in-bar .user-badge { background: var(--primary-dark); color: var(--text); border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
     .logged-in-bar .sign-out { margin-left: auto; font-size: .78rem; color: var(--text-muted); cursor: pointer; }
     .logged-in-bar .sign-out:hover { color: var(--primary); }
   </style>
@@ -254,7 +254,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
 </footer>
 
 <div class="toast" id="toast">
