@@ -4,18 +4,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --primary:        #3B82F6;   /* blue-500 — buttons, links, interactive */
-  --primary-mid:    #2563EB;   /* blue-600 — hover state */
-  --primary-dark:   #1E3A8A;   /* blue-900 — navbar, footer, heroes */
-  --primary-light:  #93C5FD;   /* blue-300 — light accents */
-  --highlight:      #DBEAFE;   /* blue-100 — chips, badge fills */
-  --accent:         #93C5FD;   /* blue-300 */
-  --accent-light:   #EFF6FF;   /* blue-50 — very pale tints */
-  --bg:             #F0F7FF;   /* near-white with blue tint */
+  --primary:        #3292C9;   /* Interlake logo blue — buttons, links, interactive */
+  --primary-mid:    #2478A8;   /* deeper logo blue — hover state */
+  --primary-dark:   #1B4F72;   /* deep navy — same hue family as logo, navbar/footer/heroes */
+  --primary-light:  #7ABFE8;   /* lighter logo blue — accents */
+  --highlight:      #E8F4FC;   /* very pale logo blue — chips, badge fills */
+  --accent:         #7ABFE8;   /* same as primary-light */
+  --accent-light:   #F3FAFF;   /* near-white pale blue tints */
+  --bg:             #F4FAFF;   /* near-white with faint blue tint */
   --card:           #ffffff;
   --text:           #0f172a;
   --text-muted:     #475569;
-  --border:         #BFDBFE;   /* blue-200 — light border */
+  --border:         #C5E3F5;   /* light blue border — logo hue family */
   --radius:         12px;
   --radius-sm:      8px;
   --shadow:         0 2px 8px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
