@@ -10,12 +10,12 @@
     [data-lang="es"] .en-only { display: none !important; }
     [data-lang="en"] .es-only { display: none !important; }
 
-    .general-hero { background: var(--primary-dark); padding: 48px 0 52px; color: #fff; }
+    .general-hero { background: var(--primary-dark); padding: 48px 0 52px; }
     .general-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
     .general-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
-    .lang-toggle { display: inline-flex; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; overflow: hidden; margin-top: 20px; }
-    .lang-btn { padding: 7px 22px; font-size: .85rem; font-weight: 700; background: transparent; color: rgba(255,255,255,.6); cursor: pointer; border: none; transition: background .15s, color .15s; }
-    .lang-btn.active { background: rgba(255,255,255,.2); color: #fff; }
+    .lang-toggle { display: inline-flex; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+    .lang-btn { padding: 7px 22px; font-size: .85rem; font-weight: 700; background: transparent; color: var(--text-muted); cursor: pointer; border: none; transition: background .15s, color .15s; }
+    .lang-btn.active { background: var(--primary); color: #fff; }
 
     .gen-wrap { padding: 0 0 80px; }
     .gen-section { padding: 40px 0; border-bottom: 1px solid var(--border); }
@@ -43,7 +43,7 @@
     .bernie-arrow { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
 
     /* Daily Bulletin */
-    .bulletin-datechip { display: inline-block; background: var(--primary-dark); color: #fff; font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
+    .bulletin-datechip { display: inline-block; background: var(--primary-dark); color: var(--text); font-size: .73rem; font-weight: 700; padding: 3px 11px; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 18px; }
     .bulletin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 680px) { .bulletin-grid { grid-template-columns: 1fr; } }
     .bulletin-col-head { font-size: .71rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 12px; }
@@ -60,7 +60,7 @@
     .b-article[open] summary .expand-icon { transform: rotate(45deg); }
     .b-article-body { padding: 16px 18px; font-size: .87rem; line-height: 1.75; color: var(--text); border-top: 1px solid var(--border); background: #fafbff; }
     .lang-label { display: inline-block; font-size: .67rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; margin-bottom: 8px; }
-    .lang-label.en { background: var(--highlight); color: var(--primary-dark); }
+    .lang-label.en { background: var(--highlight); color: var(--primary); }
     .lang-label.es { background: #fef3c7; color: #92400e; }
     .art-divider { margin: 14px 0; border: none; border-top: 1px dashed var(--border); }
 
@@ -79,7 +79,7 @@
     @media (max-width: 400px) { .lunch-grid { grid-template-columns: 1fr; } }
     .lunch-day { background: var(--card); border-radius: var(--radius-sm); padding: 14px 12px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
     .lunch-day.today { border-top-color: #111111; box-shadow: 0 0 0 2px rgba(0,0,0,.12); }
-    .lunch-day-name { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-dark); margin-bottom: 4px; }
+    .lunch-day-name { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 4px; }
     .lunch-day.today .lunch-day-name { color: #111111; }
     .lunch-day-date { font-size: .68rem; color: var(--text-muted); margin-bottom: 9px; }
     .lunch-day-meal { font-size: .8rem; color: var(--text); line-height: 1.5; }
@@ -88,7 +88,7 @@
 
     /* BSD */
     .bsd-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
-    .bsd-card-head { background: var(--primary-dark); padding: 20px 24px; color: #fff; }
+    .bsd-card-head { background: var(--primary-dark); padding: 20px 24px; color: var(--text); }
     .bsd-card-head h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
     .bsd-card-head p { font-size: .82rem; opacity: .75; }
     .bsd-card-body { padding: 20px 24px; }
@@ -497,7 +497,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
 </footer>
 
 <script>
@@ -674,7 +674,7 @@ function setLang(lang) {
     var label = isEs ? 'Menú de Hoy' : "Today's Lunch";
     var note = isActuallyToday ? '' : (' <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem;color:var(--text-muted);">' + (isEs ? '(último día escolar)' : '(most recent school day)') + '</span>');
     card.innerHTML = '<div style="background:var(--highlight);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;">' +
-      '<div style="min-width:42px;text-align:center;background:var(--primary-dark);color:#fff;border-radius:6px;padding:5px 8px;flex-shrink:0;">' +
+      '<div style="min-width:42px;text-align:center;background:var(--primary-dark);color:var(--text);border-radius:6px;padding:5px 8px;flex-shrink:0;">' +
       '<div style="font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">' + dayName + '</div>' +
       '<div style="font-size:.7rem;font-weight:700;line-height:1.3;margin-top:2px;">' + dayDate + '</div>' +
       '</div>' +

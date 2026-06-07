@@ -12,18 +12,18 @@
     .tabs-bar-inner::-webkit-scrollbar { display: none; }
     .tab-link { padding: 14px 18px; font-size: .87rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: var(--transition); }
     .tab-link:hover { color: var(--text); }
-    .tab-link.active { color: var(--primary-dark); border-bottom-color: var(--primary); }
+    .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
     .tab-section { display: none; }
     .tab-section.active { display: block; }
     .join-box { background: var(--highlight); border-radius: var(--radius); padding: 24px; color: var(--text); margin-bottom: 24px; border: 1px solid var(--border); }
     .join-box h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
     .join-box p { font-size: .85rem; opacity: .85; line-height: 1.6; margin-bottom: 16px; }
     .contact-links { display: flex; flex-direction: column; gap: 8px; }
-    .contact-link { display: flex; align-items: center; gap: 8px; font-size: .83rem; color: rgba(255,255,255,.85); }
+    .contact-link { display: flex; align-items: center; gap: 8px; font-size: .83rem; color: var(--text-muted); }
     .contact-link a { color: var(--primary); font-weight: 600; }
     .next-meeting-box { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 0; }
-    .next-meeting-box h3 { font-size: .85rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .next-meeting-date { font-size: 1.05rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 12px; }
+    .next-meeting-box h3 { font-size: .85rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .next-meeting-date { font-size: 1.05rem; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
     .not-found { text-align: center; padding: 80px 24px; }
     .empty-updates { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px; text-align: center; }
     .empty-updates .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: .4; }
@@ -80,7 +80,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>
@@ -278,7 +278,7 @@ if (!club) {
                   const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
                   const day   = d.getDate();
                   return `<div style="display:flex;gap:14px;align-items:flex-start;">
-                    <div style="background:var(--primary-dark);color:#fff;min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
+                    <div style="background:var(--primary-dark);color:var(--text);min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
                       <span style="font-size:.62rem;font-weight:700;letter-spacing:.08em;opacity:.8;">${month}</span>
                       <span style="font-size:1.5rem;font-weight:900;line-height:1;">${day}</span>
                     </div>
