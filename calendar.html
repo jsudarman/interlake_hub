@@ -179,7 +179,7 @@
       font-weight: 600;
       padding: 2px 6px;
       border-radius: 4px;
-      color: #0f172a;
+      color: #fff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -338,7 +338,7 @@
     }
     .cal-detail-ev-desc {
       font-size: .75rem;
-      color: #475569;
+      color: var(--text-muted);
       margin-top: 4px;
       line-height: 1.5;
     }
@@ -427,12 +427,12 @@
       flex-shrink: 0;
       width: 44px;
       text-align: center;
-      background: var(--primary-dark); color: var(--text);
+      background: var(--primary); color: #fff;
       border-radius: 8px;
       padding: 5px 4px;
     }
     .upcoming-date-badge.today { background: #111; }
-    .upcoming-date-badge.soon { background: var(--primary-dark); }
+    .upcoming-date-badge.soon { background: var(--primary); }
     .upcoming-date-month {
       font-size: .62rem;
       font-weight: 700;
@@ -715,7 +715,7 @@
       let chipsHtml = "";
       dayEvents.slice(0, maxChips).forEach(function(ev) {
         const label = ev.title.length > 17 ? ev.title.slice(0, 16) + "…" : ev.title;
-        chipsHtml += '<div class="cal-full-chip" style="background:var(--highlight);color:#0f172a;" title="' + ev.title + '">' + label + '</div>';
+        chipsHtml += '<div class="cal-full-chip" style="background:var(--primary);color:#fff;" title="' + ev.title + '">' + label + '</div>';
       });
       if (dayEvents.length > maxChips) {
         chipsHtml += '<div class="cal-full-more">+' + (dayEvents.length - maxChips) + ' more</div>';

@@ -13,8 +13,8 @@
   --accent-light:   #F3FAFF;   /* near-white pale blue tints */
   --bg:             #F4FAFF;   /* near-white with faint blue tint */
   --card:           #ffffff;
-  --text:           #0f172a;
-  --text-muted:     #475569;
+  --text:           #1B3A5C;   /* deep navy — softer than black, cohesive with blue palette */
+  --text-muted:     #4A6480;   /* blue-tinted muted */
   --border:         #C5E3F5;   /* light blue border — logo hue family */
   --radius:         12px;
   --radius-sm:      8px;
@@ -542,7 +542,7 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
   transition: var(--transition);
 }
 
-.club-card-header .badge { background: var(--highlight) !important; color: #0f172a !important; }
+.club-card-header .badge { background: var(--primary) !important; color: #fff !important; }
 
 .club-card-link:hover { color: var(--primary-light); gap: 7px; }
 
@@ -561,16 +561,16 @@ h1.display, .hero h1, .home-hero h1, .general-hero h1, .clubs-header h1, .classo
   font-size: .82rem;
   font-weight: 600;
   cursor: pointer;
-  border: 2px solid var(--border);
+  border: 2px solid var(--primary);
   background: var(--card);
-  color: var(--text-muted);
+  color: var(--primary);
   transition: var(--transition);
   white-space: nowrap;
 }
 
 .filter-pill:hover {
-  border-color: currentColor;
-  color: var(--text);
+  background: var(--highlight);
+  color: var(--primary);
 }
 
 .filter-pill.active {

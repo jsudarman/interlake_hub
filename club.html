@@ -182,7 +182,7 @@ if (!club) {
         </div>
         <div class="club-hero-inner" style="padding-bottom:32px;">
           <div class="club-hero-info">
-            <span class="badge" style="background:var(--highlight);color:#0f172a;margin-bottom:10px;">${getCategoryLabel(club.category)}</span>
+            <span class="badge" style="background:var(--primary);color:#fff;margin-bottom:10px;">${getCategoryLabel(club.category)}</span>
             <h1>${club.name}</h1>
             <div class="club-hero-meta">
               <div class="club-hero-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:4px;opacity:.7;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><strong>${club.members} members</strong></div>
@@ -278,7 +278,7 @@ if (!club) {
                   const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
                   const day   = d.getDate();
                   return `<div style="display:flex;gap:14px;align-items:flex-start;">
-                    <div style="background:var(--primary-dark);color:var(--text);min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
+                    <div style="background:var(--primary);color:#fff;min-width:52px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;flex-shrink:0;">
                       <span style="font-size:.62rem;font-weight:700;letter-spacing:.08em;opacity:.8;">${month}</span>
                       <span style="font-size:1.5rem;font-weight:900;line-height:1;">${day}</span>
                     </div>
