@@ -45,7 +45,7 @@
 
     .logged-in-bar { background: var(--highlight); border-bottom: 1px solid var(--border); padding: 10px 0; }
     .logged-in-bar-inner { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--primary); }
-    .logged-in-bar .user-badge { background: var(--primary-dark); color: var(--text); border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
+    .logged-in-bar .user-badge { background: var(--primary); color: #fff; border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
     .logged-in-bar .sign-out { margin-left: auto; font-size: .78rem; color: var(--text-muted); cursor: pointer; }
     .logged-in-bar .sign-out:hover { color: var(--primary); }
   </style>
@@ -58,7 +58,7 @@
     <div class="login-header">
       <div class="login-icon"></div>
       <h2>Officer Portal</h2>
-      <p>Sign in to update your club's page</p>
+      <p>Are you a club/class officer? Sign in to update your page</p>
     </div>
     <div class="login-body">
       <div class="login-demo-box">
@@ -146,9 +146,9 @@
       <form class="form-body" id="updateForm" novalidate>
 
         <div class="form-group">
-          <label class="form-label" for="clubSelect">Club <span class="required">*</span></label>
+          <label class="form-label" for="clubSelect">Club / Class <span class="required">*</span></label>
           <select class="form-control" id="clubSelect" name="club" required>
-            <option value="">— Select your club —</option>
+            <option value="">— Select —</option>
           </select>
         </div>
 
@@ -229,12 +229,12 @@
   </div>
 
   <div style="margin-top:32px;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
-    <h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px;color:var(--primary-dark);">Guidelines for Club Officers</h3>
+    <h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px;color:var(--primary);">Guidelines for Club Officers</h3>
     <ul style="display:flex;flex-direction:column;gap:8px;padding-left:0;">
-      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span><strong>Agendas</strong> — submit before the meeting. Helps members plan and lets absent students know what's covered.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span><strong>Recaps</strong> — submit within 2 days after a meeting. Include highlights, decisions, and action items.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span><strong>Announcements</strong> — anytime for deadlines, competition results, new members, or other club news.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:#475569;"><span>Keep content clear. Remember: this is read by students considering joining your club.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Agendas</strong> — submit before the meeting. Helps members plan and lets absent students know what's covered.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Recaps</strong> — submit within 2 days after a meeting. Include highlights, decisions, and action items.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Announcements</strong> — anytime for deadlines, competition results, new members, or other club news.</span></li>
+      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span>Keep content clear. Remember: this is read by students considering joining your club.</span></li>
     </ul>
   </div>
 </div>
@@ -357,7 +357,7 @@ document.getElementById("previewBtn").addEventListener("click", () => {
         </div>
       </div>
     </div>
-    <div style="font-size:.87rem;color:#475569;line-height:1.65;white-space:pre-line;">${content || "(No content)"}</div>`;
+    <div style="font-size:.87rem;color:var(--text-muted);line-height:1.65;white-space:pre-line;">${content || "(No content)"}</div>`;
 
   const box = document.getElementById("previewBox");
   box.classList.add("show");
