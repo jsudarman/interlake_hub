@@ -4,18 +4,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --primary:        #3292C9;   /* Interlake blue — buttons, borders */
-  --primary-mid:    #2478a8;   /* hover — slightly darker Interlake blue */
-  --primary-dark:   #1034A6;   /* deep blue — navbar, footer, heroes */
-  --primary-light:  #83caf2;   /* lighter Interlake blue */
-  --highlight:      #83caf2;   /* lighter blue — chips, badge fills */
-  --accent:         #83caf2;   /* same */
-  --accent-light:   #cde9f8;   /* very pale — page tints */
-  --bg:             #f4f9fd;   /* near-white page background */
+  --primary:        #3B82F6;   /* blue-500 — buttons, links, interactive */
+  --primary-mid:    #2563EB;   /* blue-600 — hover state */
+  --primary-dark:   #1E3A8A;   /* blue-900 — navbar, footer, heroes */
+  --primary-light:  #93C5FD;   /* blue-300 — light accents */
+  --highlight:      #DBEAFE;   /* blue-100 — chips, badge fills */
+  --accent:         #93C5FD;   /* blue-300 */
+  --accent-light:   #EFF6FF;   /* blue-50 — very pale tints */
+  --bg:             #F0F7FF;   /* near-white with blue tint */
   --card:           #ffffff;
   --text:           #0f172a;
   --text-muted:     #475569;
-  --border:         #a8d5f0;   /* light blue border */
+  --border:         #BFDBFE;   /* blue-200 — light border */
   --radius:         12px;
   --radius-sm:      8px;
   --shadow:         0 2px 8px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
@@ -84,22 +84,22 @@ ul { list-style: none; }
 
 .btn-primary {
   background: var(--primary);
-  color: var(--text);
+  color: #fff;
 }
-.btn-primary:hover { background: var(--primary-mid); color: var(--text); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-primary:hover { background: var(--primary-mid); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
 .btn-accent {
   background: var(--primary);
-  color: var(--text);
+  color: #fff;
 }
-.btn-accent:hover { background: var(--primary-mid); color: var(--text); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-accent:hover { background: var(--primary-mid); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
 .btn-outline {
   background: transparent;
   color: var(--primary-dark);
   border: 2px solid var(--primary);
 }
-.btn-outline:hover { background: var(--primary); color: var(--text); }
+.btn-outline:hover { background: var(--primary); color: #fff; }
 
 .btn-ghost {
   background: rgba(255,255,255,.15);
