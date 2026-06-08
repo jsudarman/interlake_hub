@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASB — Saints Station</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .asb-hero { background: var(--primary-dark); padding: 48px 0 52px; }
+    .asb-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
+    .asb-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
+
+    .asb-body { padding: 48px 0 80px; }
+    .asb-layout { display: grid; grid-template-columns: 1fr 340px; gap: 36px; align-items: start; }
+    @media (max-width: 900px) { .asb-layout { grid-template-columns: 1fr; } }
+
+    .asb-section { margin-bottom: 36px; }
+    .asb-section-title {
+      font-family: var(--font-display); text-transform: uppercase;
+      letter-spacing: .06em; font-size: 1.05rem; font-weight: 700;
+      color: var(--primary); margin-bottom: 16px;
+      padding-bottom: 10px; border-bottom: 2px solid var(--border);
+    }
+
+    /* What is ASB card */
+    .asb-info-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 28px 24px; border-left: 4px solid var(--primary); }
+    .asb-info-card p { font-size: .9rem; line-height: 1.75; color: var(--text); margin-bottom: 16px; }
+    .asb-info-card p:last-child { margin-bottom: 0; }
+    .asb-advisor-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--highlight); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .asb-advisor-icon { font-size: 1.4rem; }
+    .asb-advisor-label { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+    .asb-advisor-name { font-size: .92rem; font-weight: 600; color: var(--text); }
+
+    /* Leadership photo */
+    .asb-photo-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .asb-photo-wrap {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--highlight);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--text-muted); gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .asb-photo-wrap svg { opacity: .35; }
+    .asb-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .asb-photo-caption { padding: 12px 18px; font-size: .78rem; color: var(--text-muted); text-align: center; font-style: italic; }
+
+    /* Announcements */
+    .asb-announce-list { display: flex; flex-direction: column; gap: 0; list-style: none; }
+    .asb-announce-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 18px; background: var(--card);
+      border-radius: var(--radius-sm); margin-bottom: 8px;
+      box-shadow: var(--shadow); font-size: .9rem; color: var(--text); line-height: 1.55;
+    }
+    .asb-announce-bullet {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0; margin-top: 6px;
+    }
+
+    /* Minutes button */
+    .asb-minutes-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--primary); color: #fff;
+      padding: 13px 24px; border-radius: var(--radius-sm);
+      font-size: .92rem; font-weight: 700; text-decoration: none;
+      transition: var(--transition); width: 100%; justify-content: center;
+      box-shadow: var(--shadow);
+    }
+    .asb-minutes-btn:hover { background: var(--primary-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    /* Homecoming */
+    .asb-homecoming-card {
+      background: var(--primary); color: #fff;
+      border-radius: var(--radius); padding: 32px 28px;
+      text-align: center; box-shadow: var(--shadow-md);
+    }
+    .asb-homecoming-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; opacity: .75; margin-bottom: 10px; }
+    .asb-homecoming-title { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+    .asb-homecoming-sub { font-size: .85rem; opacity: .8; }
+
+    /* Sidebar cards */
+    .asb-sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
+    .asb-sidebar-head { background: var(--primary); padding: 14px 18px; }
+    .asb-sidebar-head-title { font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #fff; }
+    .asb-sidebar-body { padding: 18px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-icon"><img src="images/interlakelogo.jpg" alt="Interlake Hub"></div>
+      <div class="brand-text">
+        <span class="brand-name">Saints Station</span>
+        <span class="brand-sub">Interlake High School</span>
+      </div>
+    </a>
+    <nav class="navbar-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="general.html" class="nav-link">IHS General</a>
+      <a href="asb.html" class="nav-link active">ASB</a>
+      <a href="classoffice.html" class="nav-link">Class Office</a>
+      <a href="clubs.html" class="nav-link">Clubs</a>
+    </nav>
+    <div class="navbar-actions">
+      <div class="nav-search">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
+      </div>
+      <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div class="asb-hero">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:12px;">
+      <a href="index.html">Home</a><span class="sep">›</span><span>ASB</span>
+    </div>
+    <h1>Associated Student Body</h1>
+    <p>Student government representing every Interlake student — organizing events, fostering community, and being the voice of the Saints.</p>
+  </div>
+</div>
+
+<div class="asb-body">
+  <div class="container">
+    <div class="asb-layout">
+
+      <!-- ── Main column ── -->
+      <div>
+
+        <!-- What is ASB -->
+        <div class="asb-section">
+          <div class="asb-section-title">What is ASB?</div>
+          <div class="asb-info-card">
+            <p>The Associated Student Body (ASB) is the official student government of Interlake High School. Elected by the student body, ASB officers work to represent all students, plan and run school events, promote school spirit, and serve as the primary link between students and school administration.</p>
+            <p>ASB oversees major school traditions including Homecoming, Spirit Week, dances, pep assemblies, and community service initiatives. Officers meet regularly to manage the student activities budget and coordinate with clubs, classes, and staff to make Interlake the best it can be.</p>
+            <div class="asb-advisor-row">
+              <div class="asb-advisor-icon">🏫</div>
+              <div>
+                <div class="asb-advisor-label">ASB Advisor</div>
+                <div class="asb-advisor-name">Mr. VanDevanter</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leadership Photo -->
+        <div class="asb-section">
+          <div class="asb-section-title">ASB Leadership</div>
+          <div class="asb-photo-card">
+            <div class="asb-photo-wrap">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span style="font-size:.82rem;font-weight:600;">Leadership photo coming soon</span>
+            </div>
+            <div class="asb-photo-caption">ASB Leadership Team — 2025–2026</div>
+          </div>
+        </div>
+
+        <!-- ASB Announcements -->
+        <div class="asb-section">
+          <div class="asb-section-title">ASB Announcements</div>
+          <ul class="asb-announce-list">
+            <li class="asb-announce-item">
+              <span class="asb-announce-bullet"></span>
+              <span>Elections over — <strong>New ASB officers inducted!</strong> Congratulations to the incoming leadership team.</span>
+            </li>
+            <li class="asb-announce-item">
+              <span class="asb-announce-bullet"></span>
+              <span><strong>LINK Crew training has begun.</strong> New student welcome leaders are getting ready for Freshmen Orientation.</span>
+            </li>
+            <li class="asb-announce-item">
+              <span class="asb-announce-bullet"></span>
+              <span><strong>Farewell Arya &amp; Ellie!</strong> Thank you for your incredible service and leadership to Interlake ASB. We'll miss you! 🎉</span>
+            </li>
+            <li class="asb-announce-item">
+              <span class="asb-announce-bullet"></span>
+              <span><strong>Have a good summer!</strong> See everyone in the fall — stay safe and enjoy the break.</span>
+            </li>
+            <li class="asb-announce-item">
+              <span class="asb-announce-bullet"></span>
+              <span><strong>Freshmen Orientation — August 24th.</strong> Incoming freshmen, come meet your LINK Crew leaders and get the lay of the land before school starts.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Official ASB Minutes -->
+        <div class="asb-section">
+          <div class="asb-section-title">Official ASB Minutes</div>
+          <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;">
+            <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">Meeting minutes are published weekly and contain official records of ASB decisions, votes, and discussions. Links are updated each week after the meeting.</p>
+            <a href="#" class="asb-minutes-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              See Official ASB Minutes →
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <div>
+
+        <!-- Homecoming -->
+        <div class="asb-homecoming-card">
+          <div class="asb-homecoming-label">🏈 School Event</div>
+          <div class="asb-homecoming-title">Homecoming</div>
+          <div class="asb-homecoming-sub">COMING: FALL 2026</div>
+          <div style="margin-top:16px;font-size:.78rem;opacity:.65;line-height:1.55;">Date, theme, and ticket info will be announced closer to fall. Stay tuned!</div>
+        </div>
+
+        <!-- Quick facts -->
+        <div class="asb-sidebar-card">
+          <div class="asb-sidebar-head">
+            <div class="asb-sidebar-head-title">Quick Info</div>
+          </div>
+          <div class="asb-sidebar-body">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div>
+                <div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:3px;">Advisor</div>
+                <div style="font-size:.88rem;color:var(--text);">Mr. VanDevanter</div>
+              </div>
+              <div>
+                <div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:3px;">Meeting Time</div>
+                <div style="font-size:.88rem;color:var(--text);">TBD — check with Mr. VanDevanter</div>
+              </div>
+              <div>
+                <div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:3px;">Officer Portal</div>
+                <div style="font-size:.88rem;"><a href="submit.html" style="color:var(--primary);font-weight:600;">Submit updates →</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Saints Station</div>
+      <p>A central place for Interlake High School students to stay connected.</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="classoffice.html">Class Office</a>
+      <a href="general.html">IHS General</a>
+      <a href="submit.html">Officer Portal</a>
+    </div>
+  </div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim();
+    if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
+  }
+});
+</script>
+</body>
+</html>
