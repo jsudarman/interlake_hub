@@ -27,11 +27,10 @@
     .gen-section-sub { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
 
     /* Announcements */
-    .announce-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
-    .announce-item { background: transparent; padding: 13px 0; border-bottom: 1px solid var(--border); font-size: .88rem; color: var(--text); line-height: 1.6; }
-    .announce-item:last-child { border-bottom: none; }
-    .announce-meta { font-size: .69rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-    .announce-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); display: inline-block; flex-shrink: 0; }
+    .announce-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .announce-item { background: var(--card); padding: 14px 18px 14px 16px; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); box-shadow: var(--shadow); font-size: .88rem; color: var(--text); line-height: 1.6; }
+    .announce-meta { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .announce-dot { display: none; }
 
     /* Barking with Bernie */
     .bernie-card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 22px; border: 2px solid var(--border); text-decoration: none; color: var(--text); transition: var(--transition); }
@@ -120,7 +119,7 @@
     <div class="navbar-actions">
       <div class="nav-search">
         <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-        <input type="text" placeholder="Search…" autocomplete="off">
+        <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
     </div>
@@ -497,7 +496,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
 </footer>
 
 <script>
@@ -616,9 +615,9 @@ function setLang(lang) {
     const container = document.getElementById('lunchWeekTabs');
     if (!container) return;
     container.innerHTML = MENU_WEEKS.map((w, i) =>
-      '<button onclick="window._lunchSetWeek(' + i + ')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary-dark);font-size:.78rem;font-weight:600;cursor:pointer;background:' +
-      (i === activeWeek ? 'var(--primary-dark)' : 'transparent') +
-      ';color:' + (i === activeWeek ? '#fff' : 'var(--primary-dark)') + ';">' +
+      '<button onclick="window._lunchSetWeek(' + i + ')" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--primary);font-size:.78rem;font-weight:600;cursor:pointer;background:' +
+      (i === activeWeek ? 'var(--primary)' : 'transparent') +
+      ';color:' + (i === activeWeek ? '#fff' : 'var(--primary)') + ';">' +
       (lang() === 'es' ? w.labelEs : w.label) +
       '</button>'
     ).join('');
@@ -708,6 +707,13 @@ function setLang(lang) {
     renderLunchGrid();
   }
 })();
+
+document.getElementById("navSearch").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim();
+    if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
+  }
+});
 </script>
 </body>
 </html>

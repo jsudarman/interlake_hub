@@ -80,7 +80,7 @@
       <a href="submit.html">Officer Portal</a>
     </div>
   </div>
-  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:rgba(0,0,0,.2);border-top:1px solid rgba(0,0,0,.1);">Created by Nasya Sudarman</div>
+  <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
 </footer>
 
 <script src="data.js"></script>
@@ -404,10 +404,6 @@ if (!club) {
             </div>
           </div>
 
-          <div style="margin-top:20px;">
-            <a href="${submitBase}" class="btn btn-outline" style="width:100%;justify-content:center;">Update Club Page</a>
-          </div>
-
           <!-- Related clubs -->
           <div class="info-card" style="margin-top:20px;">
             <div class="info-card-header">
@@ -469,7 +465,7 @@ if (!club) {
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const q = e.target.value.trim();
-    if (q) location.href = `clubs.html?q=${encodeURIComponent(q)}`;
+    if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
   }
 });
 </script>
