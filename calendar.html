@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Activity Calendar — Saints Station</title>
   <link rel="stylesheet" href="style.css">
+  <script>(function(){var l=localStorage.getItem('ss-lang');if(l)document.documentElement.setAttribute('data-lang',l);})()</script>
   <style>
     /* ── Page Hero ─────────────────────────────────────────────────────────── */
     .cal-page-hero {
@@ -504,6 +505,10 @@
         </span>
         <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
+      <div class="navbar-lang-toggle">
+        <button class="nav-lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="nav-lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+      </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
     </div>
   </div>
@@ -515,8 +520,10 @@
     <div class="breadcrumb" style="margin-bottom:12px;">
       <a href="index.html">Home</a><span class="sep">›</span><span>Calendar</span>
     </div>
-    <h1>Calendar</h1>
-    <p>Every club event and school activity, all in one place.</p>
+    <h1 class="en-only">Calendar</h1>
+    <h1 class="es-only">Calendario</h1>
+    <p class="en-only">Every club event and school activity, all in one place.</p>
+    <p class="es-only">Cada evento de clubes y actividad escolar, todo en un lugar.</p>
   </div>
 </div>
 
@@ -534,20 +541,20 @@
             <button class="cal-full-nav" id="calPrev" title="Previous month">&#8249;</button>
             <div class="cal-full-header-center">
               <h2 class="cal-full-month-label" id="calMonthLabel"></h2>
-              <button class="cal-today-btn" id="calTodayBtn">Today</button>
+              <button class="cal-today-btn" id="calTodayBtn"><span class="en-only">Today</span><span class="es-only">Hoy</span></button>
             </div>
             <button class="cal-full-nav" id="calNext" title="Next month">&#8250;</button>
           </div>
 
           <!-- Day-of-week headers -->
           <div class="cal-full-dow-row">
-            <div class="cal-full-dow weekend">Sun</div>
-            <div class="cal-full-dow">Mon</div>
-            <div class="cal-full-dow">Tue</div>
-            <div class="cal-full-dow">Wed</div>
-            <div class="cal-full-dow">Thu</div>
-            <div class="cal-full-dow">Fri</div>
-            <div class="cal-full-dow weekend">Sat</div>
+            <div class="cal-full-dow weekend"><span class="en-only">Sun</span><span class="es-only">Dom</span></div>
+            <div class="cal-full-dow"><span class="en-only">Mon</span><span class="es-only">Lun</span></div>
+            <div class="cal-full-dow"><span class="en-only">Tue</span><span class="es-only">Mar</span></div>
+            <div class="cal-full-dow"><span class="en-only">Wed</span><span class="es-only">Mié</span></div>
+            <div class="cal-full-dow"><span class="en-only">Thu</span><span class="es-only">Jue</span></div>
+            <div class="cal-full-dow"><span class="en-only">Fri</span><span class="es-only">Vie</span></div>
+            <div class="cal-full-dow weekend"><span class="en-only">Sat</span><span class="es-only">Sáb</span></div>
           </div>
 
           <!-- Calendar grid -->
@@ -562,19 +569,19 @@
         <!-- Day Detail Panel -->
         <div class="cal-detail-card">
           <div class="cal-detail-card-header" id="calDetailHeader">
-            <div class="cal-detail-card-date">Select a date</div>
-            <div class="cal-detail-card-hint">Click any day to view events and meetings</div>
+            <div class="cal-detail-card-date"><span class="en-only">Select a date</span><span class="es-only">Selecciona una fecha</span></div>
+            <div class="cal-detail-card-hint"><span class="en-only">Click any day to view events and meetings</span><span class="es-only">Haz clic en cualquier día para ver eventos y reuniones</span></div>
           </div>
           <div class="cal-detail-card-body" id="calDetailBody">
-            <div class="cal-detail-empty">Click any date on the calendar to see events and club meetings for that day.</div>
+            <div class="cal-detail-empty"><span class="en-only">Click any date on the calendar to see events and club meetings for that day.</span><span class="es-only">Haz clic en cualquier fecha del calendario para ver eventos y reuniones de clubes.</span></div>
           </div>
         </div>
 
         <!-- Upcoming Events -->
         <div class="upcoming-card">
           <div class="upcoming-card-header">
-            <div class="upcoming-card-title">Upcoming Events</div>
-            <div class="upcoming-card-sub">Next 14 days</div>
+            <div class="upcoming-card-title"><span class="en-only">Upcoming Events</span><span class="es-only">Próximos Eventos</span></div>
+            <div class="upcoming-card-sub"><span class="en-only">Next 14 days</span><span class="es-only">Próximos 14 días</span></div>
           </div>
           <div id="upcomingList"></div>
         </div>
@@ -592,7 +599,8 @@
         <img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;">
         Saints Station
       </div>
-      <p>A central place for Interlake High School students to stay connected.</p>
+      <p class="en-only">A central place for Interlake High School students to stay connected.</p>
+      <p class="es-only">Un lugar central para que los estudiantes de Interlake se mantengan conectados.</p>
     </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
@@ -608,6 +616,21 @@
 
 <script src="data.js"></script>
 <script>
+  function setLang(lang) {
+    document.documentElement.setAttribute("data-lang", lang);
+    var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+    if (en) en.classList.toggle("active", lang === "en");
+    if (es) es.classList.toggle("active", lang === "es");
+    localStorage.setItem("ss-lang", lang);
+    if (typeof window._pageRender === "function") window._pageRender();
+  }
+  (function() {
+    var saved = localStorage.getItem("ss-lang") || "en";
+    var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+    if (en) en.classList.toggle("active", saved === "en");
+    if (es) es.classList.toggle("active", saved === "es");
+  })();
+
   // ── Constants ────────────────────────────────────────────────────────────────
   const EVENT_CAT_COLOR = {
     "clubs":          "#3b82f6",
@@ -643,6 +666,9 @@
     "July","August","September","October","November","December"
   ];
 
+  const MONTH_NAMES_ES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  const lang = () => document.documentElement.getAttribute('data-lang') || 'en';
+
   function getEventColor(cat) { return EVENT_CAT_COLOR[cat] || "#3b82f6"; }
 
   // ── State ────────────────────────────────────────────────────────────────────
@@ -661,7 +687,7 @@
 
   function renderCalendar() {
     const label = document.getElementById("calMonthLabel");
-    label.textContent = MONTH_NAMES[calMonth] + " " + calYear;
+    label.textContent = (lang()==='es' ? MONTH_NAMES_ES : MONTH_NAMES)[calMonth] + " " + calYear;
 
     const grid = document.getElementById("calFullGrid");
     const todayStr = now.toISOString().split("T")[0];
@@ -754,17 +780,18 @@
 
     // Update header
     const header = document.getElementById("calDetailHeader");
+    const isEs = lang() === 'es';
     header.innerHTML =
       '<div class="cal-detail-card-date">' + formatDate(dateStr) + '</div>' +
       '<div class="cal-detail-card-hint">' +
-        (dayEvents.length ? dayEvents.length + ' event' + (dayEvents.length > 1 ? 's' : '') : 'No events') +
-        (meetingClubs.length ? ' &nbsp;·&nbsp; ' + meetingClubs.length + ' club meeting' + (meetingClubs.length > 1 ? 's' : '') : '') +
+        (dayEvents.length ? dayEvents.length + (isEs ? ' evento' + (dayEvents.length > 1 ? 's' : '') : ' event' + (dayEvents.length > 1 ? 's' : '')) : (isEs ? 'Sin eventos' : 'No events')) +
+        (meetingClubs.length ? ' &nbsp;·&nbsp; ' + meetingClubs.length + (isEs ? ' reunión de club' + (meetingClubs.length > 1 ? 'es' : '') : ' club meeting' + (meetingClubs.length > 1 ? 's' : '')) : '') +
       '</div>';
 
     const body = document.getElementById("calDetailBody");
 
     if (!dayEvents.length && !meetingClubs.length) {
-      body.innerHTML = '<div class="cal-detail-empty">Nothing scheduled on this day.</div>';
+      body.innerHTML = '<div class="cal-detail-empty">' + (isEs ? 'Nada programado para este día.' : 'Nothing scheduled on this day.') + '</div>';
       return;
     }
 
@@ -792,7 +819,7 @@
     }
 
     if (meetingClubs.length) {
-      bodyHtml += '<div class="cal-detail-mtg-label">Club Meetings</div>';
+      bodyHtml += '<div class="cal-detail-mtg-label">' + (isEs ? 'Reuniones de Clubes' : 'Club Meetings') + '</div>';
       meetingClubs.forEach(function(c) {
         bodyHtml +=
           '<div class="cal-detail-mtg-row">' +
@@ -840,7 +867,7 @@
     const container = document.getElementById("upcomingList");
 
     if (!upcoming.length) {
-      container.innerHTML = '<div class="upcoming-empty">No upcoming events in the next 14 days.</div>';
+      container.innerHTML = '<div class="upcoming-empty">' + (lang()==='es' ? "No hay próximos eventos en los próximos 14 días." : "No upcoming events in the next 14 days.") + '</div>';
       return;
     }
 
@@ -855,7 +882,7 @@
       if (days === 0) badgeClass += " today";
       else if (days <= 5) badgeClass += " soon";
 
-      const whenLabel = days === 0 ? "Today" : days === 1 ? "Tomorrow" : "In " + days + " days";
+      const whenLabel = days === 0 ? (lang()==='es' ? "Hoy" : "Today") : days === 1 ? (lang()==='es' ? "Mañana" : "Tomorrow") : (lang()==='es' ? "En " + days + " días" : "In " + days + " days");
 
       return '<div class="upcoming-item" onclick="jumpToDate(\'' + ev.date + '\')">' +
         '<div class="' + badgeClass + '" style="background:var(--primary);">' +
@@ -888,9 +915,12 @@
   document.getElementById("navSearch").addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       const q = e.target.value.trim();
-      if (q) location.href = "clubs.html?q=" + encodeURIComponent(q);
+      if (q) location.href = "search.html?q=" + encodeURIComponent(q);
     }
   });
+
+  // ── Page render (for lang toggle) ─────────────────────────────────────────────
+  window._pageRender = function() { renderCalendar(); renderUpcoming(); };
 
   // ── Init ───────────────────────────────────────────────────────────────────────
   renderCalendar();

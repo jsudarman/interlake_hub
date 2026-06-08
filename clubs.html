@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clubs Directory — Saints Station</title>
   <link rel="stylesheet" href="style.css">
+  <script>(function(){var l=localStorage.getItem('ss-lang');if(l)document.documentElement.setAttribute('data-lang',l);})()</script>
   <style>
     .clubs-header { background: var(--primary-dark); padding: 48px 0 52px; color: var(--text); }
     .clubs-header h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
@@ -41,6 +42,10 @@
         <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
+      <div class="navbar-lang-toggle">
+        <button class="nav-lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="nav-lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+      </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
     </div>
   </div>
@@ -51,8 +56,10 @@
     <div class="breadcrumb" style="margin-bottom:12px;">
       <a href="index.html">Home</a><span class="sep">›</span><span>Clubs</span>
     </div>
-    <h1>Club Directory</h1>
-    <p>Explore all active clubs at Interlake. Filter by category, sort by day or size, or search by name.</p>
+    <h1 class="en-only">Club Directory</h1>
+    <h1 class="es-only">Directorio de Clubes</h1>
+    <p class="en-only">Explore all active clubs at Interlake. Filter by category, sort by day or size, or search by name.</p>
+    <p class="es-only">Explora todos los clubes activos en Interlake. Filtra por categoría, ordena por día o tamaño, o busca por nombre.</p>
   </div>
 </div>
 
@@ -73,11 +80,11 @@
 
     <!-- Sort by -->
     <div class="sort-bar">
-      <span class="sort-bar-label">Sort:</span>
-      <button class="sort-btn active" data-sort="default">Default</button>
-      <button class="sort-btn" data-sort="day">Day</button>
-      <button class="sort-btn" data-sort="category">Category</button>
-      <button class="sort-btn" data-sort="size">Size</button>
+      <span class="sort-bar-label"><span class="en-only">Sort:</span><span class="es-only">Ordenar:</span></span>
+      <button class="sort-btn active" data-sort="default"><span class="en-only">Default</span><span class="es-only">Por defecto</span></button>
+      <button class="sort-btn" data-sort="day"><span class="en-only">Day</span><span class="es-only">Día</span></button>
+      <button class="sort-btn" data-sort="category"><span class="en-only">Category</span><span class="es-only">Categoría</span></button>
+      <button class="sort-btn" data-sort="size"><span class="en-only">Size</span><span class="es-only">Tamaño</span></button>
     </div>
 
     <span class="results-count" id="resultsCount"></span>
@@ -94,7 +101,8 @@
   <div class="container footer-inner">
     <div>
       <div class="footer-brand" style="display:flex;align-items:center;gap:8px;"><img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;"> Saints Station</div>
-      <p>A central place for Interlake High School students to stay connected.</p>
+      <p class="en-only">A central place for Interlake High School students to stay connected.</p>
+      <p class="es-only">Un lugar central para que los estudiantes de Interlake se mantengan conectados.</p>
     </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
@@ -110,6 +118,22 @@
 
 <script src="data.js"></script>
 <script>
+function setLang(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+  if (en) en.classList.toggle("active", lang === "en");
+  if (es) es.classList.toggle("active", lang === "es");
+  localStorage.setItem("ss-lang", lang);
+  if (typeof window._pageRender === "function") window._pageRender();
+}
+(function() {
+  var saved = localStorage.getItem("ss-lang") || "en";
+  var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+  if (en) en.classList.toggle("active", saved === "en");
+  if (es) es.classList.toggle("active", saved === "es");
+})();
+
+const isEs = () => document.documentElement.getAttribute('data-lang') === 'es';
 const clubs = getClubs();
 let currentCat   = "all";
 let currentQuery = "";
@@ -218,11 +242,17 @@ function renderClubs() {
   }
   list = applySorting(list);
 
-  document.getElementById("resultsCount").textContent = `${list.length} club${list.length !== 1 ? "s" : ""}`;
+  if (isEs()) {
+    document.getElementById("resultsCount").textContent = `${list.length} club${list.length !== 1 ? "es" : ""}`;
+  } else {
+    document.getElementById("resultsCount").textContent = `${list.length} club${list.length !== 1 ? "s" : ""}`;
+  }
 
   const grid = document.getElementById("clubsGrid");
   if (!list.length) {
-    grid.innerHTML = `<div class="no-results empty-state"><div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>No clubs found</h3><p>Try a different search or category.</p></div>`;
+    const noClubs = isEs() ? "No se encontraron clubes" : "No clubs found";
+    const tryMsg = isEs() ? "Intenta con una búsqueda o categoría diferente." : "Try a different search or category.";
+    grid.innerHTML = `<div class="no-results empty-state"><div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>${noClubs}</h3><p>${tryMsg}</p></div>`;
     return;
   }
 
@@ -281,12 +311,13 @@ function makeClubCard(c) {
         <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${c.members}</span>
         <span class="club-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.meetingDays}</span>
       </div>
-      <span class="club-card-link">Details →</span>
+      <span class="club-card-link">${isEs() ? "Detalles →" : "Details →"}</span>
     </div>`;
   return el;
 }
 
 renderClubs();
+window._pageRender = function() { renderClubs(); };
 </script>
 </body>
 </html>

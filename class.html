@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Class Office — Saints Station</title>
   <link rel="stylesheet" href="style.css">
+  <script>(function(){var l=localStorage.getItem('ss-lang');if(l)document.documentElement.setAttribute('data-lang',l);})()</script>
   <style>
     /* ── Hero ── */
     .class-hero { background: var(--primary-dark); padding: 40px 0 44px; }
@@ -102,6 +103,10 @@
         <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="navSearch" placeholder="Search…" autocomplete="off">
       </div>
+      <div class="navbar-lang-toggle">
+        <button class="nav-lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="nav-lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+      </div>
       <a href="submit.html" class="btn btn-accent" style="padding:7px 14px;font-size:.82rem;">+ Officer Portal</a>
     </div>
   </div>
@@ -116,7 +121,8 @@
         <img src="images/interlakelogo.jpg" alt="Interlake Hub" style="width:22px;height:22px;">
         Saints Station
       </div>
-      <p>A central place for Interlake High School students to stay connected.</p>
+      <p class="en-only">A central place for Interlake High School students to stay connected.</p>
+      <p class="es-only">Un lugar central para que los estudiantes de Interlake se mantengan conectados.</p>
     </div>
     <div class="footer-links">
       <a href="index.html">Home</a>
@@ -132,6 +138,27 @@
 
 <script src="data.js"></script>
 <script>
+function setLang(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+  if (en) en.classList.toggle("active", lang === "en");
+  if (es) es.classList.toggle("active", lang === "es");
+  localStorage.setItem("ss-lang", lang);
+  if (typeof window._pageRender === "function") window._pageRender();
+}
+(function() {
+  var saved = localStorage.getItem("ss-lang") || "en";
+  var en = document.getElementById("btnEN"), es = document.getElementById("btnES");
+  if (en) en.classList.toggle("active", saved === "en");
+  if (es) es.classList.toggle("active", saved === "es");
+})();
+
+const lang = () => document.documentElement.getAttribute('data-lang') || 'en';
+const GRADE_LABELS = {
+  en: { "2027": "Seniors", "2028": "Juniors", "2029": "Sophomores", "2030": "Freshmen" },
+  es: { "2027": "Seniors", "2028": "Juniors", "2029": "Sophomores", "2030": "Primer Año" }
+};
+
 const CLASS_DATA = {
   "2027": {
     grade: "Seniors",
@@ -371,7 +398,7 @@ if (!data) {
           <a href="classoffice.html">Class Office</a><span class="sep">›</span>
           <span>Class of ${year}</span>
         </div>
-        <div class="grade-label">${data.grade}</div>
+        <div class="grade-label">${lang() === 'es' ? (GRADE_LABELS.es[year] || data.grade) : data.grade}</div>
         <h1>Class of ${year}</h1>
       </div>
     </div>
@@ -391,7 +418,7 @@ if (!data) {
 
       <!-- What We've Been Doing -->
       <div class="section-card">
-        <div class="section-card-title">What Class Office Has Been Doing</div>
+        <div class="section-card-title"><span class="en-only">What Class Office Has Been Doing</span><span class="es-only">Actividades Este Año</span></div>
         <div class="activity-list">${activitiesHtml}</div>
       </div>
 
@@ -399,20 +426,20 @@ if (!data) {
       <div class="section-card">
         <div class="section-card-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Upcoming Fundraisers
+          <span class="en-only">Upcoming Fundraisers</span><span class="es-only">Recaudaciones</span>
         </div>
         <div class="fundraiser-list">${fundraisersHtml}</div>
       </div>
 
       <!-- Poll -->
       <div class="section-card">
-        <div class="section-card-title">Vote on Future Fundraiser Ideas</div>
+        <div class="section-card-title"><span class="en-only">Vote on Future Fundraiser Ideas</span><span class="es-only">Vota por Ideas de Recaudación</span></div>
         <div id="pollSection">${buildPollSection()}</div>
       </div>
 
       <!-- Feedback -->
       <div class="section-card">
-        <div class="section-card-title">Feedback &amp; Suggestions</div>
+        <div class="section-card-title"><span class="en-only">Feedback &amp; Suggestions</span><span class="es-only">Comentarios y Sugerencias</span></div>
         <div id="feedbackSection">${buildFeedbackSection()}</div>
       </div>
 
@@ -420,12 +447,14 @@ if (!data) {
       <div style="text-align:center;padding:8px 0 16px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
         <a href="${data.instagram}" target="_blank" rel="noopener" class="instagram-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          Follow Class of ${year} on Instagram
+          <span class="en-only">Follow Class of ${year} on Instagram</span>
+          <span class="es-only">Seguir en Instagram</span>
         </a>
         ${(year === "2027" || year === "2028") ? `
         <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="tiktok-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.75a8.19 8.19 0 0 0 4.79 1.53V6.84a4.85 4.85 0 0 1-1.02-.15z"/></svg>
-          Follow Class of ${year} on TikTok
+          <span class="en-only">Follow Class of ${year} on TikTok</span>
+          <span class="es-only">Seguir en TikTok</span>
         </a>` : ''}
       </div>
 
@@ -495,5 +524,6 @@ document.getElementById("navSearch").addEventListener("keydown", e => {
   }
 });
 </script>
+
 </body>
 </html>
