@@ -3,17 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ASB — Saints Station</title>
+  <title>Leadership — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .asb-hero { background: var(--primary-dark); padding: 48px 0 52px; }
-    .asb-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
-    .asb-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
+    .lead-hero { background: var(--primary-dark); padding: 48px 0 0; }
+    .lead-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
+    .lead-hero p { opacity: .75; font-size: 1rem; max-width: 520px; }
 
-    .asb-body { padding: 48px 0 80px; }
+    /* Tab bar */
+    .lead-tab-bar {
+      background: var(--card); border-bottom: 2px solid var(--border);
+      position: sticky; top: 56px; z-index: 90;
+    }
+    .lead-tab-nav { display: flex; }
+    .lead-tab-btn {
+      padding: 16px 28px; font-size: .92rem; font-weight: 600;
+      color: var(--text-muted); border: none; background: none;
+      cursor: pointer; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: var(--transition);
+    }
+    .lead-tab-btn:hover { color: var(--text); }
+    .lead-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* Panels */
+    .lead-panel { display: none; padding: 48px 0 80px; }
+    .lead-panel.active { display: block; }
+
+    /* ── ASB styles ── */
     .asb-layout { display: grid; grid-template-columns: 1fr 340px; gap: 36px; align-items: start; }
     @media (max-width: 900px) { .asb-layout { grid-template-columns: 1fr; } }
-
     .asb-section { margin-bottom: 36px; }
     .asb-section-title {
       font-family: var(--font-display); text-transform: uppercase;
@@ -21,8 +39,6 @@
       color: var(--primary); margin-bottom: 16px;
       padding-bottom: 10px; border-bottom: 2px solid var(--border);
     }
-
-    /* What is ASB card */
     .asb-info-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 28px 24px; border-left: 4px solid var(--primary); }
     .asb-info-card p { font-size: .9rem; line-height: 1.75; color: var(--text); margin-bottom: 16px; }
     .asb-info-card p:last-child { margin-bottom: 0; }
@@ -30,21 +46,14 @@
     .asb-advisor-icon { font-size: 1.4rem; }
     .asb-advisor-label { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
     .asb-advisor-name { font-size: .92rem; font-weight: 600; color: var(--text); }
-
-    /* Leadership photo */
     .asb-photo-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
     .asb-photo-wrap {
-      width: 100%; aspect-ratio: 4/3;
-      background: var(--highlight);
+      width: 100%; aspect-ratio: 4/3; background: var(--highlight);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--text-muted); gap: 8px;
-      border-bottom: 1px solid var(--border);
+      color: var(--text-muted); gap: 8px; border-bottom: 1px solid var(--border);
     }
     .asb-photo-wrap svg { opacity: .35; }
-    .asb-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .asb-photo-caption { padding: 12px 18px; font-size: .78rem; color: var(--text-muted); text-align: center; font-style: italic; }
-
-    /* Announcements */
     .asb-announce-list { display: flex; flex-direction: column; gap: 0; list-style: none; }
     .asb-announce-item {
       display: flex; align-items: flex-start; gap: 12px;
@@ -52,23 +61,15 @@
       border-radius: var(--radius-sm); margin-bottom: 8px;
       box-shadow: var(--shadow); font-size: .9rem; color: var(--text); line-height: 1.55;
     }
-    .asb-announce-bullet {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--primary); flex-shrink: 0; margin-top: 6px;
-    }
-
-    /* Minutes button */
+    .asb-announce-bullet { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 6px; }
     .asb-minutes-btn {
       display: inline-flex; align-items: center; gap: 10px;
       background: var(--primary); color: #fff;
       padding: 13px 24px; border-radius: var(--radius-sm);
       font-size: .92rem; font-weight: 700; text-decoration: none;
-      transition: var(--transition); width: 100%; justify-content: center;
-      box-shadow: var(--shadow);
+      transition: var(--transition); width: 100%; justify-content: center; box-shadow: var(--shadow);
     }
     .asb-minutes-btn:hover { background: var(--primary-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-
-    /* Homecoming */
     .asb-homecoming-card {
       background: var(--primary); color: #fff;
       border-radius: var(--radius); padding: 32px 28px;
@@ -78,11 +79,20 @@
     .asb-homecoming-title { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
     .asb-homecoming-sub { font-size: .85rem; opacity: .8; }
 
-    /* Sidebar cards */
-    .asb-sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
-    .asb-sidebar-head { background: var(--primary); padding: 14px 18px; }
-    .asb-sidebar-head-title { font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #fff; }
-    .asb-sidebar-body { padding: 18px; }
+    /* ── Class Office styles ── */
+    .class-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 620px) { .class-cards-grid { grid-template-columns: 1fr; } }
+    .class-year-card {
+      display: flex; flex-direction: column; padding: 36px 32px;
+      text-decoration: none; color: var(--text);
+      border: 2px solid transparent; transition: var(--transition);
+    }
+    .class-year-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .class-year-num { font-size: 3.2rem; font-weight: 700; color: var(--primary); line-height: 1; margin-bottom: 6px; letter-spacing: -.03em; }
+    .class-year-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 14px; }
+    .class-year-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.6; flex: 1; margin-bottom: 24px; }
+    .class-year-cta { font-size: .88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; transition: var(--transition); }
+    .class-year-card:hover .class-year-cta { gap: 10px; }
   </style>
 </head>
 <body>
@@ -113,24 +123,35 @@
   </div>
 </nav>
 
-<div class="asb-hero">
-  <div class="container">
-    <div class="breadcrumb" style="margin-bottom:12px;">
-      <a href="index.html">Home</a><span class="sep">›</span><span>ASB</span>
+<div class="lead-hero">
+  <div class="container" style="padding-top:0;padding-bottom:0;">
+    <div style="padding:48px 0 20px;">
+      <div class="breadcrumb" style="margin-bottom:12px;">
+        <a href="index.html">Home</a><span class="sep">›</span><span>Leadership</span>
+      </div>
+      <h1>Leadership</h1>
+      <p>Student government and class officers — the voices representing every Interlake student.</p>
     </div>
-    <h1>Associated Student Body</h1>
-    <p>Student government representing every Interlake student — organizing events, fostering community, and being the voice of the Saints.</p>
   </div>
 </div>
 
-<div class="asb-body">
+<div class="lead-tab-bar">
+  <div class="container">
+    <nav class="lead-tab-nav">
+      <button class="lead-tab-btn active" data-tab="asb">ASB</button>
+      <button class="lead-tab-btn" data-tab="classoffice">Class Office</button>
+    </nav>
+  </div>
+</div>
+
+<!-- ── ASB Panel ── -->
+<div class="lead-panel active" id="tab-asb">
   <div class="container">
     <div class="asb-layout">
 
-      <!-- ── Main column ── -->
+      <!-- Main column -->
       <div>
 
-        <!-- What is ASB -->
         <div class="asb-section">
           <div class="asb-section-title">What is ASB?</div>
           <div class="asb-info-card">
@@ -146,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Leadership Photo -->
         <div class="asb-section">
           <div class="asb-section-title">ASB Leadership</div>
           <div class="asb-photo-card">
@@ -158,7 +178,6 @@
           </div>
         </div>
 
-        <!-- ASB Announcements -->
         <div class="asb-section">
           <div class="asb-section-title">ASB Announcements</div>
           <ul class="asb-announce-list">
@@ -185,7 +204,6 @@
           </ul>
         </div>
 
-        <!-- Official ASB Minutes -->
         <div class="asb-section">
           <div class="asb-section-title">Official ASB Minutes</div>
           <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;">
@@ -199,18 +217,53 @@
 
       </div>
 
-      <!-- ── Sidebar ── -->
+      <!-- Sidebar -->
       <div>
-
-        <!-- Homecoming -->
         <div class="asb-homecoming-card">
           <div class="asb-homecoming-label">🏈 School Event</div>
           <div class="asb-homecoming-title">Homecoming</div>
           <div class="asb-homecoming-sub">COMING: FALL 2026</div>
           <div style="margin-top:16px;font-size:.78rem;opacity:.65;line-height:1.55;">Date, theme, and ticket info will be announced closer to fall. Stay tuned!</div>
         </div>
-
       </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Class Office Panel ── -->
+<div class="lead-panel" id="tab-classoffice">
+  <div class="container">
+    <div class="class-cards-grid">
+
+      <a href="class.html?year=2027" class="card class-year-card">
+        <div class="class-year-num">2027</div>
+        <div class="class-year-label">Seniors · Class of 2027</div>
+        <div class="class-year-desc">Your senior class officers working on graduation events, senior sunrise, prom, and class fundraisers for the final stretch.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2028" class="card class-year-card">
+        <div class="class-year-num">2028</div>
+        <div class="class-year-label">Juniors · Class of 2028</div>
+        <div class="class-year-desc">Junior class officers planning prom, junior events, and building toward a memorable senior year ahead.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2029" class="card class-year-card">
+        <div class="class-year-num">2029</div>
+        <div class="class-year-label">Sophomores · Class of 2029</div>
+        <div class="class-year-desc">Sophomore class officers building class spirit, organizing activities, and setting the tone for the years ahead.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
+      <a href="class.html?year=2030" class="card class-year-card">
+        <div class="class-year-num">2030</div>
+        <div class="class-year-label">Freshmen · Class of 2030</div>
+        <div class="class-year-desc">Freshman class officers kicking off high school with fresh ideas, their first class events, and a lot of energy.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
+
     </div>
   </div>
 </div>
@@ -234,6 +287,20 @@
 
 <script src="data.js"></script>
 <script>
+const tabBtns = document.querySelectorAll(".lead-tab-btn");
+const tabPanels = document.querySelectorAll(".lead-panel");
+
+function showTab(id) {
+  tabBtns.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  tabPanels.forEach(p => p.classList.toggle("active", p.id === "tab-" + id));
+  if (history.replaceState) history.replaceState(null, "", "#" + id);
+}
+
+tabBtns.forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
+
+const hash = location.hash.replace("#", "");
+if (hash === "classoffice" || hash === "asb") showTab(hash);
+
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const q = e.target.value.trim();
