@@ -800,6 +800,114 @@ function daysUntil(dateStr) {
   return Math.round((target - today) / (1000 * 60 * 60 * 24));
 }
 
+// ── Supabase async functions ─────────────────────────────────────────────────
+// Each falls back to local DEFAULT_* data if window.sb is unavailable,
+// so every page still works without a live Supabase connection.
+
+function dbToClub(row) {
+  return {
+    id:              row.id,
+    name:            row.name,
+    category:        row.category,
+    tagline:         row.tagline         || '',
+    description:     row.description     || '',
+    advisor:         row.advisor         || '',
+    advisorEmail:    row.advisor_email   || '',
+    meetingDays:     row.meeting_days    || '',
+    meetingTime:     row.meeting_time    || '',
+    meetingLocation: row.meeting_location || '',
+    requirements:    row.requirements    || [],
+    howToJoin:       row.how_to_join     || '',
+    contactEmail:    row.contact_email   || '',
+    instagram:       row.instagram       || '',
+    members:         row.members         || 0,
+    featured:        row.featured        || false,
+    officers:        row.officers        || [],
+    nextMeeting:     row.next_meeting    || null,
+    updates:         []
+  };
+}
+
+async function getClubsAsync() {
+  if (!window.sb) return DEFAULT_CLUBS;
+  try {
+    const { data, error } = await sb.from('clubs').select('*').order('name');
+    if (error || !data || !data.length) return DEFAULT_CLUBS;
+    return data.map(dbToClub);
+  } catch (e) {
+    console.warn('[Saints Station] getClubsAsync failed, using defaults:', e);
+    return DEFAULT_CLUBS;
+  }
+}
+
+async function getClubByIdAsync(id) {
+  if (!window.sb) return DEFAULT_CLUBS.find(c => c.id === id) || null;
+  try {
+    const { data, error } = await sb.from('clubs').select('*').eq('id', id).single();
+    if (error || !data) return DEFAULT_CLUBS.find(c => c.id === id) || null;
+    return dbToClub(data);
+  } catch (e) {
+    console.warn('[Saints Station] getClubByIdAsync failed, using defaults:', e);
+    return DEFAULT_CLUBS.find(c => c.id === id) || null;
+  }
+}
+
+async function getClubUpdatesAsync(clubId) {
+  if (!window.sb) {
+    const club = DEFAULT_CLUBS.find(c => c.id === clubId);
+    return club ? (club.updates || []) : [];
+  }
+  try {
+    const { data, error } = await sb
+      .from('club_updates')
+      .select('*')
+      .eq('club_id', clubId)
+      .order('date', { ascending: false });
+    if (error) {
+      const club = DEFAULT_CLUBS.find(c => c.id === clubId);
+      return club ? (club.updates || []) : [];
+    }
+    return (data || []).map(u => ({
+      id:      u.id,
+      date:    u.date,
+      type:    u.type,
+      title:   u.title,
+      content: u.content,
+      author:  u.author || ''
+    }));
+  } catch (e) {
+    console.warn('[Saints Station] getClubUpdatesAsync failed:', e);
+    const club = DEFAULT_CLUBS.find(c => c.id === clubId);
+    return club ? (club.updates || []) : [];
+  }
+}
+
+async function addUpdateToClubAsync(clubId, update) {
+  const record = {
+    id:      'u-' + Date.now(),
+    club_id: clubId,
+    date:    update.date,
+    type:    update.type,
+    title:   update.title,
+    content: update.content,
+    author:  update.author || ''
+  };
+  if (!window.sb) return addUpdateToClub(clubId, update);
+  try {
+    const { error } = await sb.from('club_updates').insert(record);
+    if (error) {
+      console.warn('[Saints Station] Supabase insert failed, using localStorage fallback:', error);
+      return addUpdateToClub(clubId, update);
+    }
+    return true;
+  } catch (e) {
+    console.warn('[Saints Station] addUpdateToClubAsync error:', e);
+    return addUpdateToClub(clubId, update);
+  }
+}
+
+// ── End Supabase async functions ─────────────────────────────────────────────
+
 function getClubMeetingDays(club) {
   if (!club || !club.meetingDays) return [];
   const s = club.meetingDays.toLowerCase();

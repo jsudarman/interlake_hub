@@ -261,6 +261,9 @@
   <span id="toastMsg"></span>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script>
 // ── Login ──────────────────────────────────────────────────────────────────
@@ -304,18 +307,20 @@ function doSignOut() {
 });
 
 // ── Club dropdown ──────────────────────────────────────────────────────────
-const clubs = getClubs().sort((a, b) => a.name.localeCompare(b.name));
 const clubSelect = document.getElementById("clubSelect");
-clubs.forEach(c => {
-  const opt = document.createElement("option");
-  opt.value = c.id;
-  opt.textContent = c.name;
-  clubSelect.appendChild(opt);
-});
+const urlParams  = new URLSearchParams(location.search);
 
-const urlParams = new URLSearchParams(location.search);
-if (urlParams.has("club")) clubSelect.value = urlParams.get("club");
-if (urlParams.has("type")) selectType(urlParams.get("type"));
+(async () => {
+  const clubs = (await getClubsAsync()).sort((a, b) => a.name.localeCompare(b.name));
+  clubs.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.name;
+    clubSelect.appendChild(opt);
+  });
+  if (urlParams.has("club")) clubSelect.value = urlParams.get("club");
+  if (urlParams.has("type")) selectType(urlParams.get("type"));
+})();
 
 // ── Type selection ─────────────────────────────────────────────────────────
 function selectType(type) {
@@ -364,7 +369,7 @@ document.getElementById("previewBtn").addEventListener("click", () => {
 });
 
 // ── Submit ─────────────────────────────────────────────────────────────────
-document.getElementById("submitBtn").addEventListener("click", () => {
+document.getElementById("submitBtn").addEventListener("click", async () => {
   const clubId  = clubSelect.value;
   const title   = document.getElementById("updateTitle").value.trim();
   const date    = document.getElementById("updateDate").value;
@@ -380,10 +385,17 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   if (!content)         { showToast("Please enter content.", "error"); return; }
   if (content.length > 2000) { showToast("Content too long (max 2000 chars).", "error"); return; }
 
-  const ok = addUpdateToClub(clubId, {
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Saving…";
+
+  const ok = await addUpdateToClubAsync(clubId, {
     date, type, title, content,
     author: role ? `${author}, ${role}` : author
   });
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Submit Update →";
 
   if (!ok) { showToast("Error saving. Please try again.", "error"); return; }
 
