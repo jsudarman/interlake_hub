@@ -9,5 +9,5 @@
 //   SUPABASE_ANON_KEY — your anon/public key (Settings → API → anon public)
 // ─────────────────────────────────────────────────────────────────────────────
 
-var SUPABASE_URL      = 'https://YOUR_PROJECT_REF.supabase.co';
-var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+var SUPABASE_URL      = 'https://gyjxiekujfmstzxkgcmh.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5anhpZWt1amZtc3R6eGtnY21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NjEwODEsImV4cCI6MjEwMjMzNzA4MX0.4B83qEoKqS5A0mIeQuSiZ1Tp9QJCEjkCJmWCdRd5_r8';
