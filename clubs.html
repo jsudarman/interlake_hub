@@ -106,9 +106,12 @@
   <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script>
-const clubs = getClubs();
+let clubs        = [];
 let currentCat   = "all";
 let currentQuery = "";
 let currentSort  = "default";
@@ -136,17 +139,25 @@ function getPrimaryDay(club) {
   return 9;
 }
 
-// Build filter pills
+// Build filter pills (counts updated after async load)
 const filterBar = document.getElementById("filterBar");
 CATEGORIES.forEach(cat => {
   const pill = document.createElement("button");
   pill.className = "filter-pill" + (cat.id === currentCat ? " active" : "");
   if (cat.id === currentCat) pill.style.background = cat.color;
   pill.dataset.cat = cat.id;
-  const count = cat.id === "all" ? clubs.length : clubs.filter(c => c.category === cat.id).length;
-  pill.innerHTML = `${cat.label} <span class="count-chip" style="${cat.id===currentCat?'background:rgba(255,255,255,.25);color:#fff;':''}"> ${count}</span>`;
+  pill.innerHTML = `${cat.label} <span class="count-chip" style="${cat.id===currentCat?'background:rgba(255,255,255,.25);color:#fff;':''}"> –</span>`;
   filterBar.appendChild(pill);
 });
+
+function updatePillCounts() {
+  document.querySelectorAll(".filter-pill").forEach(pill => {
+    const catId = pill.dataset.cat;
+    const count = catId === "all" ? clubs.length : clubs.filter(c => c.category === catId).length;
+    const chip = pill.querySelector(".count-chip");
+    if (chip) chip.textContent = " " + count;
+  });
+}
 
 filterBar.addEventListener("click", e => {
   const pill = e.target.closest(".filter-pill");
@@ -284,7 +295,15 @@ function makeClubCard(c) {
   return el;
 }
 
-renderClubs();
+// Load clubs from Supabase (or fall back to defaults), then render
+(async () => {
+  document.getElementById("clubsGrid").innerHTML =
+    '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--text-muted);">Loading clubs…</div>';
+  clubs = await getClubsAsync();
+  updatePillCounts();
+  if (currentQuery) searchInput.value = currentQuery;
+  renderClubs();
+})();
 </script>
 </body>
 </html>

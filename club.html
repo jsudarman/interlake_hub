@@ -82,13 +82,25 @@
   <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script>
 
-const params = new URLSearchParams(location.search);
-const clubId = params.get("id");
-const club   = clubId ? getClubById(clubId) : null;
+const params  = new URLSearchParams(location.search);
+const clubId  = params.get("id");
 const content = document.getElementById("pageContent");
+
+// Show loading skeleton while Supabase fetches
+content.innerHTML = '<div style="padding:80px 24px;text-align:center;color:var(--text-muted);">Loading…</div>';
+
+(async () => {
+const [club, allUpdates, allClubs] = await Promise.all([
+  getClubByIdAsync(clubId),
+  getClubUpdatesAsync(clubId),
+  getClubsAsync()
+]);
 
 if (!club) {
   content.innerHTML = `
@@ -98,12 +110,14 @@ if (!club) {
       <p style="color:var(--text-muted);margin-bottom:24px;">We couldn't find that club.</p>
       <a href="clubs.html" class="btn btn-primary">Browse All Clubs</a>
     </div>`;
-} else {
+  return;
+}
+
+{
   const color  = getCategoryColor(club.category);
-  const all    = club.updates || [];
-  const agendas = all.filter(u => u.type === "agenda");
-  const recaps  = all.filter(u => u.type === "recap");
-  const announcements = all.filter(u => u.type === "announcement");
+  const agendas = allUpdates.filter(u => u.type === "agenda");
+  const recaps  = allUpdates.filter(u => u.type === "recap");
+  const announcements = allUpdates.filter(u => u.type === "announcement");
   const officers = club.officers || [];
   const agendaItems = (club.nextMeeting && club.nextMeeting.items) || [];
 
@@ -159,7 +173,7 @@ if (!club) {
   const latestRecap = recaps[0] || null;
 
   // Upcoming events relevant to this club (category match or name mention)
-  const allEvents = getEvents();
+  const allEvents = getEvents(); // sync fallback is fine for events (read-only)
   const nameLower = club.name.toLowerCase();
   const relevantEvents = allEvents
     .filter(ev => daysUntil(ev.date) >= 0 && (
@@ -434,9 +448,8 @@ if (!club) {
     });
   }
 
-  // Related clubs
-  const allClubs = getClubs();
-  const related  = allClubs.filter(c => c.category === club.category && c.id !== club.id).slice(0, 4);
+  // Related clubs (allClubs already fetched above)
+  const related = allClubs.filter(c => c.category === club.category && c.id !== club.id).slice(0, 4);
   const relEl    = document.getElementById("relatedClubs");
   if (related.length) {
     relEl.innerHTML = related.map(c => `
@@ -460,6 +473,8 @@ if (!club) {
     if (tabLink) tabLink.click();
   }
 }
+
+}) (); // end async IIFE
 
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
