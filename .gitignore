@@ -1,0 +1,11 @@
+# Supabase / local config — never commit real credentials
+config.js
+.env.local
+.env
+.env*.local
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

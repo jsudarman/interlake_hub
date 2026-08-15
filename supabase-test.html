@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supabase Connection Test — Saints Station</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 40px 24px; max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .subtitle { color: var(--text-muted); font-size: .88rem; margin-bottom: 40px; }
+
+    .test-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 24px; }
+    .test-card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .test-card-header h2 { font-size: .95rem; font-weight: 700; flex: 1; }
+    .test-card-body { padding: 20px; }
+
+    .status-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .status-row:last-child { border-bottom: none; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-pending  { background: #94a3b8; }
+    .dot-ok       { background: #10b981; }
+    .dot-warn     { background: #f59e0b; }
+    .dot-error    { background: #ef4444; }
+    .status-label { font-size: .88rem; font-weight: 600; flex: 1; }
+    .status-detail { font-size: .78rem; color: var(--text-muted); }
+
+    .result-box { background: #0f172a; color: #e2e8f0; border-radius: var(--radius-sm); padding: 16px; font-family: monospace; font-size: .8rem; line-height: 1.6; overflow-x: auto; white-space: pre-wrap; word-break: break-all; margin-top: 16px; }
+    .result-ok    { border-left: 3px solid #10b981; }
+    .result-warn  { border-left: 3px solid #f59e0b; }
+    .result-error { border-left: 3px solid #ef4444; }
+
+    .btn-run { margin-top: 16px; }
+    .setup-steps { font-size: .85rem; line-height: 1.8; color: var(--text-muted); }
+    .setup-steps code { background: var(--highlight); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: .8rem; color: var(--primary); }
+    .back-link { font-size: .85rem; color: var(--primary); margin-bottom: 24px; display: inline-block; }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Back to Saints Station</a>
+
+<h1>Supabase Connection Test</h1>
+<p class="subtitle">Verifies that config.js is loaded and the Supabase client can reach your project.</p>
+
+<!-- Status checks -->
+<div class="test-card">
+  <div class="test-card-header">
+    <h2>Pre-flight Checks</h2>
+  </div>
+  <div class="test-card-body" id="preflightBody">
+    <div class="status-row">
+      <div class="status-dot dot-pending" id="dot-cdn"></div>
+      <div class="status-label">supabase-js CDN loaded</div>
+      <div class="status-detail" id="detail-cdn">checking…</div>
+    </div>
+    <div class="status-row">
+      <div class="status-dot dot-pending" id="dot-config"></div>
+      <div class="status-label">config.js loaded</div>
+      <div class="status-detail" id="detail-config">checking…</div>
+    </div>
+    <div class="status-row">
+      <div class="status-dot dot-pending" id="dot-placeholders"></div>
+      <div class="status-label">Credentials filled in (not placeholders)</div>
+      <div class="status-detail" id="detail-placeholders">checking…</div>
+    </div>
+    <div class="status-row">
+      <div class="status-dot dot-pending" id="dot-client"></div>
+      <div class="status-label">Supabase client created (window.sb)</div>
+      <div class="status-detail" id="detail-client">checking…</div>
+    </div>
+  </div>
+</div>
+
+<!-- Live query test -->
+<div class="test-card">
+  <div class="test-card-header">
+    <h2>Live Query Test</h2>
+  </div>
+  <div class="test-card-body">
+    <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:0;">
+      Runs <code style="font-size:.78rem;">sb.from('club_updates').select('*').limit(1)</code>
+      against your Supabase project. A "table not found" error still means the
+      connection works — you just need to run the schema SQL first.
+    </p>
+    <button class="btn btn-primary btn-run" id="runTestBtn" onclick="runLiveTest()" disabled>
+      Run Live Test →
+    </button>
+    <div class="result-box" id="resultBox" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- Setup instructions -->
+<div class="test-card">
+  <div class="test-card-header">
+    <h2>Setup Checklist</h2>
+  </div>
+  <div class="test-card-body setup-steps">
+    <ol style="padding-left:18px;margin:0;display:flex;flex-direction:column;gap:10px;">
+      <li>Copy <code>config.example.js</code> → <code>config.js</code> in the project root.</li>
+      <li>Open <code>config.js</code> and replace the placeholders:<br>
+        &nbsp;&nbsp;<code>SUPABASE_URL</code> — your Project URL (Supabase dashboard → Settings → API)<br>
+        &nbsp;&nbsp;<code>SUPABASE_ANON_KEY</code> — your <em>anon public</em> key (same page)
+      </li>
+      <li>Reload this page — all four pre-flight checks should turn green.</li>
+      <li>Click <strong>Run Live Test</strong>. A "table not found" error is fine for now; it confirms the connection works.</li>
+      <li>Run the schema SQL in <strong>Supabase → SQL Editor</strong> to create the <code>club_updates</code> and <code>events</code> tables.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- CDN + config + client scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+// ── Pre-flight checks ───────────────────────────────────────────────────────
+function setDot(id, state, detail) {
+  const dot    = document.getElementById('dot-' + id);
+  const detEl  = document.getElementById('detail-' + id);
+  dot.className = 'status-dot dot-' + state;
+  if (detEl && detail) detEl.textContent = detail;
+}
+
+function runPreflight() {
+  // 1. CDN
+  const cdnOk = typeof supabase !== 'undefined' && typeof supabase.createClient === 'function';
+  setDot('cdn', cdnOk ? 'ok' : 'error',
+    cdnOk ? 'supabase.createClient available' : 'supabase global not found — CDN failed to load');
+
+  // 2. config.js
+  const configOk = typeof SUPABASE_URL !== 'undefined' && typeof SUPABASE_ANON_KEY !== 'undefined';
+  setDot('config', configOk ? 'ok' : 'error',
+    configOk ? 'SUPABASE_URL and SUPABASE_ANON_KEY defined' : 'Variables not found — copy config.example.js → config.js');
+
+  // 3. Placeholders replaced
+  let placeholderOk = false;
+  if (configOk) {
+    placeholderOk = !SUPABASE_URL.includes('YOUR_PROJECT_REF') &&
+                    !SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY');
+  }
+  setDot('placeholders', placeholderOk ? 'ok' : 'warn',
+    placeholderOk ? 'Real credentials detected' : 'Still using placeholder values — fill in config.js');
+
+  // 4. Client created
+  const clientOk = window.sb !== null && window.sb !== undefined;
+  setDot('client', clientOk ? 'ok' : 'error',
+    clientOk ? 'window.sb ready' : 'Client not created — fix errors above first');
+
+  // Enable live test button only when client is ready
+  document.getElementById('runTestBtn').disabled = !clientOk;
+}
+
+// ── Live query test ─────────────────────────────────────────────────────────
+async function runLiveTest() {
+  const btn = document.getElementById('runTestBtn');
+  const box = document.getElementById('resultBox');
+  btn.disabled = true;
+  btn.textContent = 'Running…';
+  box.style.display = 'block';
+  box.className = 'result-box';
+  box.textContent = 'Connecting to Supabase…';
+
+  try {
+    const { data, error } = await sb.from('club_updates').select('*').limit(1);
+
+    if (error) {
+      if (error.code === '42P01') {
+        // Table does not exist — connection works, schema not yet created
+        box.className = 'result-box result-warn';
+        box.textContent =
+          '⚠  Connection succeeded but table "club_updates" does not exist yet.\n\n' +
+          'This is expected before running the schema SQL.\n\n' +
+          'Error details:\n' + JSON.stringify(error, null, 2);
+      } else {
+        box.className = 'result-box result-error';
+        box.textContent =
+          '✕  Query returned an error:\n\n' + JSON.stringify(error, null, 2);
+      }
+    } else {
+      box.className = 'result-box result-ok';
+      box.textContent =
+        '✓  Connected successfully!\n\n' +
+        'Rows returned: ' + (data ? data.length : 0) + '\n\n' +
+        'Response:\n' + JSON.stringify(data, null, 2);
+    }
+  } catch (err) {
+    box.className = 'result-box result-error';
+    box.textContent =
+      '✕  Network or client error:\n\n' + (err.message || String(err)) + '\n\n' +
+      'Check that SUPABASE_URL in config.js is correct and your network can reach Supabase.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Run Live Test →';
+}
+
+// Run preflight on load
+runPreflight();
+</script>
+</body>
+</html>
