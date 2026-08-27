@@ -49,9 +49,8 @@
 
     /* ── Officer photo grid ── */
     .asb-officers-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
     }
-    @media (max-width: 680px) { .asb-officers-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 420px) { .asb-officers-grid { grid-template-columns: repeat(3, 1fr); } }
     .class-officers-grid {
       display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
@@ -178,7 +177,8 @@
 
     /* ── Class Office ── */
     .class-office-layout { display: flex; flex-direction: column; gap: 28px; }
-    .class-section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .class-section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: var(--transition); }
+    .class-section:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
     .class-section-header {
       display: flex; align-items: center; gap: 16px;
       padding: 18px 24px; border-bottom: 1px solid var(--border);
@@ -756,6 +756,12 @@ document.querySelectorAll(".asb-announce-block > ul > li").forEach(li => {
   chev.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
   li.appendChild(chev);
   li.addEventListener("click", () => li.classList.toggle("open"));
+});
+
+// Make entire class section card clickable
+document.querySelectorAll(".class-section").forEach(card => {
+  const link = card.querySelector(".class-section-link");
+  if (link) card.addEventListener("click", () => location.href = link.href);
 });
 
 document.getElementById("navSearch").addEventListener("keydown", e => {
