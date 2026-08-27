@@ -112,16 +112,24 @@
     .asb-announce-block > ul > li {
       display: flex; gap: 12px; padding: 12px 18px;
       border-bottom: 1px solid var(--border); align-items: flex-start;
+      cursor: pointer; user-select: none; transition: var(--transition);
     }
+    .asb-announce-block > ul > li:hover { background: var(--highlight); }
     .asb-announce-block > ul > li:last-child { border-bottom: none; }
     .asb-announce-dot {
       width: 7px; height: 7px; border-radius: 50%;
       background: var(--primary); flex-shrink: 0; margin-top: 5px;
     }
     .asb-announce-main { font-size: .88rem; font-weight: 700; color: var(--text); display: block; line-height: 1.45; }
-    .asb-announce-sub { list-style: none; padding: 5px 0 1px; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+    .asb-announce-sub { list-style: none; padding: 5px 0 1px; margin: 0; display: none; flex-direction: column; gap: 3px; }
     .asb-announce-sub li { font-size: .8rem; color: var(--text-muted); padding-left: 14px; position: relative; line-height: 1.5; }
     .asb-announce-sub li::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); font-weight: 600; }
+    .asb-announce-block > ul > li.open .asb-announce-sub { display: flex; }
+    .asb-announce-chevron {
+      flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center;
+      justify-content: center; color: var(--text-muted); transition: transform .2s; margin-top: 2px;
+    }
+    .asb-announce-block > ul > li.open .asb-announce-chevron { transform: rotate(180deg); }
 
     /* ── Minutes button ── */
     .asb-minutes-btn {
@@ -248,7 +256,7 @@
 
         <!-- 1. Leadership Photos -->
         <div class="asb-section">
-          <div class="asb-section-title">Leadership — 2025–2026</div>
+          <div class="asb-section-title">ASB Co-Presidents 2026–2027</div>
           <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;">
             <div class="asb-officers-grid">
 
@@ -652,6 +660,7 @@
 <!-- ── Class Office Panel ── -->
 <div class="lead-panel" id="tab-classoffice">
   <div class="container">
+    <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 900; color: var(--primary); letter-spacing: -.04em; line-height: .9; margin-bottom: 32px; padding-top: 8px;">Class Office</div>
     <div class="class-office-layout">
 
       <!-- Class of 2027 — Seniors -->
@@ -662,35 +671,6 @@
             <div class="class-section-grade">Seniors</div>
           </div>
           <a href="class.html?year=2027" class="class-section-link">View class page →</a>
-        </div>
-        <div class="class-section-body">
-          <div class="class-officers-grid">
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Emily Zhang</div>
-              <div class="asb-officer-role">President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Marcus Rivera</div>
-              <div class="asb-officer-role">Vice President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Sofia Patel</div>
-              <div class="asb-officer-role">Secretary</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Noah Kim</div>
-              <div class="asb-officer-role">Treasurer</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Ava Johnson</div>
-              <div class="asb-officer-role">Events Chair</div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -703,35 +683,6 @@
           </div>
           <a href="class.html?year=2028" class="class-section-link">View class page →</a>
         </div>
-        <div class="class-section-body">
-          <div class="class-officers-grid">
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Jordan Lee</div>
-              <div class="asb-officer-role">President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Isabella Torres</div>
-              <div class="asb-officer-role">Vice President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Ryan Nakamura</div>
-              <div class="asb-officer-role">Secretary</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Priya Menon</div>
-              <div class="asb-officer-role">Treasurer</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Caleb Thompson</div>
-              <div class="asb-officer-role">Events Chair</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Class of 2029 — Sophomores -->
@@ -743,35 +694,6 @@
           </div>
           <a href="class.html?year=2029" class="class-section-link">View class page →</a>
         </div>
-        <div class="class-section-body">
-          <div class="class-officers-grid">
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Mia Chen</div>
-              <div class="asb-officer-role">President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Ethan Brooks</div>
-              <div class="asb-officer-role">Vice President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Lily Osei</div>
-              <div class="asb-officer-role">Secretary</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Daniel Park</div>
-              <div class="asb-officer-role">Treasurer</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Grace Hoffman</div>
-              <div class="asb-officer-role">Events Chair</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Class of 2030 — Freshmen -->
@@ -782,35 +704,6 @@
             <div class="class-section-grade">Freshmen</div>
           </div>
           <a href="class.html?year=2030" class="class-section-link">View class page →</a>
-        </div>
-        <div class="class-section-body">
-          <div class="class-officers-grid">
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Aiden Walsh</div>
-              <div class="asb-officer-role">President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Chloe Singh</div>
-              <div class="asb-officer-role">Vice President</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Mason Reed</div>
-              <div class="asb-officer-role">Secretary</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Zoe Martinez</div>
-              <div class="asb-officer-role">Treasurer</div>
-            </div>
-            <div class="asb-officer-spot">
-              <div class="asb-officer-photo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="asb-officer-name">Liam Okoro</div>
-              <div class="asb-officer-role">Events Chair</div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -854,6 +747,15 @@ if (hash === "classoffice" || hash === "asb") showTab(hash);
 // Expandable events
 document.querySelectorAll(".asb-event-item").forEach(item => {
   item.addEventListener("click", () => item.classList.toggle("open"));
+});
+
+// Expandable announcements — inject chevron and wire toggle
+document.querySelectorAll(".asb-announce-block > ul > li").forEach(li => {
+  const chev = document.createElement("div");
+  chev.className = "asb-announce-chevron";
+  chev.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+  li.appendChild(chev);
+  li.addEventListener("click", () => li.classList.toggle("open"));
 });
 
 document.getElementById("navSearch").addEventListener("keydown", e => {

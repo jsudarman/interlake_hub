@@ -50,16 +50,24 @@
     .asb-announce-block > ul > li {
       display: flex; gap: 12px; padding: 12px 18px;
       border-bottom: 1px solid var(--border); align-items: flex-start;
+      cursor: pointer; user-select: none; transition: background .15s;
     }
+    .asb-announce-block > ul > li:hover { background: var(--highlight); }
     .asb-announce-block > ul > li:last-child { border-bottom: none; }
     .asb-announce-dot {
       width: 7px; height: 7px; border-radius: 50%;
       background: var(--primary); flex-shrink: 0; margin-top: 5px;
     }
     .asb-announce-main { font-size: .88rem; font-weight: 700; color: var(--text); display: block; line-height: 1.45; }
-    .asb-announce-sub { list-style: none; padding: 5px 0 1px; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+    .asb-announce-sub { list-style: none; padding: 5px 0 1px; margin: 0; display: none; flex-direction: column; gap: 3px; }
     .asb-announce-sub li { font-size: .8rem; color: var(--text-muted); padding-left: 14px; position: relative; line-height: 1.5; }
     .asb-announce-sub li::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); font-weight: 600; }
+    .asb-announce-block > ul > li.open .asb-announce-sub { display: flex; }
+    .asb-announce-chevron {
+      flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center;
+      justify-content: center; color: var(--text-muted); transition: transform .2s; margin-top: 2px;
+    }
+    .asb-announce-block > ul > li.open .asb-announce-chevron { transform: rotate(180deg); }
 
     /* ── Fundraiser list ── */
     .fundraiser-list { display: flex; flex-direction: column; gap: 14px; }
@@ -441,12 +449,6 @@ if (!data) {
         </div>
       </div>
 
-      <!-- Announcements -->
-      <div>
-        <div style="font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--border);">Announcements</div>
-        ${announcementsHtml}
-      </div>
-
       <!-- Upcoming Fundraisers -->
       <div class="section-card">
         <div class="section-card-title">
@@ -454,6 +456,12 @@ if (!data) {
           Upcoming Fundraisers
         </div>
         <div class="fundraiser-list">${fundraisersHtml}</div>
+      </div>
+
+      <!-- Announcements -->
+      <div>
+        <div style="font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--border);">Announcements</div>
+        ${announcementsHtml}
       </div>
 
       <!-- Social -->
@@ -477,6 +485,15 @@ document.getElementById("navSearch").addEventListener("keydown", e => {
     const q = e.target.value.trim();
     if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
   }
+});
+
+// Expandable announcements — inject chevron and wire toggle
+document.querySelectorAll(".asb-announce-block > ul > li").forEach(li => {
+  const chev = document.createElement("div");
+  chev.className = "asb-announce-chevron";
+  chev.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+  li.appendChild(chev);
+  li.addEventListener("click", () => li.classList.toggle("open"));
 });
 </script>
 </body>
