@@ -13,7 +13,7 @@
     /* Tab bar */
     .lead-tab-bar {
       background: var(--card); border-bottom: 2px solid var(--border);
-      position: sticky; top: 56px; z-index: 90;
+      position: sticky; top: 64px; z-index: 90;
     }
     .lead-tab-nav { display: flex; }
     .lead-tab-btn {
@@ -26,42 +26,81 @@
     .lead-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
 
     /* Panels */
-    .lead-panel { display: none; padding: 48px 0 80px; }
+    .lead-panel { display: none; padding: 40px 0 80px; }
     .lead-panel.active { display: block; }
 
-    /* ── ASB styles ── */
-    .asb-layout { display: grid; grid-template-columns: 1fr 340px; gap: 36px; align-items: start; }
+    /* ── ASB layout ── */
+    .asb-layout { display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: start; }
     @media (max-width: 900px) { .asb-layout { grid-template-columns: 1fr; } }
-    .asb-section { margin-bottom: 36px; }
+    .asb-section { margin-bottom: 32px; }
     .asb-section-title {
       font-family: var(--font-display); text-transform: uppercase;
-      letter-spacing: .06em; font-size: 1.05rem; font-weight: 700;
-      color: var(--primary); margin-bottom: 16px;
-      padding-bottom: 10px; border-bottom: 2px solid var(--border);
+      letter-spacing: .07em; font-size: .92rem; font-weight: 800;
+      color: var(--primary); margin-bottom: 14px;
+      padding-bottom: 9px; border-bottom: 2px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
     }
-    .asb-info-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 28px 24px; border-left: 4px solid var(--primary); }
-    .asb-info-card p { font-size: .9rem; line-height: 1.75; color: var(--text); margin-bottom: 16px; }
-    .asb-info-card p:last-child { margin-bottom: 0; }
-    .asb-advisor-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--highlight); border-radius: var(--radius-sm); border: 1px solid var(--border); }
-    .asb-advisor-icon { font-size: 1.4rem; }
-    .asb-advisor-label { font-size: .69rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
-    .asb-advisor-name { font-size: .92rem; font-weight: 600; color: var(--text); }
-    .asb-photo-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-    .asb-photo-wrap {
-      width: 100%; aspect-ratio: 4/3; background: var(--highlight);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--text-muted); gap: 8px; border-bottom: 1px solid var(--border);
+
+    /* ── 7-officer photo grid ── */
+    .asb-officers-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
     }
-    .asb-photo-wrap svg { opacity: .35; }
-    .asb-photo-caption { padding: 12px 18px; font-size: .78rem; color: var(--text-muted); text-align: center; font-style: italic; }
-    .asb-announce-list { display: flex; flex-direction: column; gap: 0; list-style: none; }
-    .asb-announce-item {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 12px 18px; background: var(--card);
-      border-radius: var(--radius-sm); margin-bottom: 8px;
-      box-shadow: var(--shadow); font-size: .9rem; color: var(--text); line-height: 1.55;
+    @media (max-width: 680px) { .asb-officers-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 420px) { .asb-officers-grid { grid-template-columns: repeat(3, 1fr); } }
+    .asb-officer-spot { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px; }
+    .asb-officer-photo {
+      width: 100%; aspect-ratio: 1; border-radius: var(--radius-sm);
+      background: var(--highlight); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; color: var(--text-muted);
     }
-    .asb-announce-bullet { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 6px; }
+    .asb-officer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .asb-officer-name { font-size: .72rem; font-weight: 700; color: var(--text); line-height: 1.25; }
+    .asb-officer-role { font-size: .64rem; color: var(--text-muted); line-height: 1.25; }
+
+    /* ── Upcoming events ── */
+    .asb-events-list { display: flex; flex-direction: column; gap: 8px; }
+    .asb-event-item {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card); border-radius: var(--radius-sm);
+      box-shadow: var(--shadow); border-left: 4px solid var(--primary);
+      padding: 14px 18px; transition: var(--transition);
+    }
+    .asb-event-item:hover { transform: translateX(3px); box-shadow: var(--shadow-md); }
+    .asb-event-date {
+      display: flex; flex-direction: column; align-items: center;
+      width: 46px; flex-shrink: 0;
+    }
+    .asb-event-month { font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--primary); }
+    .asb-event-day { font-size: 1.7rem; font-weight: 800; color: var(--primary); line-height: 1; }
+    .asb-event-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+    .asb-event-name { font-size: .93rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .asb-event-sub { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── Announcement blocks ── */
+    .asb-announce-block {
+      background: var(--card); border-radius: var(--radius-sm);
+      box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px;
+    }
+    .asb-announce-block-header {
+      background: var(--primary); color: #fff;
+      padding: 10px 18px; font-size: .82rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .07em;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .asb-announce-block ul { list-style: none; padding: 0; margin: 0; }
+    .asb-announce-block li {
+      display: flex; gap: 12px; padding: 11px 18px;
+      border-bottom: 1px solid var(--border); font-size: .88rem;
+      color: var(--text); line-height: 1.55; align-items: flex-start;
+    }
+    .asb-announce-block li:last-child { border-bottom: none; }
+    .asb-announce-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0; margin-top: 6px;
+    }
+
+    /* ── Minutes button ── */
     .asb-minutes-btn {
       display: inline-flex; align-items: center; gap: 10px;
       background: var(--primary); color: #fff;
@@ -70,14 +109,41 @@
       transition: var(--transition); width: 100%; justify-content: center; box-shadow: var(--shadow);
     }
     .asb-minutes-btn:hover { background: var(--primary-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-    .asb-homecoming-card {
-      background: var(--primary); color: #fff;
-      border-radius: var(--radius); padding: 32px 28px;
-      text-align: center; box-shadow: var(--shadow-md);
+
+    /* ── Sidebar cards ── */
+    .asb-sidebar-card {
+      background: var(--card); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 20px 22px 18px; margin-bottom: 18px;
     }
-    .asb-homecoming-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; opacity: .75; margin-bottom: 10px; }
-    .asb-homecoming-title { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
-    .asb-homecoming-sub { font-size: .85rem; opacity: .8; }
+    .asb-sidebar-title {
+      font-size: .7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--primary); margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .asb-sidebar-card p { font-size: .86rem; line-height: 1.7; color: var(--text); margin-bottom: 10px; }
+    .asb-sidebar-card p:last-child { margin-bottom: 0; }
+    .asb-advisor-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 13px;
+      background: var(--highlight); border-radius: var(--radius-sm);
+      border: 1px solid var(--border); margin-top: 12px;
+    }
+    .asb-advisor-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+    .asb-advisor-name { font-size: .88rem; font-weight: 600; color: var(--text); }
+    .asb-ig-btn {
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 12px 20px; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      color: #fff; font-weight: 700; font-size: .88rem;
+      text-decoration: none; text-align: center; transition: var(--transition);
+      box-shadow: var(--shadow); width: 100%; margin-bottom: 18px;
+    }
+    .asb-ig-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .asb-contact-list { display: flex; flex-direction: column; gap: 11px; }
+    .asb-contact-item { display: flex; flex-direction: column; gap: 2px; }
+    .asb-contact-label { font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+    .asb-contact-value { font-size: .84rem; font-weight: 600; }
+    .asb-contact-value a { color: var(--primary); text-decoration: none; }
+    .asb-contact-value a:hover { text-decoration: underline; }
 
     /* ── Class Office styles ── */
     .class-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -149,65 +215,188 @@
   <div class="container">
     <div class="asb-layout">
 
-      <!-- Main column -->
+      <!-- ── Main column ── -->
       <div>
 
+        <!-- 1. ASB Leadership Photos -->
         <div class="asb-section">
-          <div class="asb-section-title">What is ASB?</div>
-          <div class="asb-info-card">
-            <p>The Associated Student Body (ASB) is the official student government of Interlake High School. Elected by the student body, ASB officers work to represent all students, plan and run school events, promote school spirit, and serve as the primary link between students and school administration.</p>
-            <p>ASB oversees major school traditions including Homecoming, Spirit Week, dances, pep assemblies, and community service initiatives. Officers meet regularly to manage the student activities budget and coordinate with clubs, classes, and staff to make Interlake the best it can be.</p>
-            <div class="asb-advisor-row">
-              <div class="asb-advisor-icon">🏫</div>
+          <div class="asb-section-title">🎓 ASB Leadership — 2025–2026</div>
+          <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;">
+            <div class="asb-officers-grid">
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">President</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">Exec Vice President</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">VP of Communications</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">VP of Community Relations</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">Secretary</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">Treasurer</div>
+              </div>
+
+              <div class="asb-officer-spot">
+                <div class="asb-officer-photo">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="asb-officer-name">Name</div>
+                <div class="asb-officer-role">Historian</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Upcoming Events -->
+        <div class="asb-section">
+          <div class="asb-section-title">📅 Upcoming Events</div>
+          <div class="asb-events-list">
+
+            <div class="asb-event-item">
+              <div class="asb-event-date">
+                <span class="asb-event-month">SEP</span>
+                <span class="asb-event-day">2</span>
+              </div>
+              <div class="asb-event-divider"></div>
               <div>
-                <div class="asb-advisor-label">ASB Advisor</div>
-                <div class="asb-advisor-name">Mr. VanDevanter</div>
+                <div class="asb-event-name">First Day of School</div>
+                <div class="asb-event-sub">Tuesday · Welcome back, Saints!</div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="asb-section">
-          <div class="asb-section-title">ASB Leadership</div>
-          <div class="asb-photo-card">
-            <div class="asb-photo-wrap">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span style="font-size:.82rem;font-weight:600;">Leadership photo coming soon</span>
+            <div class="asb-event-item">
+              <div class="asb-event-date">
+                <span class="asb-event-month">SEP</span>
+                <span class="asb-event-day">4</span>
+              </div>
+              <div class="asb-event-divider"></div>
+              <div>
+                <div class="asb-event-name">Welcoming Back Assembly + Crossroads Cup</div>
+                <div class="asb-event-sub">Thursday · Main Gym · Show up in your grade color!</div>
+              </div>
             </div>
-            <div class="asb-photo-caption">ASB Leadership Team — 2025–2026</div>
+
+            <div class="asb-event-item">
+              <div class="asb-event-date">
+                <span class="asb-event-month">SEP</span>
+                <span class="asb-event-day">11</span>
+              </div>
+              <div class="asb-event-divider"></div>
+              <div>
+                <div class="asb-event-name">Freshman Tailgate</div>
+                <div class="asb-event-sub">Thursday · Class of 2030 welcome event</div>
+              </div>
+            </div>
+
+            <div class="asb-event-item">
+              <div class="asb-event-date">
+                <span class="asb-event-month">SEP</span>
+                <span class="asb-event-day">25</span>
+              </div>
+              <div class="asb-event-divider"></div>
+              <div>
+                <div class="asb-event-name">Homecoming Assembly &amp; Football Game</div>
+                <div class="asb-event-sub">Thursday · Assembly in the gym · Game at Memorial Stadium</div>
+              </div>
+            </div>
+
+            <div class="asb-event-item">
+              <div class="asb-event-date">
+                <span class="asb-event-month">SEP</span>
+                <span class="asb-event-day">26</span>
+              </div>
+              <div class="asb-event-divider"></div>
+              <div>
+                <div class="asb-event-name">Homecoming Dance</div>
+                <div class="asb-event-sub">Friday Night · Formal attire required · ASB card required for entry</div>
+              </div>
+            </div>
+
           </div>
         </div>
 
+        <!-- 3. Announcements -->
         <div class="asb-section">
-          <div class="asb-section-title">ASB Announcements</div>
-          <ul class="asb-announce-list">
-            <li class="asb-announce-item">
-              <span class="asb-announce-bullet"></span>
-              <span>Elections are over — new ASB officers have been inducted. Congratulations to the incoming leadership team.</span>
-            </li>
-            <li class="asb-announce-item">
-              <span class="asb-announce-bullet"></span>
-              <span>LINK Crew training has begun. New student welcome leaders are getting ready for Freshmen Orientation.</span>
-            </li>
-            <li class="asb-announce-item">
-              <span class="asb-announce-bullet"></span>
-              <span>Farewell to Arya and Ellie — thank you for your service and leadership to Interlake ASB.</span>
-            </li>
-            <li class="asb-announce-item">
-              <span class="asb-announce-bullet"></span>
-              <span>Have a great summer! See everyone in the fall.</span>
-            </li>
-            <li class="asb-announce-item">
-              <span class="asb-announce-bullet"></span>
-              <span>Freshmen Orientation is August 24th. Incoming freshmen, come meet your LINK Crew leaders before school starts.</span>
-            </li>
-          </ul>
+          <div class="asb-section-title">📣 ASB Announcements</div>
+
+          <!-- Homecoming -->
+          <div class="asb-announce-block">
+            <div class="asb-announce-block-header">🏈 Homecoming</div>
+            <ul>
+              <li><span class="asb-announce-dot"></span><span><strong>Homecoming is September 25–26!</strong> Assembly and football game on Thursday the 25th, dance on Friday the 26th. This is the biggest week of the school year — don't miss it.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Homecoming theme announcement coming soon.</strong> Follow <a href="https://www.instagram.com/interlakeasb/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700;">@InterlakeASB</a> on Instagram to be the first to know.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Dance tickets</strong> go on sale soon through the school store. Pre-sale: $15 · At the door: $20. You must present your ASB card for entry.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Homecoming court nominations</strong> open September 5th. Nomination forms are available in the main office. Nominate a peer who represents Interlake's values!</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Guest passes</strong> are required for any non-Interlake student attending the dance. Forms must be submitted to the main office by September 19th — no exceptions.</span></li>
+            </ul>
+          </div>
+
+          <!-- Freshman Class Office Elections -->
+          <div class="asb-announce-block">
+            <div class="asb-announce-block-header">🗳️ Freshman Class Office Elections</div>
+            <ul>
+              <li><span class="asb-announce-dot"></span><span><strong>Freshman class officer elections are happening this September!</strong> All freshmen are eligible to run for President, Vice President, Secretary, or Treasurer.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Want to run?</strong> Pick up a candidate packet from the main office. Deadline to submit: September 10th. Don't wait — spots fill fast!</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Candidate speeches</strong> will be held September 18th during advisory period in the main gym. All freshmen are encouraged to attend and support their peers.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Voting is September 19th.</strong> All freshmen will receive a voting link to their school email — check your inbox and make your voice heard!</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Results announced September 22nd.</strong> Congratulations in advance to Interlake's first-ever Class of 2030 officers!</span></li>
+            </ul>
+          </div>
+
+          <!-- Assemblies -->
+          <div class="asb-announce-block">
+            <div class="asb-announce-block-header">🎉 Assemblies</div>
+            <ul>
+              <li><span class="asb-announce-dot"></span><span><strong>Welcoming Back Assembly — September 4th.</strong> The Crossroads Cup kicks off! Each grade competes for the trophy. Show up in your grade color: Seniors — blue, Juniors — gold, Sophomores — white, Freshmen — green.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>Homecoming Assembly — September 25th.</strong> Cheer on your class during competitions, watch the Homecoming court presentation, and get hyped for the football game that night.</span></li>
+              <li><span class="asb-announce-dot"></span><span><strong>All assemblies are held in the main gym.</strong> Arrive on time — doors close at the bell. Late entry is not permitted once the assembly begins.</span></li>
+            </ul>
+          </div>
+
         </div>
 
-        <div class="asb-section">
-          <div class="asb-section-title">Official ASB Minutes</div>
-          <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;">
-            <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">Meeting minutes are published weekly and contain official records of ASB decisions, votes, and discussions. Links are updated each week after the meeting.</p>
+        <!-- 4. Official ASB Minutes -->
+        <div class="asb-section" style="margin-bottom:0;">
+          <div class="asb-section-title">📄 Official ASB Minutes</div>
+          <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;">
+            <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:18px;line-height:1.65;">Meeting minutes are published weekly and contain official records of ASB decisions, votes, and discussions. Updated each week after the meeting.</p>
             <a href="https://docs.google.com/document/d/1w1JzZxjG5OY0Qg-T5gmEMZqiw1ZWYQ1a/edit?rtpof=true&sd=true&tab=t.0" target="_blank" rel="noopener" class="asb-minutes-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               See Official ASB Minutes →
@@ -215,17 +404,55 @@
           </div>
         </div>
 
-      </div>
+      </div><!-- /main column -->
 
-      <!-- Sidebar -->
+      <!-- ── Sidebar ── -->
       <div>
-        <div class="asb-homecoming-card">
-          <div class="asb-homecoming-label">🏈 School Event</div>
-          <div class="asb-homecoming-title">Homecoming</div>
-          <div class="asb-homecoming-sub">COMING: FALL 2026</div>
-          <div style="margin-top:16px;font-size:.78rem;opacity:.65;line-height:1.55;">Date, theme, and ticket info will be announced closer to fall. Stay tuned!</div>
+
+        <!-- What is ASB? -->
+        <div class="asb-sidebar-card">
+          <div class="asb-sidebar-title">What is ASB?</div>
+          <p>The Associated Student Body (ASB) is Interlake's official student government. Elected officers represent all students, plan and run school events, promote school spirit, and serve as the link between students and administration.</p>
+          <p>ASB oversees Homecoming, Spirit Week, dances, pep assemblies, and community service initiatives — managing the student activities budget and coordinating with clubs, classes, and staff year-round.</p>
+          <div class="asb-advisor-row">
+            <div style="font-size:1.2rem;">🏫</div>
+            <div>
+              <div class="asb-advisor-label">ASB Advisor</div>
+              <div class="asb-advisor-name">Mr. VanDevanter</div>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/interlakeasb/" target="_blank" rel="noopener" class="asb-ig-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Follow @InterlakeASB
+        </a>
+
+        <!-- Contact -->
+        <div class="asb-sidebar-card">
+          <div class="asb-sidebar-title">Contact ASB</div>
+          <div class="asb-contact-list">
+            <div class="asb-contact-item">
+              <div class="asb-contact-label">General Inquiries</div>
+              <div class="asb-contact-value"><a href="mailto:asb@interlake.edu">asb@interlake.edu</a></div>
+            </div>
+            <div class="asb-contact-item">
+              <div class="asb-contact-label">ASB President</div>
+              <div class="asb-contact-value"><a href="mailto:asbpresident@interlake.edu">asbpresident@interlake.edu</a></div>
+            </div>
+            <div class="asb-contact-item">
+              <div class="asb-contact-label">Events &amp; Activities</div>
+              <div class="asb-contact-value"><a href="mailto:asbevents@interlake.edu">asbevents@interlake.edu</a></div>
+            </div>
+            <div class="asb-contact-item">
+              <div class="asb-contact-label">ASB Advisor</div>
+              <div class="asb-contact-value"><a href="mailto:mvandevanter@bsd405.org">mvandevanter@bsd405.org</a></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sidebar -->
 
     </div>
   </div>
