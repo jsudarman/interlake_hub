@@ -822,9 +822,10 @@ function dbToClub(row) {
     instagram:       row.instagram       || '',
     members:         row.members         || 0,
     featured:        row.featured        || false,
-    officers:        row.officers        || [],
-    nextMeeting:     row.next_meeting    || null,
-    updates:         []
+    officers:           row.officers             || [],
+    nextMeeting:        row.next_meeting         || null,
+    leadershipPhotoUrl: row.leadership_photo_url || '',
+    updates:            []
   };
 }
 
@@ -903,6 +904,21 @@ async function addUpdateToClubAsync(clubId, update) {
   } catch (e) {
     console.warn('[Saints Station] addUpdateToClubAsync error:', e);
     return addUpdateToClub(clubId, update);
+  }
+}
+
+async function updateClubProfileAsync(clubId, profileData) {
+  if (!window.sb) return false;
+  try {
+    const { error } = await sb.from('clubs').update(profileData).eq('id', clubId);
+    if (error) {
+      console.warn('[Saints Station] updateClubProfileAsync error:', error);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn('[Saints Station] updateClubProfileAsync exception:', e);
+    return false;
   }
 }
 
