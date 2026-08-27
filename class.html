@@ -14,22 +14,52 @@
     /* ── Layout ── */
     .class-layout { padding: 40px 0 80px; display: flex; flex-direction: column; gap: 32px; }
 
-    /* ── Officers ── */
-    .officers-photo-wrap { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
-    .officers-photo-wrap img { width: 100%; height: auto; display: block; max-height: 240px; object-fit: cover; }
-    .officers-names-row { display: flex; justify-content: space-between; gap: 8px; padding: 16px 20px; background: var(--card); flex-wrap: wrap; }
-    .officer-name-item { text-align: center; flex: 1; min-width: 100px; }
-    .officer-name-item .oname { font-size: .82rem; font-weight: 700; color: var(--text); }
-    .officer-name-item .orole { font-size: .72rem; color: var(--text-muted); margin-top: 2px; }
+    /* ── Officer grid ── */
+    .class-officers-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+      padding: 20px;
+    }
+    @media (max-width: 560px) { .class-officers-grid { grid-template-columns: repeat(3, 1fr); } }
+    .asb-officer-spot { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px; }
+    .asb-officer-photo {
+      width: 100%; aspect-ratio: 1; border-radius: var(--radius-sm);
+      background: var(--highlight); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; color: var(--text-muted);
+    }
+    .asb-officer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .asb-officer-name { font-size: .72rem; font-weight: 700; color: var(--text); line-height: 1.25; }
+    .asb-officer-role { font-size: .64rem; color: var(--text-muted); line-height: 1.25; }
 
     /* ── Section card ── */
     .section-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 28px 24px; }
     .section-card-title { font-size: 1rem; font-weight: 600; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 
-    /* ── Activity bullets ── */
-    .activity-list { display: flex; flex-direction: column; gap: 10px; }
-    .activity-item { display: flex; align-items: flex-start; gap: 10px; font-size: .9rem; color: #374151; line-height: 1.5; }
-    .activity-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 7px; }
+    /* ── Announcement blocks ── */
+    .asb-announce-block {
+      background: var(--card); border-radius: var(--radius-sm);
+      box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px;
+    }
+    .asb-announce-block:last-child { margin-bottom: 0; }
+    .asb-announce-block-header {
+      background: var(--primary); color: #fff;
+      padding: 10px 18px; font-size: .82rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .07em;
+    }
+    .asb-announce-block ul { list-style: none; padding: 0; margin: 0; }
+    .asb-announce-block > ul > li {
+      display: flex; gap: 12px; padding: 12px 18px;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .asb-announce-block > ul > li:last-child { border-bottom: none; }
+    .asb-announce-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0; margin-top: 5px;
+    }
+    .asb-announce-main { font-size: .88rem; font-weight: 700; color: var(--text); display: block; line-height: 1.45; }
+    .asb-announce-sub { list-style: none; padding: 5px 0 1px; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+    .asb-announce-sub li { font-size: .8rem; color: var(--text-muted); padding-left: 14px; position: relative; line-height: 1.5; }
+    .asb-announce-sub li::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); font-weight: 600; }
 
     /* ── Fundraiser list ── */
     .fundraiser-list { display: flex; flex-direction: column; gap: 14px; }
@@ -38,23 +68,6 @@
     .fundraiser-title { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .fundraiser-location { font-size: .78rem; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
     .fundraiser-desc { font-size: .82rem; color: #475569; line-height: 1.5; }
-
-    /* ── Poll ── */
-    .poll-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-    .poll-option {
-      padding: 9px 18px; border-radius: 20px; border: 2px solid var(--border);
-      background: var(--card); color: var(--text-muted); font-size: .85rem; font-weight: 600;
-      cursor: pointer; user-select: none; transition: var(--transition);
-    }
-    .poll-option:hover { border-color: var(--primary); color: var(--primary); }
-    .poll-option.selected { background: var(--primary-dark); border-color: var(--primary); color: var(--text); }
-    .poll-other-input { margin-top: 8px; display: none; }
-    .poll-result { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
-    .poll-result-title { font-size: .82rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-    .poll-result-tag { display: inline-block; background: var(--primary-dark); color: var(--text); border-radius: 20px; padding: 3px 12px; font-size: .78rem; font-weight: 600; margin: 3px 4px 3px 0; }
-
-    /* ── Feedback ── */
-    .feedback-result { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; font-size: .88rem; color: var(--primary); font-weight: 600; }
 
     /* ── Instagram ── */
     .instagram-btn {
@@ -140,11 +153,37 @@ const CLASS_DATA = {
       { name: "Noah Kim",      role: "Treasurer" },
       { name: "Ava Johnson",   role: "Events Chair" }
     ],
-    activities: [
-      "Finalized senior prom venue and confirmed the date for May 30th",
-      "Organized senior sunrise event — over 80 seniors attended",
-      "Met with administration to confirm graduation ceremony details",
-      "Launched the senior memories photo campaign on Instagram"
+    announcements: [
+      {
+        header: "Senior Year Events",
+        items: [
+          {
+            main: "Prom venue confirmed — save the date for May 30th",
+            sub: ["Tickets go on sale in April", "Venue: The Westin Bellevue Ballroom", "Dress code details coming soon"]
+          },
+          {
+            main: "Senior sunrise happening September 5th",
+            sub: ["Meet at the football field at 5:45 AM", "Bring blankets and warm clothes", "Breakfast provided by class office"]
+          },
+          {
+            main: "Graduation ceremony details finalized",
+            sub: ["Ceremony: June 13th at Meydenbauer Center", "Rehearsal required — June 12th", "Cap and gown orders due by March 1st"]
+          }
+        ]
+      },
+      {
+        header: "Senior Memories",
+        items: [
+          {
+            main: "Senior memories photo campaign now live on Instagram",
+            sub: ["Tag @interlakeclass2027 with your senior moments", "Best photos featured in the yearbook spread", "Submission deadline: May 1st"]
+          },
+          {
+            main: "Senior class motto vote closing soon",
+            sub: ["Vote on Instagram story poll", "Top 3 options chosen by student council", "Winner announced at the April assembly"]
+          }
+        ]
+      }
     ],
     fundraisers: [
       {
@@ -171,11 +210,33 @@ const CLASS_DATA = {
       { name: "Priya Menon",     role: "Treasurer" },
       { name: "Caleb Thompson",  role: "Events Chair" }
     ],
-    activities: [
-      "Began researching junior prom venues for spring 2027",
-      "Organized class-wide participation in spirit week",
-      "Coordinated a joint service event with NHS",
-      "Collected classmate input on class motto and colors"
+    announcements: [
+      {
+        header: "Junior Year Updates",
+        items: [
+          {
+            main: "Junior prom venue research underway for spring 2027",
+            sub: ["Officer committee formed to evaluate options", "Budget discussion happening at next meeting", "Input from the class welcome — DM us on Instagram"]
+          },
+          {
+            main: "Class-wide spirit week participation organized",
+            sub: ["Theme days coordinated with ASB", "Class spirit award for highest participation", "More details on the class Instagram"]
+          }
+        ]
+      },
+      {
+        header: "Service & Community",
+        items: [
+          {
+            main: "Joint service event with NHS completed",
+            sub: ["Over 40 juniors volunteered", "Event raised 200+ food items for the local food bank", "Next joint event planned for spring"]
+          },
+          {
+            main: "Class motto and color input collected",
+            sub: ["Over 150 classmates responded to the survey", "Top 3 options being reviewed by officers", "Final vote coming in November"]
+          }
+        ]
+      }
     ],
     fundraisers: [
       {
@@ -202,11 +263,33 @@ const CLASS_DATA = {
       { name: "Daniel Park",    role: "Treasurer" },
       { name: "Grace Hoffman",  role: "Events Chair" }
     ],
-    activities: [
-      "Hosted our first class social with over 60 students in attendance",
-      "Planned the sophomore semi-formal for late May",
-      "Launched the class Instagram account — 200+ followers and growing",
-      "Surveyed classmates on fundraiser ideas for next semester"
+    announcements: [
+      {
+        header: "Sophomore Events",
+        items: [
+          {
+            main: "First class social held — over 60 students attended",
+            sub: ["Held in the commons after school on October 10th", "Games, music, and snacks provided by class office", "Next social being planned for January"]
+          },
+          {
+            main: "Sophomore semi-formal planned for late May",
+            sub: ["Date TBD — checking venue availability", "Tickets expected to go on sale in April", "Theme vote coming on Instagram"]
+          }
+        ]
+      },
+      {
+        header: "Class Office News",
+        items: [
+          {
+            main: "Class Instagram launched — 200+ followers and growing",
+            sub: ["Follow @interlakeclass2029 for updates", "Polls and Q&As posted weekly", "DM us with ideas or questions"]
+          },
+          {
+            main: "Fundraiser ideas survey sent to all sophomores",
+            sub: ["Results being reviewed by the treasurer", "Top ideas will be presented at the next meeting", "Winning idea gets executed this spring"]
+          }
+        ]
+      }
     ],
     fundraisers: [
       {
@@ -233,11 +316,33 @@ const CLASS_DATA = {
       { name: "Zoe Martinez", role: "Treasurer" },
       { name: "Liam Okoro",   role: "Events Chair" }
     ],
-    activities: [
-      "Held our first class officer meeting and set goals for the year",
-      "Introduced class office at the freshman orientation assembly",
-      "Organized a freshman social mixer during advisory week",
-      "Started planning the end-of-year class celebration"
+    announcements: [
+      {
+        header: "Freshman Class Updates",
+        items: [
+          {
+            main: "First class officer meeting held — goals set for the year",
+            sub: ["Focus areas: community, spirit, and fundraising", "Next meeting scheduled for November", "Follow us on Instagram for updates"]
+          },
+          {
+            main: "Class office introduced at freshman orientation assembly",
+            sub: ["Officers presented goals to the class of 2030", "Q&A session held after the presentation", "Strong turnout and positive response"]
+          }
+        ]
+      },
+      {
+        header: "Upcoming Plans",
+        items: [
+          {
+            main: "Freshman social mixer organized during advisory week",
+            sub: ["Icebreaker games and snacks in the commons", "Over 50 freshmen attended", "Second mixer planned for winter"]
+          },
+          {
+            main: "End-of-year class celebration in early planning",
+            sub: ["Proposals being gathered from classmates", "Budget discussion at February officer meeting", "More details to come in the spring"]
+          }
+        ]
+      }
     ],
     fundraisers: [
       {
@@ -274,18 +379,32 @@ if (!data) {
 } else {
   document.title = `Class of ${year} — Saints Station`;
 
-  // Build officer names HTML
-  const officerNamesHtml = data.officers.map(o => `
-    <div class="officer-name-item">
-      <div class="oname">${o.name}</div>
-      <div class="orole">${o.role}</div>
+  // Build officer grid HTML
+  const officerGridHtml = data.officers.map(o => `
+    <div class="asb-officer-spot">
+      <div class="asb-officer-photo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="asb-officer-name">${o.name}</div>
+      <div class="asb-officer-role">${o.role}</div>
     </div>`).join("");
 
-  // Build activity list HTML
-  const activitiesHtml = data.activities.map(a => `
-    <div class="activity-item">
-      <div class="activity-dot"></div>
-      <span>${a}</span>
+  // Build announcement blocks HTML
+  const announcementsHtml = data.announcements.map(block => `
+    <div class="asb-announce-block">
+      <div class="asb-announce-block-header">${block.header}</div>
+      <ul>
+        ${block.items.map(item => `
+        <li>
+          <span class="asb-announce-dot"></span>
+          <div>
+            <span class="asb-announce-main">${item.main}</span>
+            <ul class="asb-announce-sub">
+              ${item.sub.map(s => `<li>${s}</li>`).join("")}
+            </ul>
+          </div>
+        </li>`).join("")}
+      </ul>
     </div>`).join("");
 
   // Build fundraiser list HTML
@@ -299,67 +418,6 @@ if (!data) {
       </div>
       <div class="fundraiser-desc">${f.desc}</div>
     </div>`).join("");
-
-  // Build poll section HTML — always show form, with name + grade fields
-  function buildPollSection() {
-    return `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;" class="name-grade-fields">
-        <div>
-          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Name <span style="color:#c0392b;">*</span></label>
-          <input type="text" class="form-control" id="voteName" placeholder="Your name" autocomplete="off">
-        </div>
-        <div>
-          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Grade <span style="color:#c0392b;">*</span></label>
-          <select class="form-control" id="voteGrade">
-            <option value="">Select grade</option>
-            <option value="9">9th</option>
-            <option value="10">10th</option>
-            <option value="11">11th</option>
-            <option value="12">12th</option>
-          </select>
-        </div>
-      </div>
-      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:14px;">Select all options you'd like to see.</p>
-      <div class="poll-options" id="pollOptions">
-        <div class="poll-option" data-value="Bake Sale">Bake Sale</div>
-        <div class="poll-option" data-value="Restaurant Night (Chipotle)">Restaurant Night (Chipotle)</div>
-        <div class="poll-option" data-value="Restaurant Night (Panda Express)">Restaurant Night (Panda Express)</div>
-        <div class="poll-option" data-value="Popsicle Sale">Popsicle Sale</div>
-        <div class="poll-option" data-value="__other__">Other</div>
-      </div>
-      <div class="poll-other-input" id="otherInputWrap">
-        <input type="text" class="form-control" id="otherText" placeholder="What else would you suggest?">
-      </div>
-      <button class="btn btn-primary" id="submitVoteBtn" style="margin-top:14px;">Submit Vote →</button>
-      <div id="voteError" style="color:#c0392b;font-size:.8rem;margin-top:8px;display:none;">Please fill in your name, grade, and select at least one option.</div>`;
-  }
-
-  // Build feedback section HTML — always show form, with name + grade fields
-  function buildFeedbackSection() {
-    return `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-        <div>
-          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Name <span style="color:#c0392b;">*</span></label>
-          <input type="text" class="form-control" id="feedbackName" placeholder="Your name" autocomplete="off">
-        </div>
-        <div>
-          <label style="font-size:.8rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px;">Grade <span style="color:#c0392b;">*</span></label>
-          <select class="form-control" id="feedbackGrade">
-            <option value="">Select grade</option>
-            <option value="9">9th</option>
-            <option value="10">10th</option>
-            <option value="11">11th</option>
-            <option value="12">12th</option>
-          </select>
-        </div>
-      </div>
-      <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:12px;">Have an idea or something you'd like class office to know? Drop it here.</p>
-      <textarea class="form-control" id="feedbackText" rows="4"
-        placeholder="Your suggestions, ideas, or feedback…"
-        style="resize:vertical;margin-bottom:12px;"></textarea>
-      <button class="btn btn-primary" id="submitFeedbackBtn">Submit Feedback →</button>
-      <div id="feedbackError" style="color:#c0392b;font-size:.8rem;margin-top:8px;display:none;">Please fill in your name, grade, and feedback.</div>`;
-  }
 
   content.innerHTML = `
     <div class="class-hero">
@@ -378,19 +436,15 @@ if (!data) {
 
       <!-- Officers -->
       <div class="card" style="overflow:hidden;">
-        <div class="officers-photo-wrap">
-          <img src="https://placehold.co/900x260/1e3a8a/ffffff?text=Class+of+${year}+Officers+Photo"
-               alt="Class of ${year} Officers">
-        </div>
-        <div class="officers-names-row">
-          ${officerNamesHtml}
+        <div class="class-officers-grid">
+          ${officerGridHtml}
         </div>
       </div>
 
-      <!-- What We've Been Doing -->
-      <div class="section-card">
-        <div class="section-card-title">What Class Office Has Been Doing</div>
-        <div class="activity-list">${activitiesHtml}</div>
+      <!-- Announcements -->
+      <div>
+        <div style="font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--border);">Announcements</div>
+        ${announcementsHtml}
       </div>
 
       <!-- Upcoming Fundraisers -->
@@ -400,18 +454,6 @@ if (!data) {
           Upcoming Fundraisers
         </div>
         <div class="fundraiser-list">${fundraisersHtml}</div>
-      </div>
-
-      <!-- Poll -->
-      <div class="section-card">
-        <div class="section-card-title">Vote on Future Fundraiser Ideas</div>
-        <div id="pollSection">${buildPollSection()}</div>
-      </div>
-
-      <!-- Feedback -->
-      <div class="section-card">
-        <div class="section-card-title">Feedback &amp; Suggestions</div>
-        <div id="feedbackSection">${buildFeedbackSection()}</div>
       </div>
 
       <!-- Social -->
@@ -428,62 +470,6 @@ if (!data) {
       </div>
 
     </div>`;
-
-  // Wire up poll — always shown, with name/grade validation
-  function wirePoll() {
-    const selected = new Set();
-    document.querySelectorAll(".poll-option").forEach(opt => {
-      opt.addEventListener("click", () => {
-        opt.classList.toggle("selected");
-        const val = opt.dataset.value;
-        if (opt.classList.contains("selected")) selected.add(val);
-        else selected.delete(val);
-        const otherWrap = document.getElementById("otherInputWrap");
-        if (otherWrap) otherWrap.style.display = selected.has("__other__") ? "block" : "none";
-      });
-    });
-    document.getElementById("submitVoteBtn").addEventListener("click", () => {
-      const errEl    = document.getElementById("voteError");
-      const nameVal  = (document.getElementById("voteName").value || "").trim();
-      const gradeVal = document.getElementById("voteGrade").value;
-      if (!nameVal || !gradeVal || selected.size === 0) { errEl.style.display = "block"; return; }
-      errEl.style.display = "none";
-      const options = [...selected].filter(v => v !== "__other__");
-      const otherTextEl = document.getElementById("otherText");
-      const other = (selected.has("__other__") && otherTextEl) ? otherTextEl.value.trim() : "";
-      const tags = options.map(o => `<span class="poll-result-tag">${o}</span>`).join("");
-      const otherTag = other ? `<span class="poll-result-tag">Other: ${other}</span>` : "";
-      document.getElementById("pollSection").innerHTML = `
-        <div class="poll-result">
-          <div class="poll-result-title">Thanks, ${nameVal}! Your vote has been recorded.</div>
-          ${tags}${otherTag}
-        </div>
-        <button class="btn btn-outline" onclick="document.getElementById('pollSection').innerHTML = window.buildPollSection(); window.wirePoll();" style="margin-top:12px;font-size:.82rem;">← Go Back</button>`;
-    });
-  }
-  wirePoll();
-
-  // Wire up feedback — always shown, with name/grade validation
-  function wireFeedback() {
-    document.getElementById("submitFeedbackBtn").addEventListener("click", () => {
-      const errEl    = document.getElementById("feedbackError");
-      const nameVal  = (document.getElementById("feedbackName").value || "").trim();
-      const gradeVal = document.getElementById("feedbackGrade").value;
-      const text     = (document.getElementById("feedbackText").value || "").trim();
-      if (!nameVal || !gradeVal || !text) { errEl.style.display = "block"; return; }
-      errEl.style.display = "none";
-      document.getElementById("feedbackSection").innerHTML = `
-        <div class="feedback-result">Thanks, ${nameVal}! Your feedback has been received.</div>
-        <button class="btn btn-outline" onclick="document.getElementById('feedbackSection').innerHTML = window.buildFeedbackSection(); window.wireFeedback();" style="margin-top:12px;font-size:.82rem;">← Go Back</button>`;
-    });
-  }
-  wireFeedback();
-
-  // Expose rebuild functions globally for Go Back inline onclick
-  window.buildPollSection    = buildPollSection;
-  window.buildFeedbackSection = buildFeedbackSection;
-  window.wirePoll             = wirePoll;
-  window.wireFeedback         = wireFeedback;
 }
 
 document.getElementById("navSearch").addEventListener("keydown", e => {
