@@ -258,7 +258,7 @@
         <div class="asb-section">
           <div class="asb-section-title">ASB Co-Presidents 2026–2027</div>
           <div style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;">
-            <div class="asb-officers-grid">
+            <div class="asb-officers-grid" id="asbOfficersGrid">
 
               <div class="asb-officer-spot">
                 <div class="asb-officer-photo">
@@ -324,7 +324,7 @@
         <div class="asb-section">
           <div class="asb-section-title">Upcoming Events</div>
           <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:10px;">Click an event to see details.</p>
-          <div class="asb-events-list">
+          <div class="asb-events-list" id="asbEventsList">
 
             <div class="asb-event-item">
               <div class="asb-event-date">
@@ -441,6 +441,7 @@
         <!-- 3. Announcements -->
         <div class="asb-section">
           <div class="asb-section-title">ASB Announcements</div>
+          <div id="asbAnnouncements">
 
           <!-- Homecoming -->
           <div class="asb-announce-block">
@@ -589,6 +590,7 @@
             </ul>
           </div>
 
+          </div><!-- /#asbAnnouncements -->
         </div>
 
         <!-- 4. Official ASB Minutes -->
@@ -770,6 +772,105 @@ document.getElementById("navSearch").addEventListener("keydown", e => {
     if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
   }
 });
+
+// ── Supabase live data ──────────────────────────────────────────────────────
+
+const _personSvg = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.3;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+const _chevSvg   = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+function _officerSpotHtml(o) {
+  const photo = o.photo_url ? `<img src="${o.photo_url}" alt="${o.name}" onerror="this.style.display='none'">` : _personSvg;
+  return `<div class="asb-officer-spot">
+    <div class="asb-officer-photo">${photo}</div>
+    <div class="asb-officer-name">${o.name}</div>
+    <div class="asb-officer-role">${o.role}</div>
+  </div>`;
+}
+
+function _eventItemHtml(e) {
+  const bullets = (Array.isArray(e.bullets) ? e.bullets : []).map(b => `<li>${b}</li>`).join('');
+  return `<div class="asb-event-item">
+    <div class="asb-event-date">
+      <span class="asb-event-month">${e.event_month}</span>
+      <span class="asb-event-day">${e.event_day}</span>
+    </div>
+    <div class="asb-event-divider"></div>
+    <div class="asb-event-main">
+      <div class="asb-event-name">${e.event_name}</div>
+      <div class="asb-event-body"><ul class="asb-event-bullets">${bullets}</ul></div>
+    </div>
+    <div class="asb-event-chevron">${_chevSvg}</div>
+  </div>`;
+}
+
+function _announceBlockHtml(header, items) {
+  const rows = items.map(a => {
+    const subs = (Array.isArray(a.sub_bullets) ? a.sub_bullets : []).map(s => `<li>${s}</li>`).join('');
+    return `<li>
+      <span class="asb-announce-dot"></span>
+      <div><span class="asb-announce-main">${a.main_text}</span>
+        <ul class="asb-announce-sub">${subs}</ul>
+      </div>
+    </li>`;
+  }).join('');
+  return `<div class="asb-announce-block">
+    <div class="asb-announce-block-header">${header}</div>
+    <ul>${rows}</ul>
+  </div>`;
+}
+
+function _wireEvents(container) {
+  container.querySelectorAll('.asb-event-item').forEach(item => {
+    item.addEventListener('click', () => item.classList.toggle('open'));
+  });
+}
+
+function _wireAnnouncements(container) {
+  container.querySelectorAll('.asb-announce-block > ul > li').forEach(li => {
+    if (!li.querySelector('.asb-announce-chevron')) {
+      const chev = document.createElement('div');
+      chev.className = 'asb-announce-chevron';
+      chev.innerHTML = _chevSvg;
+      li.appendChild(chev);
+    }
+    li.addEventListener('click', () => li.classList.toggle('open'));
+  });
+}
+
+(async function loadAsbFromSupabase() {
+  if (!window.sb) return;
+  try {
+    const [officers, events, announcements] = await Promise.all([
+      getAsbOfficersAsync(),
+      getAsbEventsAsync(),
+      getAsbAnnouncementsAsync()
+    ]);
+
+    if (officers.length) {
+      document.getElementById('asbOfficersGrid').innerHTML = officers.map(_officerSpotHtml).join('');
+    }
+
+    if (events.length) {
+      const evList = document.getElementById('asbEventsList');
+      evList.innerHTML = events.map(_eventItemHtml).join('');
+      _wireEvents(evList);
+    }
+
+    if (announcements.length) {
+      const sections = {};
+      const order = [];
+      announcements.forEach(a => {
+        if (!sections[a.section_header]) { sections[a.section_header] = []; order.push(a.section_header); }
+        sections[a.section_header].push(a);
+      });
+      const annDiv = document.getElementById('asbAnnouncements');
+      annDiv.innerHTML = order.map(h => _announceBlockHtml(h, sections[h])).join('');
+      _wireAnnouncements(annDiv);
+    }
+  } catch (e) {
+    console.warn('[Saints Station] loadAsbFromSupabase:', e);
+  }
+})();
 </script>
 </body>
 </html>
