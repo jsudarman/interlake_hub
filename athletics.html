@@ -7,49 +7,72 @@
   <link rel="stylesheet" href="style.css">
   <style>
     /* ── Hero ── */
-    .ath-hero { background: var(--primary-dark); padding: 48px 0 52px; }
-    .ath-hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; }
-    .ath-hero p { opacity: .75; font-size: 1rem; max-width: 560px; }
+    .ath-hero { background: var(--primary-dark); padding: 44px 0 48px; }
+    .ath-hero-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .ath-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 6px; letter-spacing: -.02em; }
+    .ath-hero p { opacity: .75; font-size: .95rem; max-width: 480px; }
+    .ath-season-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #d97706; color: #fff; border-radius: 20px;
+      font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      padding: 5px 14px; flex-shrink: 0; align-self: flex-start; margin-top: 6px;
+    }
+    .ath-season-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
     /* ── Layout ── */
-    .ath-body { padding: 48px 0 80px; }
+    .ath-body { padding: 44px 0 80px; }
     .ath-layout { display: grid; grid-template-columns: 1fr 320px; gap: 36px; align-items: start; }
     @media (max-width: 920px) { .ath-layout { grid-template-columns: 1fr; } }
 
-    /* ── Section title ── */
-    .ath-section { margin-bottom: 36px; }
+    /* ── Section header ── */
+    .ath-section { margin-bottom: 40px; }
     .ath-section-title {
       font-family: var(--font-display); text-transform: uppercase;
-      letter-spacing: .06em; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: .06em; font-size: .95rem; font-weight: 800;
       color: var(--primary); margin-bottom: 16px;
       padding-bottom: 10px; border-bottom: 2px solid var(--border);
       display: flex; align-items: center; gap: 10px;
     }
-    .ath-section-title .ath-icon { font-size: 1rem; }
 
-    /* ── Upcoming Games ── */
-    .games-grid { display: flex; flex-direction: column; gap: 10px; }
-    .game-card {
+    /* ── Games by sport ── */
+    .sport-group { margin-bottom: 22px; }
+    .sport-group-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .sport-group-label {
+      font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--primary);
+    }
+    .sport-group-line { flex: 1; height: 1px; background: var(--border); }
+
+    .game-row {
       background: var(--card); border-radius: var(--radius-sm);
-      box-shadow: var(--shadow); padding: 14px 18px;
-      display: flex; align-items: center; gap: 16px;
-      border-left: 3px solid var(--primary);
+      box-shadow: var(--shadow); margin-bottom: 7px;
+      display: grid; grid-template-columns: 56px 1fr auto;
+      align-items: center; gap: 0; overflow: hidden;
+      border: 1px solid var(--border);
     }
-    .game-date-badge {
-      flex-shrink: 0; width: 50px; text-align: center;
-      background: var(--primary); color: #fff;
-      border-radius: 8px; padding: 6px 4px;
+    .game-row:last-child { margin-bottom: 0; }
+    .game-date-col {
+      text-align: center; padding: 12px 8px;
+      background: var(--highlight);
+      border-right: 1px solid var(--border);
     }
-    .game-date-badge .gbm { font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
-    .game-date-badge .gbd { font-size: 1.25rem; font-weight: 700; line-height: 1; }
-    .game-info { flex: 1; min-width: 0; }
-    .game-sport { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--primary); margin-bottom: 3px; }
-    .game-matchup { font-size: .92rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-    .game-meta { font-size: .76rem; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; }
-    .game-ha { font-size: .7rem; font-weight: 700; border-radius: 4px; padding: 2px 7px; }
-    .game-ha.home { background: var(--highlight); color: var(--primary); }
-    .game-ha.away { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-    .games-note { font-size: .76rem; color: var(--text-muted); margin-top: 12px; font-style: italic; }
+    .game-date-col .gd-mon { font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+    .game-date-col .gd-day { font-size: 1.3rem; font-weight: 800; color: var(--primary); line-height: 1; }
+    .game-info-col { padding: 10px 14px; min-width: 0; }
+    .game-matchup { font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .game-meta { font-size: .74rem; color: var(--text-muted); display: flex; gap: 8px; flex-wrap: wrap; }
+    .game-ha-col { padding: 10px 14px; display: flex; align-items: center; flex-shrink: 0; }
+    .ha-badge {
+      font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+      border-radius: 5px; padding: 4px 10px; white-space: nowrap;
+    }
+    .ha-badge.home { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .ha-badge.away { background: var(--highlight); color: var(--text-muted); border: 1px solid var(--border); }
+    .games-note { font-size: .76rem; color: var(--text-muted); margin-top: 14px; font-style: italic; }
 
     /* ── Athlete of the Week ── */
     .aotw-card {
@@ -61,102 +84,107 @@
       background: var(--primary); color: #fff;
       padding: 12px 20px; display: flex; align-items: center; gap: 10px;
     }
-    .aotw-header-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
-    .aotw-header-title { font-size: 1rem; font-weight: 700; }
-    .aotw-body { padding: 22px 22px 20px; display: flex; gap: 18px; align-items: flex-start; }
-    .aotw-avatar {
-      width: 70px; height: 70px; border-radius: 50%;
-      background: var(--highlight); display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; border: 2px solid var(--primary); font-size: 1.8rem; font-weight: 700;
-      color: var(--primary);
-    }
-    .aotw-name { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-    .aotw-sport { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 8px; }
-    .aotw-desc { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
+    .aotw-header-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+    .aotw-header-title { font-size: 1rem; font-weight: 800; }
     .aotw-placeholder { padding: 28px 22px; text-align: center; color: var(--text-muted); }
     .aotw-placeholder .aotw-ph-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: .35; }
     .aotw-placeholder p { font-size: .85rem; }
 
-    /* ── KingCo Awards ── */
-    .kingco-list { display: flex; flex-direction: column; gap: 10px; }
-    .kingco-item {
+    /* ── Season blocks ── */
+    .season-block { margin-bottom: 36px; }
+    .season-block:last-child { margin-bottom: 0; }
+
+    .season-banner {
+      display: flex; align-items: center; gap: 14px;
+      border-radius: var(--radius-sm); padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .season-banner.fall  { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
+    .season-banner.winter { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
+    .season-banner.spring { background: linear-gradient(135deg, #14532d 0%, #16a34a 100%); }
+    .season-banner-emoji { font-size: 1.6rem; }
+    .season-banner-text { flex: 1; }
+    .season-banner-name { font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -.01em; }
+    .season-banner-dates { font-size: .74rem; color: rgba(255,255,255,.7); margin-top: 2px; }
+    .season-status {
+      font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      border-radius: 12px; padding: 4px 10px;
+    }
+    .season-status.live   { background: #fef3c7; color: #92400e; }
+    .season-status.coming { background: rgba(255,255,255,.18); color: rgba(255,255,255,.9); }
+
+    /* ── Coach cards grid ── */
+    .coaches-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (max-width: 560px) { .coaches-grid { grid-template-columns: 1fr; } }
+    .coach-card {
       background: var(--card); border-radius: var(--radius-sm);
-      box-shadow: var(--shadow); padding: 14px 18px;
-      display: flex; gap: 14px; align-items: flex-start;
+      box-shadow: var(--shadow); padding: 13px 15px;
+      border: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;
     }
-    .kingco-trophy { font-size: 1.3rem; flex-shrink: 0; }
-    .kingco-year { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 3px; }
-    .kingco-award { font-size: .9rem; font-weight: 700; color: var(--text); }
-    .kingco-detail { font-size: .78rem; color: var(--text-muted); margin-top: 2px; }
-
-    /* ── Season sport grid ── */
-    .season-block { margin-bottom: 32px; }
-    .season-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em;
-      color: #fff; background: var(--primary); border-radius: 20px;
-      padding: 4px 14px; margin-bottom: 14px;
+    .coach-emoji { font-size: 1.35rem; flex-shrink: 0; margin-top: 1px; }
+    .coach-info { flex: 1; min-width: 0; }
+    .coach-sport { font-size: .88rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+    .coach-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .coach-label { font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+    .coach-name { font-size: .84rem; font-weight: 600; color: var(--primary); }
+    .impact-tag {
+      font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+      background: #fef3c7; color: #92400e; border-radius: 3px; padding: 1px 5px;
     }
-    .sports-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    @media (max-width: 600px) { .sports-grid { grid-template-columns: 1fr; } }
-    .sport-card {
-      background: var(--card); border-radius: var(--radius-sm);
-      box-shadow: var(--shadow); padding: 14px 16px;
-      display: flex; align-items: center; gap: 12px;
-      text-decoration: none; color: var(--text);
-      border: 1px solid var(--border);
-      transition: var(--transition);
-    }
-    .sport-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .sport-emoji { font-size: 1.4rem; width: 36px; text-align: center; flex-shrink: 0; }
-    .sport-name { font-size: .88rem; font-weight: 700; color: var(--text); }
-    .sport-gender { font-size: .72rem; color: var(--text-muted); margin-top: 1px; }
-    .sport-card .arrow { margin-left: auto; font-size: .8rem; color: var(--primary); opacity: .6; flex-shrink: 0; }
 
-    /* Club sports tag */
-    .club-tag { font-size: .62rem; font-weight: 700; background: var(--highlight); color: var(--primary); border-radius: 4px; padding: 1px 6px; margin-left: 4px; }
-
-    /* ── Eligibility ── */
-    .elig-list { display: flex; flex-direction: column; gap: 10px; }
-    .elig-item { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: var(--shadow); font-size: .88rem; color: var(--text); line-height: 1.55; }
-    .elig-check { width: 20px; height: 20px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
-    /* ── Fees ── */
-    .fees-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px; border-left: 4px solid var(--primary); }
-    .fees-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .88rem; }
-    .fees-row:last-child { border-bottom: none; }
-    .fees-label { color: var(--text); font-weight: 600; }
-    .fees-amount { color: var(--primary); font-weight: 700; }
-    .fees-note { font-size: .76rem; color: var(--text-muted); margin-top: 14px; line-height: 1.6; }
-
-    /* ── Sidebar cards ── */
-    .ath-sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
+    /* ── Sidebar ── */
+    .ath-sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 18px; }
     .ath-sidebar-head { background: var(--primary); padding: 13px 18px; }
-    .ath-sidebar-head-title { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #fff; }
+    .ath-sidebar-head-title { font-size: .77rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #fff; }
     .ath-sidebar-body { padding: 16px 18px; }
-    .ath-sidebar-row { display: flex; flex-direction: column; gap: 3px; margin-bottom: 14px; }
-    .ath-sidebar-row:last-child { margin-bottom: 0; }
-    .ath-sidebar-key { font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); }
-    .ath-sidebar-val { font-size: .87rem; color: var(--text); }
-    .ath-sidebar-link { color: var(--primary); font-weight: 600; font-size: .87rem; text-decoration: none; display: block; margin-top: 10px; }
-    .ath-sidebar-link:hover { text-decoration: underline; }
 
+    /* Steps */
+    .participate-steps { display: flex; flex-direction: column; gap: 14px; }
+    .p-step { display: flex; gap: 12px; align-items: flex-start; }
+    .ps-num {
+      width: 24px; height: 24px; background: var(--primary); color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+    }
+    .ps-body { flex: 1; font-size: .83rem; color: var(--text); line-height: 1.55; }
+    .ps-body strong { color: var(--text); }
+    .ps-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--primary); color: #fff; border-radius: var(--radius-sm);
+      font-size: .75rem; font-weight: 700; padding: 5px 11px;
+      text-decoration: none; margin-top: 7px; transition: var(--transition);
+    }
+    .ps-btn:hover { opacity: .85; }
+    .ps-btn.outline {
+      background: none; color: var(--primary); border: 1.5px solid var(--primary);
+    }
+    .ps-btn.outline:hover { background: var(--highlight); }
+
+    /* Contact list */
+    .contact-list { display: flex; flex-direction: column; gap: 14px; }
+    .contact-item { display: flex; flex-direction: column; gap: 2px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .contact-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-role { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+    .contact-name { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .contact-detail { font-size: .79rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 1px; margin-top: 2px; }
+    .contact-detail a { color: var(--primary); text-decoration: none; }
+    .contact-detail a:hover { text-decoration: underline; }
+
+    /* Quick links */
     .ath-quick-link {
       display: flex; align-items: center; gap: 10px;
       padding: 10px 0; border-bottom: 1px solid var(--border);
       text-decoration: none; color: var(--text);
-      font-size: .87rem; font-weight: 600; transition: var(--transition);
+      font-size: .85rem; font-weight: 600; transition: var(--transition);
     }
     .ath-quick-link:last-child { border-bottom: none; padding-bottom: 0; }
     .ath-quick-link:hover { color: var(--primary); }
-    .ath-quick-link .ql-icon { width: 28px; height: 28px; background: var(--highlight); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .9rem; flex-shrink: 0; }
-    .ath-quick-link .ql-arrow { margin-left: auto; color: var(--primary); font-size: .8rem; }
+    .ql-icon { width: 28px; height: 28px; background: var(--highlight); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .9rem; flex-shrink: 0; }
+    .ql-arrow { margin-left: auto; color: var(--primary); font-size: .8rem; opacity: .6; }
 
-    /* Clearance steps */
-    .clearance-steps { display: flex; flex-direction: column; gap: 10px; }
-    .clearance-step { display: flex; gap: 10px; align-items: flex-start; }
-    .cs-num { width: 22px; height: 22px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-    .cs-text { font-size: .83rem; color: var(--text); line-height: 1.5; }
+    /* Impact info */
+    .impact-note { font-size: .8rem; color: var(--text-muted); line-height: 1.6; }
+    .impact-sports { font-size: .77rem; color: var(--text); font-weight: 600; background: var(--highlight); border-radius: var(--radius-sm); padding: 8px 10px; margin: 10px 0; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -193,8 +221,16 @@
     <div class="breadcrumb" style="margin-bottom:12px;">
       <a href="index.html">Home</a><span class="sep">›</span><span>Athletics</span>
     </div>
-    <h1>Saints Athletics</h1>
-    <p>Interlake High School competes in the KingCo 3A Conference. Go Saints!</p>
+    <div class="ath-hero-inner">
+      <div>
+        <h1>Saints Athletics</h1>
+        <p>Interlake High School Saints — KingCo 3A Conference. Go Saints!</p>
+      </div>
+      <div class="ath-season-pill">
+        <span class="dot"></span>
+        Fall Season 2026 — In Progress
+      </div>
+    </div>
   </div>
 </div>
 
@@ -203,105 +239,133 @@
   <div class="container">
     <div class="ath-layout">
 
-      <!-- ── Main column ── -->
+      <!-- ═══════════════════════════════════ MAIN COLUMN ═══════════════════════════════ -->
       <div>
 
-        <!-- Upcoming Games -->
+        <!-- ── 1. Upcoming Games ── -->
         <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">📅</span> Upcoming Games</div>
-          <div class="games-grid">
-
-            <div class="game-card">
-              <div class="game-date-badge">
-                <div class="gbm">Sep</div>
-                <div class="gbd">5</div>
-              </div>
-              <div class="game-info">
-                <div class="game-sport">Boys Soccer</div>
-                <div class="game-matchup">Interlake vs. Newport</div>
-                <div class="game-meta">
-                  <span>5:00 PM</span>
-                  <span>Interlake Field</span>
-                  <span class="game-ha home">Home</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="game-card">
-              <div class="game-date-badge">
-                <div class="gbm">Sep</div>
-                <div class="gbd">5</div>
-              </div>
-              <div class="game-info">
-                <div class="game-sport">Girls Soccer</div>
-                <div class="game-matchup">Interlake vs. Eastlake</div>
-                <div class="game-meta">
-                  <span>7:00 PM</span>
-                  <span>Interlake Field</span>
-                  <span class="game-ha home">Home</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="game-card">
-              <div class="game-date-badge">
-                <div class="gbm">Sep</div>
-                <div class="gbd">6</div>
-              </div>
-              <div class="game-info">
-                <div class="game-sport">Football</div>
-                <div class="game-matchup">Interlake vs. Sammamish</div>
-                <div class="game-meta">
-                  <span>7:00 PM</span>
-                  <span>Sammamish Stadium</span>
-                  <span class="game-ha away">Away</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="game-card">
-              <div class="game-date-badge">
-                <div class="gbm">Sep</div>
-                <div class="gbd">9</div>
-              </div>
-              <div class="game-info">
-                <div class="game-sport">Girls Volleyball</div>
-                <div class="game-matchup">Interlake vs. Juanita</div>
-                <div class="game-meta">
-                  <span>6:30 PM</span>
-                  <span>Juanita High School</span>
-                  <span class="game-ha away">Away</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="game-card">
-              <div class="game-date-badge">
-                <div class="gbm">Sep</div>
-                <div class="gbd">12</div>
-              </div>
-              <div class="game-info">
-                <div class="game-sport">Cross Country</div>
-                <div class="game-matchup">KingCo Invitational</div>
-                <div class="game-meta">
-                  <span>9:00 AM</span>
-                  <span>Marymoor Park</span>
-                  <span class="game-ha away">Away</span>
-                </div>
-              </div>
-            </div>
-
+          <div class="ath-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Upcoming Games
           </div>
-          <p class="games-note">Schedules are approximate for Fall 2026. For live schedules and results, visit <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">MaxPreps</a>.</p>
+
+          <!-- Football -->
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">🏈 Football</span>
+              <span class="sport-group-line"></span>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">6</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Sammamish</div>
+                <div class="game-meta"><span>7:00 PM</span><span>Sammamish Stadium</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge away">Away</span></div>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">13</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Newport</div>
+                <div class="game-meta"><span>7:00 PM</span><span>Interlake Stadium</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge home">Home</span></div>
+            </div>
+          </div>
+
+          <!-- Girls Soccer -->
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">⚽ Girls Soccer</span>
+              <span class="sport-group-line"></span>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">5</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Eastlake</div>
+                <div class="game-meta"><span>5:00 PM</span><span>Interlake Field</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge home">Home</span></div>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">11</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Bellevue</div>
+                <div class="game-meta"><span>5:00 PM</span><span>Bellevue HS Field</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge away">Away</span></div>
+            </div>
+          </div>
+
+          <!-- Volleyball -->
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">🏐 Volleyball</span>
+              <span class="sport-group-line"></span>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">9</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Juanita</div>
+                <div class="game-meta"><span>6:30 PM</span><span>Juanita High School</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge away">Away</span></div>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">16</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Redmond</div>
+                <div class="game-meta"><span>6:30 PM</span><span>Interlake Gymnasium</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge home">Home</span></div>
+            </div>
+          </div>
+
+          <!-- Cross Country -->
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">🏃 Cross Country</span>
+              <span class="sport-group-line"></span>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">12</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">KingCo Invitational</div>
+                <div class="game-meta"><span>9:00 AM</span><span>Marymoor Park</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge away">Away</span></div>
+            </div>
+          </div>
+
+          <!-- Boys Tennis -->
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">🎾 Boys Tennis</span>
+              <span class="sport-group-line"></span>
+            </div>
+            <div class="game-row">
+              <div class="game-date-col"><div class="gd-mon">Sep</div><div class="gd-day">10</div></div>
+              <div class="game-info-col">
+                <div class="game-matchup">Interlake vs. Issaquah</div>
+                <div class="game-meta"><span>3:30 PM</span><span>Interlake Tennis Courts</span></div>
+              </div>
+              <div class="game-ha-col"><span class="ha-badge home">Home</span></div>
+            </div>
+          </div>
+
+          <p class="games-note">Schedules are approximate for Fall 2026. For live schedules and results, visit <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">MaxPreps →</a></p>
         </div>
 
-        <!-- Athlete of the Week -->
+        <!-- ── 2. Athlete of the Week ── -->
         <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">⭐</span> Athlete of the Week</div>
+          <div class="ath-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Athlete of the Week
+          </div>
           <div class="aotw-card">
             <div class="aotw-header">
               <div>
-                <div class="aotw-header-label">🏅 Saints Station Spotlight</div>
+                <div class="aotw-header-label">Saints Station Spotlight</div>
                 <div class="aotw-header-title">Athlete of the Week</div>
               </div>
             </div>
@@ -312,233 +376,402 @@
           </div>
         </div>
 
-        <!-- KingCo Awards -->
+        <!-- ── 3. Current Season: Fall 2026 ── -->
         <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">🥇</span> KingCo Awards &amp; Recognition</div>
-          <div class="kingco-list">
-
-            <div class="kingco-item">
-              <div class="kingco-trophy">⚾</div>
-              <div>
-                <div class="kingco-year">Spring 2026</div>
-                <div class="kingco-award">Baseball — KingCo 3A Semifinalists</div>
-                <div class="kingco-detail">Upset Bellevue in the quarterfinals to advance to the KingCo Semifinals.</div>
-              </div>
-            </div>
-
-            <div class="kingco-item">
-              <div class="kingco-trophy">🏈</div>
-              <div>
-                <div class="kingco-year">Fall 2025</div>
-                <div class="kingco-award">Football — 7–3 Overall Record</div>
-                <div class="kingco-detail">Strong postseason push in the KingCo 3A division.</div>
-              </div>
-            </div>
-
-            <div class="kingco-item">
-              <div class="kingco-trophy">🏅</div>
-              <div>
-                <div class="kingco-year">Ongoing</div>
-                <div class="kingco-award">KingCo All-League Selections</div>
-                <div class="kingco-detail">Individual all-league awards are announced at the end of each season. Check MaxPreps and the school website for updates.</div>
-              </div>
-            </div>
-
+          <div class="ath-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Sports &amp; Coaches
           </div>
-        </div>
 
-        <!-- Sports by Season -->
-        <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">🏅</span> Sports by Season</div>
-
-          <!-- Fall -->
+          <!-- Fall: Current -->
           <div class="season-block">
-            <div class="season-label">🍂 Fall — August through November</div>
-            <div class="sports-grid">
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/football/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏈</div>
-                <div><div class="sport-name">Football</div><div class="sport-gender">Boys Varsity · JV · Frosh</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">⚽</div>
-                <div><div class="sport-name">Boys Soccer</div><div class="sport-gender">Boys Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">⚽</div>
-                <div><div class="sport-name">Girls Soccer</div><div class="sport-gender">Girls Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏐</div>
-                <div><div class="sport-name">Volleyball</div><div class="sport-gender">Girls Varsity · JV · Frosh</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏃</div>
-                <div><div class="sport-name">Cross Country</div><div class="sport-gender">Boys &amp; Girls Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🎾</div>
-                <div><div class="sport-name">Girls Tennis</div><div class="sport-gender">Girls Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">⛳</div>
-                <div><div class="sport-name">Boys Golf</div><div class="sport-gender">Boys Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏊</div>
-                <div><div class="sport-name">Girls Swim &amp; Dive</div><div class="sport-gender">Girls Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Winter -->
-          <div class="season-block">
-            <div class="season-label">❄️ Winter — November through February</div>
-            <div class="sports-grid">
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/basketball/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏀</div>
-                <div><div class="sport-name">Boys Basketball</div><div class="sport-gender">Boys Varsity · JV · Frosh</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏀</div>
-                <div><div class="sport-name">Girls Basketball</div><div class="sport-gender">Girls Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🤼</div>
-                <div><div class="sport-name">Wrestling</div><div class="sport-gender">Boys Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🤺</div>
-                <div><div class="sport-name">Fencing</div><div class="sport-gender">Co-ed Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏊</div>
-                <div><div class="sport-name">Boys Swim &amp; Dive</div><div class="sport-gender">Boys Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Spring -->
-          <div class="season-block">
-            <div class="season-label">🌸 Spring — February through May</div>
-            <div class="sports-grid">
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/baseball/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">⚾</div>
-                <div><div class="sport-name">Baseball</div><div class="sport-gender">Boys Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🥎</div>
-                <div><div class="sport-name">Softball</div><div class="sport-gender">Girls Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.athletic.net/team/407/track-and-field-outdoor/2026" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🏃</div>
-                <div><div class="sport-name">Track &amp; Field</div><div class="sport-gender">Boys &amp; Girls Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">🎾</div>
-                <div><div class="sport-name">Boys Tennis</div><div class="sport-gender">Boys Varsity · JV</div></div>
-                <span class="arrow">→</span>
-              </a>
-              <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="sport-card">
-                <div class="sport-emoji">⛳</div>
-                <div><div class="sport-name">Girls Golf</div><div class="sport-gender">Girls Varsity</div></div>
-                <span class="arrow">→</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Club Sports -->
-          <div class="season-block">
-            <div class="season-label" style="background:var(--text-muted);">🎽 Club Sports — Year Round</div>
-            <div class="sports-grid">
-              <div class="sport-card" style="cursor:default;">
-                <div class="sport-emoji">🥍</div>
-                <div><div class="sport-name">Lacrosse <span class="club-tag">Club</span></div><div class="sport-gender">Boys &amp; Girls</div></div>
+            <div class="season-banner fall">
+              <span class="season-banner-emoji">🍂</span>
+              <div class="season-banner-text">
+                <div class="season-banner-name">Fall 2026</div>
+                <div class="season-banner-dates">August — November</div>
               </div>
-              <div class="sport-card" style="cursor:default;">
-                <div class="sport-emoji">🏊</div>
-                <div><div class="sport-name">Water Polo <span class="club-tag">Club</span></div><div class="sport-gender">Co-ed</div></div>
-              </div>
-              <div class="sport-card" style="cursor:default;">
-                <div class="sport-emoji">🏸</div>
-                <div><div class="sport-name">Badminton <span class="club-tag">Club</span></div><div class="sport-gender">Co-ed</div></div>
-              </div>
+              <span class="season-status live">Live Now</span>
             </div>
-            <p style="font-size:.76rem;color:var(--text-muted);margin-top:10px;">Club sports are not WIAA-sanctioned. ASB card still required. Contact the club directly for tryouts and schedules.</p>
+            <div class="coaches-grid">
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏃</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Cross Country — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Mitch Carabat</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏃</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Cross Country — Girls</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Kim Alberts-Hild</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏈</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Football</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Chris Wright</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">⛳</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Golf — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Scott Marcum</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">⚽</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Soccer — Girls</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Derek Gentry</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏊</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Swim &amp; Dive — Girls</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Paola Arenas</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🎾</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Tennis — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Matthew Perlman</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏐</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Volleyball</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Mitch Bio</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏊</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Water Polo — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Steve MacKinnon</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">📣</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Cheer</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Heather McLean</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">💃</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Dance &amp; Drill</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Ashleigh Morio</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <p style="font-size:.72rem;color:var(--text-muted);margin-top:10px;">
+              <span style="background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 5px;font-size:.65rem;font-weight:800;">ImPACT</span>
+              = baseline concussion test required before first practice. Contact <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a> to schedule.
+            </p>
           </div>
-        </div>
 
-        <!-- Eligibility -->
-        <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">📋</span> Eligibility Requirements</div>
-          <div class="elig-list">
-            <div class="elig-item"><div class="elig-check">✓</div><div>Must be enrolled at Interlake High School and in good academic standing (WIAA minimum: 1.0 GPA / no more than one failing grade per semester).</div></div>
-            <div class="elig-item"><div class="elig-check">✓</div><div>Valid <strong>ASB card</strong> required — purchase at the main office or online through the school store.</div></div>
-            <div class="elig-item"><div class="elig-check">✓</div><div><strong>BSD Sports Physical</strong> must be on file with the Athletics &amp; Activities department before the first practice. Physicals are valid for two years.</div></div>
-            <div class="elig-item"><div class="elig-check">✓</div><div><strong>ImPACT baseline concussion test</strong> required for contact sports (Football, Basketball, Soccer, Wrestling, Lacrosse) before the first practice.</div></div>
-            <div class="elig-item"><div class="elig-check">✓</div><div>No outstanding fines, unpaid fees, or overdue library books. Clear obligations in the main office before tryouts.</div></div>
-            <div class="elig-item"><div class="elig-check">✓</div><div>Student must not have exceeded the WIAA maximum of 8 semesters of high school athletic eligibility.</div></div>
+          <!-- Winter: Coming Up -->
+          <div class="season-block">
+            <div class="season-banner winter">
+              <span class="season-banner-emoji">❄️</span>
+              <div class="season-banner-text">
+                <div class="season-banner-name">Winter 2026–27</div>
+                <div class="season-banner-dates">November — February</div>
+              </div>
+              <span class="season-status coming">Coming Up</span>
+            </div>
+            <div class="coaches-grid">
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏀</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Basketball — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Scott Didrickson</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏀</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Basketball — Girls</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Josh Lovern</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🤸</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Gymnastics</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Sara Grandstrand</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🏊</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Swim &amp; Dive — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Paola Arenas</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🤼</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Wrestling — Boys</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Dave Unwin</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="coach-card">
+                <span class="coach-emoji">🤼</span>
+                <div class="coach-info">
+                  <div class="coach-sport">Wrestling — Girls</div>
+                  <div class="coach-name-row">
+                    <span class="coach-label">Coach</span>
+                    <span class="coach-name">Dave Unwin</span>
+                    <span class="impact-tag">ImPACT</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
 
-        <!-- Fees -->
-        <div class="ath-section">
-          <div class="ath-section-title"><span class="ath-icon">💳</span> Fees &amp; Registration</div>
-          <div class="fees-card">
-            <div class="fees-row"><span class="fees-label">ASB Card</span><span class="fees-amount">Required</span></div>
-            <div class="fees-row"><span class="fees-label">Participation Fee (per sport)</span><span class="fees-amount">Varies by sport</span></div>
-            <div class="fees-row"><span class="fees-label">School Transportation Fee</span><span class="fees-amount">Per district policy</span></div>
-            <div class="fees-row"><span class="fees-label">Sports Physical (if new)</span><span class="fees-amount">Your provider</span></div>
-            <p class="fees-note">Fee waivers are available for students who qualify for free or reduced-price lunch. Contact the Athletic Director or main office for more information. Participation fees are non-refundable after the first week of the season.</p>
+          <!-- Spring: Coming Up -->
+          <div class="season-block">
+            <div class="season-banner spring">
+              <span class="season-banner-emoji">🌸</span>
+              <div class="season-banner-text">
+                <div class="season-banner-name">Spring 2027</div>
+                <div class="season-banner-dates">February — May</div>
+              </div>
+              <span class="season-status coming">Coming Up</span>
+            </div>
+            <div class="coaches-grid">
+              <div class="coach-card"><span class="coach-emoji">🏸</span><div class="coach-info"><div class="coach-sport">Badminton — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Griffith Johnson</span></div><a class="coach-email" href="mailto:griffith.johnson@bsd405.org">griffith.johnson@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">⚾</span><div class="coach-info"><div class="coach-sport">Baseball</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Alex Papadopulos</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:alex.papadopulos@bsd405.org">alex.papadopulos@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">⛳</span><div class="coach-info"><div class="coach-sport">Golf — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Doug Calvert</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:douglas.calvert@bsd405.org">douglas.calvert@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🥍</span><div class="coach-info"><div class="coach-sport">Lacrosse — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Weston Heuker</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:weston.heuker@bsd405.org">weston.heuker@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🥍</span><div class="coach-info"><div class="coach-sport">Lacrosse — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Samantha Gunnerson</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:samantha.gunnerson@bsd405.org">samantha.gunnerson@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">⚽</span><div class="coach-info"><div class="coach-sport">Soccer — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Dan Peterson</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:dan.peterson@bsd405.org">dan.peterson@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🥎</span><div class="coach-info"><div class="coach-sport">Softball</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Kevin Cooper</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:kevin.cooper@bsd405.org">kevin.cooper@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🎾</span><div class="coach-info"><div class="coach-sport">Tennis — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Mathew Perlman</span></div><a class="coach-email" href="mailto:mathew.perlman@bsd405.org">mathew.perlman@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🏃</span><div class="coach-info"><div class="coach-sport">Track &amp; Field — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Dave Unwin</span></div><a class="coach-email" href="mailto:dave.unwin@bsd405.org">dave.unwin@bsd405.org</a></div></div>
+              <div class="coach-card"><span class="coach-emoji">🏃</span><div class="coach-info"><div class="coach-sport">Track &amp; Field — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Mitch Carabat</span></div><a class="coach-email" href="mailto:mitch.carabat@bsd405.org">mitch.carabat@bsd405.org</a></div></div>
+            </div>
           </div>
-        </div>
 
-      </div>
+        </div><!-- /ath-section -->
 
-      <!-- ── Sidebar ── -->
+      </div><!-- /main column -->
+
+      <!-- ═══════════════════════════════════ SIDEBAR ════════════════════════════════════ -->
       <div>
 
-        <!-- Athletic Director -->
+        <!-- How to Participate -->
+        <div class="ath-sidebar-card">
+          <div class="ath-sidebar-head">
+            <div class="ath-sidebar-head-title">How to Participate in a Sport</div>
+          </div>
+          <div class="ath-sidebar-body">
+            <div class="participate-steps">
+
+              <div class="p-step">
+                <div class="ps-num">1</div>
+                <div class="ps-body">
+                  <strong>Register online</strong> through IHS FinalForms — complete all required forms and waivers.
+                  <br>
+                  <a href="https://bellevue-wa.finalforms.com/" target="_blank" rel="noopener" class="ps-btn">Register on FinalForms →</a>
+                  <br>
+                  <a href="https://interlakehigh.bsd405.org/fs/resource-manager/view/5298c5da-9770-4da6-87fd-112531f32293" target="_blank" rel="noopener" class="ps-btn outline" style="margin-top:5px;">Parent Playbook →</a>
+                  <br>
+                  <span style="font-size:.73rem;color:var(--text-muted);display:block;margin-top:5px;">International, BVA, or Big Picture students: contact <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a></span>
+                </div>
+              </div>
+
+              <div class="p-step">
+                <div class="ps-num">2</div>
+                <div class="ps-body">
+                  <strong>Complete ImPACT baseline testing</strong> if required for your sport. Contact Krystyn or Lauren to schedule — takes 30–45 minutes.
+                  <br>
+                  <span style="font-size:.73rem;display:block;margin-top:4px;"><a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">higginsk@bsd405.org</a> · <a href="mailto:olsonla@bsd405.org" style="color:var(--primary);">olsonla@bsd405.org</a></span>
+                </div>
+              </div>
+
+              <div class="p-step">
+                <div class="ps-num">3</div>
+                <div class="ps-body">
+                  <strong>Submit a BSD sports physical</strong> to the Athletics & Activities department. Upload in FinalForms or email to <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a>.
+                </div>
+              </div>
+
+              <div class="p-step">
+                <div class="ps-num">4</div>
+                <div class="ps-body">
+                  <strong>Pay participation fees</strong> through the district payment portal. ASB membership is required — fees applied when team rosters are complete.
+                  <br>
+                  <a href="https://wa-bellevue.intouchreceipting.com/" target="_blank" rel="noopener" class="ps-btn" style="margin-top:6px;">Pay Online →</a>
+                </div>
+              </div>
+
+              <div class="p-step">
+                <div class="ps-num">5</div>
+                <div class="ps-body">
+                  <strong>More details</strong> on BSD Athletics participation requirements.
+                  <br>
+                  <a href="https://interlakehigh.bsd405.org/fs/pages/979" target="_blank" rel="noopener" class="ps-btn outline" style="margin-top:6px;">BSD Athletics Info →</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ImPACT Testing -->
+        <div class="ath-sidebar-card">
+          <div class="ath-sidebar-head">
+            <div class="ath-sidebar-head-title">ImPACT Testing</div>
+          </div>
+          <div class="ath-sidebar-body">
+            <p class="impact-note">Tests are scheduled as needed. Contact Athletics to set up a time — approximately 30–45 minutes.</p>
+            <div class="impact-sports">Required for: Football, Soccer, Divers, Volleyball, Water Polo, Cheer, Wrestling, Basketball, Gymnastics, Baseball, Softball, Lacrosse, Pole Vaulting</div>
+            <a href="https://interlakehigh.bsd405.org/fs/pages/974" target="_blank" rel="noopener" class="ps-btn" style="margin-top:4px;display:inline-flex;">ImPACT Info Page →</a>
+            <br>
+            <a href="https://www.bsd405.org/programs-and-services/athletics/code-of-conduct" target="_blank" rel="noopener" class="ps-btn outline" style="margin-top:8px;display:inline-flex;">Code of Conduct →</a>
+          </div>
+        </div>
+
+        <!-- Athletic Department Contacts -->
         <div class="ath-sidebar-card">
           <div class="ath-sidebar-head">
             <div class="ath-sidebar-head-title">Athletic Department</div>
           </div>
           <div class="ath-sidebar-body">
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Athletic Director</div>
-              <div class="ath-sidebar-val">Contact Main Office</div>
+            <div class="contact-list">
+
+              <div class="contact-item">
+                <div class="contact-role">Athletics &amp; Activities Director</div>
+                <div class="contact-name">Tori Marcum</div>
+                <div class="contact-detail">
+                  <span>(425) 456-7209</span>
+                  <a href="mailto:marcumt@bsd405.org">marcumt@bsd405.org</a>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-role">Athletic &amp; Activities Assistant</div>
+                <div class="contact-name">Krystyn Higgins</div>
+                <div class="contact-detail">
+                  <span>(425) 456-7365</span>
+                  <a href="mailto:higginsk@bsd405.org">higginsk@bsd405.org</a>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-role">Accountant</div>
+                <div class="contact-name">Esther Tate</div>
+                <div class="contact-detail">
+                  <span>(425) 456-7327</span>
+                  <a href="mailto:tatee@bsd405.org">tatee@bsd405.org</a>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-role">Athletic Trainer</div>
+                <div class="contact-name">Miranda Faucett</div>
+                <div class="contact-detail">
+                  <a href="mailto:mi.faucett@proliancesurgeons.com">mi.faucett@proliancesurgeons.com</a>
+                </div>
+              </div>
+
             </div>
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Phone</div>
-              <div class="ath-sidebar-val">(425) 456-7600</div>
-            </div>
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Location</div>
-              <div class="ath-sidebar-val">Interlake High School<br>16245 NE 24th St, Bellevue, WA 98008</div>
-            </div>
-            <a href="https://interlakehigh.bsd405.org/student-life/athletics" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;font-size:.85rem;">Official Athletics Page →</a>
+            <a href="https://interlakehigh.bsd405.org/student-life/athletics" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px;font-size:.82rem;">Official Athletics Page →</a>
           </div>
         </div>
 
         <!-- Quick Links -->
         <div class="ath-sidebar-card">
           <div class="ath-sidebar-head">
-            <div class="ath-sidebar-head-title">Schedules &amp; Scores</div>
+            <div class="ath-sidebar-head-title">Schedules &amp; Resources</div>
           </div>
           <div class="ath-sidebar-body">
             <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="ath-quick-link">
@@ -546,14 +779,19 @@
               <span>MaxPreps — All Schedules</span>
               <span class="ql-arrow">→</span>
             </a>
+            <a href="https://bellevue-wa.finalforms.com/" target="_blank" rel="noopener" class="ath-quick-link">
+              <div class="ql-icon">📝</div>
+              <span>FinalForms Registration</span>
+              <span class="ql-arrow">→</span>
+            </a>
+            <a href="https://wa-bellevue.intouchreceipting.com/" target="_blank" rel="noopener" class="ath-quick-link">
+              <div class="ql-icon">💳</div>
+              <span>Pay Athletic Fees</span>
+              <span class="ql-arrow">→</span>
+            </a>
             <a href="https://www.wiaa.com/" target="_blank" rel="noopener" class="ath-quick-link">
               <div class="ql-icon">🏛️</div>
               <span>WIAA — State Athletics</span>
-              <span class="ql-arrow">→</span>
-            </a>
-            <a href="https://bsd405.org/interlake/saints/athletics/" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">🏫</div>
-              <span>IHS Athletics News</span>
               <span class="ql-arrow">→</span>
             </a>
             <a href="https://interlakehigh.bsd405.org/community/booster-clubs" target="_blank" rel="noopener" class="ath-quick-link">
@@ -564,59 +802,7 @@
           </div>
         </div>
 
-        <!-- How to Get Cleared -->
-        <div class="ath-sidebar-card">
-          <div class="ath-sidebar-head">
-            <div class="ath-sidebar-head-title">How to Get Cleared</div>
-          </div>
-          <div class="ath-sidebar-body">
-            <div class="clearance-steps">
-              <div class="clearance-step">
-                <div class="cs-num">1</div>
-                <div class="cs-text"><strong>Get a sports physical</strong> — schedule with your doctor. BSD physicals are valid for 2 years.</div>
-              </div>
-              <div class="clearance-step">
-                <div class="cs-num">2</div>
-                <div class="cs-text"><strong>Submit physical to the Athletics office</strong> — bring the signed form to the main office or drop off in the athletics room.</div>
-              </div>
-              <div class="clearance-step">
-                <div class="cs-num">3</div>
-                <div class="cs-text"><strong>Purchase your ASB card</strong> — available at the student store or main office.</div>
-              </div>
-              <div class="clearance-step">
-                <div class="cs-num">4</div>
-                <div class="cs-text"><strong>Complete ImPACT test</strong> (contact sports only) — done at school before your first practice.</div>
-              </div>
-              <div class="clearance-step">
-                <div class="cs-num">5</div>
-                <div class="cs-text"><strong>Pay participation fees</strong> — check with the main office for your sport's fee amount.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- KingCo Info -->
-        <div class="ath-sidebar-card">
-          <div class="ath-sidebar-head">
-            <div class="ath-sidebar-head-title">KingCo Conference</div>
-          </div>
-          <div class="ath-sidebar-body">
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Classification</div>
-              <div class="ath-sidebar-val">3A — KingCo Athletic Conference</div>
-            </div>
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Member since</div>
-              <div class="ath-sidebar-val">1968</div>
-            </div>
-            <div class="ath-sidebar-row">
-              <div class="ath-sidebar-key">Conference members</div>
-              <div class="ath-sidebar-val" style="font-size:.8rem;line-height:1.6;">Bellevue, Bothell, Eastlake, Inglemoor, Interlake, Issaquah, Juanita, Lake Washington, Liberty, Mercer Island, Mount Si, Newport, North Creek, Redmond, Sammamish, Skyline, Woodinville</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      </div><!-- /sidebar -->
     </div>
   </div>
 </div>
