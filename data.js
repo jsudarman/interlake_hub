@@ -922,6 +922,86 @@ async function updateClubProfileAsync(clubId, profileData) {
   }
 }
 
+// ── Leadership async functions ───────────────────────────────────────────────
+
+async function getAsbOfficersAsync() {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('asb_officers').select('*').order('sort_order');
+    if (error) { console.warn('[Saints Station] getAsbOfficersAsync:', error); return []; }
+    return data || [];
+  } catch (e) { console.warn('[Saints Station] getAsbOfficersAsync:', e); return []; }
+}
+
+async function getAsbEventsAsync() {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('asb_events').select('*').order('sort_order');
+    if (error) { console.warn('[Saints Station] getAsbEventsAsync:', error); return []; }
+    return data || [];
+  } catch (e) { console.warn('[Saints Station] getAsbEventsAsync:', e); return []; }
+}
+
+async function getAsbAnnouncementsAsync() {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('asb_announcements').select('*').order('sort_order');
+    if (error) { console.warn('[Saints Station] getAsbAnnouncementsAsync:', error); return []; }
+    return data || [];
+  } catch (e) { console.warn('[Saints Station] getAsbAnnouncementsAsync:', e); return []; }
+}
+
+async function getAsbSettingsAsync() {
+  if (!window.sb) return null;
+  try {
+    const { data, error } = await sb.from('asb_settings').select('*').eq('id', 1).single();
+    if (error) { console.warn('[Saints Station] getAsbSettingsAsync:', error); return null; }
+    return data || null;
+  } catch (e) { console.warn('[Saints Station] getAsbSettingsAsync:', e); return null; }
+}
+
+async function getClassOfficersAsync(year) {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('class_officers').select('*').eq('class_year', year).order('sort_order');
+    if (error) { console.warn('[Saints Station] getClassOfficersAsync:', error); return []; }
+    return (data || []).map(o => ({ name: o.name, role: o.role, photoUrl: o.photo_url }));
+  } catch (e) { console.warn('[Saints Station] getClassOfficersAsync:', e); return []; }
+}
+
+async function getClassAnnouncementsAsync(year) {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('class_announcements').select('*').eq('class_year', year).order('sort_order');
+    if (error) { console.warn('[Saints Station] getClassAnnouncementsAsync:', error); return []; }
+    const sections = {};
+    const order = [];
+    (data || []).forEach(a => {
+      if (!sections[a.section_header]) { sections[a.section_header] = { header: a.section_header, items: [] }; order.push(a.section_header); }
+      sections[a.section_header].items.push({ main: a.main_text, sub: Array.isArray(a.sub_bullets) ? a.sub_bullets : [] });
+    });
+    return order.map(h => sections[h]);
+  } catch (e) { console.warn('[Saints Station] getClassAnnouncementsAsync:', e); return []; }
+}
+
+async function getClassFundraisersAsync(year) {
+  if (!window.sb) return [];
+  try {
+    const { data, error } = await sb.from('class_fundraisers').select('*').eq('class_year', year).order('sort_order');
+    if (error) { console.warn('[Saints Station] getClassFundraisersAsync:', error); return []; }
+    return (data || []).map(f => ({ date: f.date_text, title: f.title, location: f.location, desc: f.description }));
+  } catch (e) { console.warn('[Saints Station] getClassFundraisersAsync:', e); return []; }
+}
+
+async function getClassSettingsAsync(year) {
+  if (!window.sb) return null;
+  try {
+    const { data, error } = await sb.from('class_settings').select('*').eq('class_year', year).single();
+    if (error) { console.warn('[Saints Station] getClassSettingsAsync:', error); return null; }
+    return data || null;
+  } catch (e) { console.warn('[Saints Station] getClassSettingsAsync:', e); return null; }
+}
+
 // ── End Supabase async functions ─────────────────────────────────────────────
 
 function getClubMeetingDays(club) {
