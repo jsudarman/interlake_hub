@@ -15,7 +15,7 @@ DELETE FROM public.class_officers;
 DELETE FROM public.class_settings;
 
 -- ── ASB Settings ─────────────────────────────────────────────
-INSERT INTO public.asb_settings (id, advisor_name, advisor_email, instagram_url, minutes_url, contact_general, contact_president, contact_events)
+INSERT INTO public.asb_settings (id, advisor_name, advisor_email, instagram_url, minutes_url, contact_general, contact_president, contact_events, what_is_asb, tiktok_url)
 VALUES (
   1,
   'Mr. VanDevanter',
@@ -24,18 +24,20 @@ VALUES (
   'https://docs.google.com/document/d/1w1JzZxjG5OY0Qg-T5gmEMZqiw1ZWYQ1a/edit?rtpof=true&sd=true&tab=t.0',
   'asb@interlake.edu',
   'asbpresident@interlake.edu',
-  'asbevents@interlake.edu'
+  'asbevents@interlake.edu',
+  'The Associated Student Body (ASB) is Interlake''s official student government. Elected officers represent all students, plan and run school events, promote school spirit, and serve as the link between students and administration. ASB oversees Homecoming, Spirit Week, dances, pep assemblies, and community service initiatives — managing the student activities budget and coordinating with clubs, classes, and staff year-round.',
+  ''
 );
 
 -- ── ASB Officers ─────────────────────────────────────────────
 INSERT INTO public.asb_officers (name, role, photo_url, sort_order) VALUES
-  ('Name', 'President',                 '', 1),
-  ('Name', 'Exec Vice President',       '', 2),
-  ('Name', 'VP of Communications',      '', 3),
-  ('Name', 'VP of Community Relations', '', 4),
-  ('Name', 'Secretary',                 '', 5),
-  ('Name', 'Treasurer',                 '', 6),
-  ('Name', 'Historian',                 '', 7);
+  ('Name', 'CO-PRESIDENT', '', 1),
+  ('Name', 'CO-PRESIDENT', '', 2),
+  ('Name', 'CO-PRESIDENT', '', 3),
+  ('Name', 'CO-PRESIDENT', '', 4),
+  ('Name', 'CO-PRESIDENT', '', 5),
+  ('Name', 'CO-PRESIDENT', '', 6),
+  ('Name', 'CO-PRESIDENT', '', 7);
 
 -- ── ASB Events ───────────────────────────────────────────────
 INSERT INTO public.asb_events (event_month, event_day, event_name, bullets, sort_order) VALUES
@@ -114,35 +116,35 @@ INSERT INTO public.class_settings (class_year, grade_label, instagram_url, tikto
 -- ── Class Officers ───────────────────────────────────────────
 -- Class of 2027 — Seniors
 INSERT INTO public.class_officers (class_year, name, role, photo_url, sort_order) VALUES
-  ('2027', 'Emily Zhang',   'President',     '', 1),
-  ('2027', 'Marcus Rivera', 'Vice President', '', 2),
-  ('2027', 'Sofia Patel',   'Secretary',     '', 3),
-  ('2027', 'Noah Kim',      'Treasurer',     '', 4),
-  ('2027', 'Ava Johnson',   'Events Chair',  '', 5);
+  ('2027', 'Emily Zhang',   'OFFICER', '', 1),
+  ('2027', 'Marcus Rivera', 'OFFICER', '', 2),
+  ('2027', 'Sofia Patel',   'OFFICER', '', 3),
+  ('2027', 'Noah Kim',      'OFFICER', '', 4),
+  ('2027', 'Ava Johnson',   'OFFICER', '', 5);
 
 -- Class of 2028 — Juniors
 INSERT INTO public.class_officers (class_year, name, role, photo_url, sort_order) VALUES
-  ('2028', 'Jordan Lee',      'President',     '', 1),
-  ('2028', 'Isabella Torres', 'Vice President', '', 2),
-  ('2028', 'Ryan Nakamura',   'Secretary',     '', 3),
-  ('2028', 'Priya Menon',     'Treasurer',     '', 4),
-  ('2028', 'Caleb Thompson',  'Events Chair',  '', 5);
+  ('2028', 'Jordan Lee',      'OFFICER', '', 1),
+  ('2028', 'Isabella Torres', 'OFFICER', '', 2),
+  ('2028', 'Ryan Nakamura',   'OFFICER', '', 3),
+  ('2028', 'Priya Menon',     'OFFICER', '', 4),
+  ('2028', 'Caleb Thompson',  'OFFICER', '', 5);
 
 -- Class of 2029 — Sophomores
 INSERT INTO public.class_officers (class_year, name, role, photo_url, sort_order) VALUES
-  ('2029', 'Mia Chen',      'President',     '', 1),
-  ('2029', 'Ethan Brooks',  'Vice President', '', 2),
-  ('2029', 'Lily Osei',     'Secretary',     '', 3),
-  ('2029', 'Daniel Park',   'Treasurer',     '', 4),
-  ('2029', 'Grace Hoffman', 'Events Chair',  '', 5);
+  ('2029', 'Mia Chen',      'OFFICER', '', 1),
+  ('2029', 'Ethan Brooks',  'OFFICER', '', 2),
+  ('2029', 'Lily Osei',     'OFFICER', '', 3),
+  ('2029', 'Daniel Park',   'OFFICER', '', 4),
+  ('2029', 'Grace Hoffman', 'OFFICER', '', 5);
 
 -- Class of 2030 — Freshmen
 INSERT INTO public.class_officers (class_year, name, role, photo_url, sort_order) VALUES
-  ('2030', 'Aiden Walsh',  'President',     '', 1),
-  ('2030', 'Chloe Singh',  'Vice President', '', 2),
-  ('2030', 'Mason Reed',   'Secretary',     '', 3),
-  ('2030', 'Zoe Martinez', 'Treasurer',     '', 4),
-  ('2030', 'Liam Okoro',   'Events Chair',  '', 5);
+  ('2030', 'Aiden Walsh',  'OFFICER', '', 1),
+  ('2030', 'Chloe Singh',  'OFFICER', '', 2),
+  ('2030', 'Mason Reed',   'OFFICER', '', 3),
+  ('2030', 'Zoe Martinez', 'OFFICER', '', 4),
+  ('2030', 'Liam Okoro',   'OFFICER', '', 5);
 
 -- ── Class Announcements ──────────────────────────────────────
 -- Class of 2027

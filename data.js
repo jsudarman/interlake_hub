@@ -1002,6 +1002,114 @@ async function getClassSettingsAsync(year) {
   } catch (e) { console.warn('[Saints Station] getClassSettingsAsync:', e); return null; }
 }
 
+// ── Leadership save functions ────────────────────────────────────────────────
+
+async function updateAsbOfficersAsync(officers) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('asb_officers').delete().not('id', 'is', null);
+    if (officers.length) {
+      const rows = officers.map((o, i) => ({ name: o.name, role: 'CO-PRESIDENT', photo_url: o.photo_url || '', sort_order: i + 1 }));
+      const { error } = await sb.from('asb_officers').insert(rows);
+      if (error) { console.warn('[Saints Station] updateAsbOfficersAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateAsbOfficersAsync:', e); return false; }
+}
+
+async function updateAsbEventsAsync(events) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('asb_events').delete().not('id', 'is', null);
+    if (events.length) {
+      const rows = events.map((e, i) => ({
+        event_month: e.event_month, event_day: e.event_day,
+        event_name: e.event_name, bullets: e.bullets || [], sort_order: i + 1
+      }));
+      const { error } = await sb.from('asb_events').insert(rows);
+      if (error) { console.warn('[Saints Station] updateAsbEventsAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateAsbEventsAsync:', e); return false; }
+}
+
+async function updateAsbAnnouncementsAsync(announcements) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('asb_announcements').delete().not('id', 'is', null);
+    if (announcements.length) {
+      const { error } = await sb.from('asb_announcements').insert(announcements.map((a, i) => ({
+        section_header: a.section_header, main_text: a.main_text,
+        sub_bullets: a.sub_bullets || [], sort_order: i + 1
+      })));
+      if (error) { console.warn('[Saints Station] updateAsbAnnouncementsAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateAsbAnnouncementsAsync:', e); return false; }
+}
+
+async function updateAsbSettingsAsync(settings) {
+  if (!window.sb) return false;
+  try {
+    const { error } = await sb.from('asb_settings').update(settings).eq('id', 1);
+    if (error) { console.warn('[Saints Station] updateAsbSettingsAsync:', error); return false; }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateAsbSettingsAsync:', e); return false; }
+}
+
+async function updateClassOfficersAsync(year, officers) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('class_officers').delete().eq('class_year', year);
+    if (officers.length) {
+      const rows = officers.map((o, i) => ({ class_year: year, name: o.name, role: 'OFFICER', photo_url: o.photo_url || '', sort_order: i + 1 }));
+      const { error } = await sb.from('class_officers').insert(rows);
+      if (error) { console.warn('[Saints Station] updateClassOfficersAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateClassOfficersAsync:', e); return false; }
+}
+
+async function updateClassFundraisersAsync(year, fundraisers) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('class_fundraisers').delete().eq('class_year', year);
+    if (fundraisers.length) {
+      const rows = fundraisers.map((f, i) => ({
+        class_year: year, date_text: f.date_text, title: f.title,
+        location: f.location, description: f.description, sort_order: i + 1
+      }));
+      const { error } = await sb.from('class_fundraisers').insert(rows);
+      if (error) { console.warn('[Saints Station] updateClassFundraisersAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateClassFundraisersAsync:', e); return false; }
+}
+
+async function updateClassAnnouncementsAsync(year, announcements) {
+  if (!window.sb) return false;
+  try {
+    await sb.from('class_announcements').delete().eq('class_year', year);
+    if (announcements.length) {
+      const { error } = await sb.from('class_announcements').insert(announcements.map((a, i) => ({
+        class_year: year, section_header: a.section_header, main_text: a.main_text,
+        sub_bullets: a.sub_bullets || [], sort_order: i + 1
+      })));
+      if (error) { console.warn('[Saints Station] updateClassAnnouncementsAsync insert:', error); return false; }
+    }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateClassAnnouncementsAsync:', e); return false; }
+}
+
+async function updateClassSettingsAsync(year, settings) {
+  if (!window.sb) return false;
+  try {
+    const { error } = await sb.from('class_settings').upsert({ class_year: year, ...settings }, { onConflict: 'class_year' });
+    if (error) { console.warn('[Saints Station] updateClassSettingsAsync:', error); return false; }
+    return true;
+  } catch (e) { console.warn('[Saints Station] updateClassSettingsAsync:', e); return false; }
+}
+
 // ── End Supabase async functions ─────────────────────────────────────────────
 
 function getClubMeetingDays(club) {
