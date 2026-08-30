@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update Your Page — Saints Station</title>
+  <title>Officer Portal — Saints Station</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .page-bg { min-height: 100vh; background: var(--bg); }
@@ -24,81 +24,228 @@
     .preview-update-item { background: var(--card); border-radius: var(--radius-sm); padding: 16px; border-left: 4px solid var(--primary); }
 
     /* ── Login overlay ── */
-    .login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 24px; }
-    .login-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 100%; max-width: 420px; overflow: hidden; }
-    .login-header { background: var(--primary-dark); padding: 36px 32px 28px; text-align: center; color: var(--text); }
-    .login-header .login-icon { font-size: 2.8rem; margin-bottom: 12px; }
-    .login-header h2 { font-size: 1.4rem; font-weight: 600; }
-    .login-header p { font-size: .85rem; opacity: .75; margin-top: 6px; }
-    .login-body { padding: 28px 28px 20px; }
-    .login-demo-box { background: var(--highlight); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; }
-    .login-demo-box .demo-label { font-weight: 600; color: var(--primary); font-size: .73rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-    .login-demo-box .demo-cred { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; color: var(--text); font-size: .84rem; }
-    .login-demo-box .demo-cred .demo-key { color: var(--text-muted); font-weight: 600; }
-    .login-demo-box .demo-cred code { background: #fff; border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: .8rem; color: var(--primary); cursor: pointer; transition: var(--transition); }
-    .login-demo-box .demo-cred code:hover { background: var(--highlight); }
+    .login-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 24px; overflow-y: auto; }
+    .login-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 100%; max-width: 480px; overflow: hidden; margin: auto; }
+    .login-header { background: var(--primary-dark); padding: 28px 32px 22px; text-align: center; color: var(--text); }
+    .login-header h2 { font-size: 1.3rem; font-weight: 700; }
+    .login-header p { font-size: .82rem; opacity: .75; margin-top: 5px; }
+    .login-body { padding: 24px 28px 16px; }
     .login-error { color: #ef4444; font-size: .82rem; margin-bottom: 12px; display: none; padding: 8px 12px; background: #fef2f2; border-radius: var(--radius-sm); border: 1px solid #fecaca; }
     .login-error.show { display: block; }
-    .login-footer { padding: 0 28px 28px; }
+    .login-footer { padding: 0 28px 24px; }
     .login-note { font-size: .74rem; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.5; }
-    .login-note strong { color: var(--primary); }
+    .login-back { font-size: .8rem; color: var(--primary); cursor: pointer; background: none; border: none; padding: 0; display: flex; align-items: center; gap: 4px; margin-bottom: 16px; }
+    .login-back:hover { text-decoration: underline; }
 
+    /* ── Portal chooser ── */
+    .portal-chooser-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 500px) { .portal-chooser-grid { grid-template-columns: 1fr; } }
+    .portal-choice-btn {
+      border: 2px solid var(--border); border-radius: var(--radius-sm);
+      padding: 20px 12px; cursor: pointer; text-align: center;
+      background: var(--card); transition: var(--transition);
+    }
+    .portal-choice-btn:hover { border-color: var(--primary); background: var(--highlight); }
+    .portal-choice-btn .choice-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .portal-choice-btn .choice-name { font-size: .88rem; font-weight: 700; color: var(--text); }
+    .portal-choice-btn .choice-desc { font-size: .72rem; color: var(--text-muted); margin-top: 3px; }
+
+    /* ── Logged-in bar ── */
     .logged-in-bar { background: var(--highlight); border-bottom: 1px solid var(--border); padding: 10px 0; }
     .logged-in-bar-inner { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--primary); }
     .logged-in-bar .user-badge { background: var(--primary); color: #fff; border-radius: 20px; padding: 2px 12px; font-size: .78rem; font-weight: 700; }
     .logged-in-bar .sign-out { margin-left: auto; font-size: .78rem; color: var(--text-muted); cursor: pointer; }
     .logged-in-bar .sign-out:hover { color: var(--primary); }
+
+    /* ── Mode toggle ── */
+    .mode-toggle { display: flex; border-bottom: 2px solid var(--border); margin: 0 -24px 28px; }
+    .mode-btn { flex: 1; padding: 14px 12px; background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; font-size: .88rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
+    .mode-btn:hover:not(.active) { color: var(--text); background: var(--highlight); }
+    .mode-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ── Profile section cards ── */
+    .profile-section { border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 14px; overflow: hidden; }
+    .profile-section-header { background: var(--highlight); padding: 9px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .profile-section-header h3 { font-size: .78rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .07em; margin: 0; }
+    .profile-section-body { padding: 14px 16px; }
+    .profile-section-body .form-group { margin-bottom: 12px; }
+    .profile-section-body .form-group:last-child { margin-bottom: 0; }
+
+    /* ── Dynamic list rows ── */
+    .dyn-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .dyn-item:first-child { padding-top: 0; }
+    .dyn-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .dyn-item-fields { flex: 1; display: flex; flex-wrap: wrap; gap: 8px; }
+    .dyn-item-fields .form-control { margin: 0; font-size: .83rem; }
+    .dyn-remove { flex-shrink: 0; width: 28px; height: 28px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; color: #ef4444; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; margin-top: 1px; line-height: 1; padding: 0; }
+    .dyn-remove:hover { background: #fef2f2; border-color: #fecaca; }
+    .dyn-empty { font-size: .82rem; color: var(--text-muted); font-style: italic; padding: 4px 0 8px; }
+    .add-row-btn { margin-top: 10px; font-size: .8rem; padding: 6px 14px; }
+
+    /* ── Order buttons ── */
+    .order-btns { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+    .order-btn { width: 24px; height: 20px; background: var(--highlight); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; color: var(--text-muted); transition: var(--transition); }
+    .order-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .order-btn svg { width: 10px; height: 10px; }
+
+    /* ── Bullet sub-rows ── */
+    .bullet-block { background: var(--highlight); border-radius: var(--radius-sm); padding: 8px 10px; margin-top: 6px; }
+    .bullet-block-label { font-size: .7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .bullet-row { display: flex; gap: 6px; margin-bottom: 5px; align-items: center; }
+    .bullet-row:last-of-type { margin-bottom: 0; }
+    .bullet-row .form-control { font-size: .8rem; padding: 5px 8px; }
+    .bullet-row .dyn-remove { width: 22px; height: 22px; font-size: .9rem; }
+    .add-bullet-btn { font-size: .75rem; padding: 4px 10px; margin-top: 6px; }
+
+    /* ── Photo preview ── */
+    .photo-preview { margin-top: 10px; border-radius: var(--radius-sm); overflow: hidden; background: var(--border); display: none; }
+    .photo-preview img { width: 100%; max-height: 180px; object-fit: cover; display: block; }
+    .photo-preview.show { display: block; }
+
+    /* ── Profile loading ── */
+    .profile-loading { display: flex; align-items: center; gap: 10px; padding: 20px 0 8px; color: var(--text-muted); font-size: .85rem; }
+
+    /* ── Save bar ── */
+    .save-bar { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 12px; z-index: 10; }
+    .save-bar-note { flex: 1; font-size: .78rem; color: var(--text-muted); }
+
+    /* ── Portal pane ── */
+    .portal-pane { display: none; }
+    .portal-pane.active { display: block; }
   </style>
 </head>
 <body class="page-bg">
 
-<!-- Login overlay -->
+<!-- ── Login overlay ── -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-card">
-    <div class="login-header">
-      <div class="login-icon"></div>
-      <h2>Officer Portal</h2>
-      <p>Are you a club/class officer? Sign in to update your page</p>
-    </div>
-    <div class="login-body">
-      <div class="login-demo-box">
-        <div class="demo-label">Demo Credentials</div>
-        <div class="demo-cred">
-          <span class="demo-key">Username</span>
-          <code onclick="autofillUser(this)">clubofficer@interlake.edu</code>
+
+    <!-- Step 1: Choose portal -->
+    <div id="loginStep1">
+      <div class="login-header">
+        <h2>Officer Portal</h2>
+        <p>Choose your portal to get started</p>
+      </div>
+      <div class="login-body">
+        <div class="portal-chooser-grid">
+          <div class="portal-choice-btn" onclick="choosePortal('asb')">
+            <div class="choice-icon">🏛️</div>
+            <div class="choice-name">ASB</div>
+            <div class="choice-desc">Associated Student Body</div>
+          </div>
+          <div class="portal-choice-btn" onclick="choosePortal('class')">
+            <div class="choice-icon">🎓</div>
+            <div class="choice-name">Class Office</div>
+            <div class="choice-desc">Class officers by year</div>
+          </div>
+          <div class="portal-choice-btn" onclick="choosePortal('club')">
+            <div class="choice-icon">📋</div>
+            <div class="choice-name">Club Officers</div>
+            <div class="choice-desc">Post updates &amp; profiles</div>
+          </div>
         </div>
-        <div class="demo-cred">
-          <span class="demo-key">Password</span>
-          <code onclick="autofillPass(this)">Interlake2026!</code>
+      </div>
+    </div>
+
+    <!-- Step 2A: ASB login -->
+    <div id="loginStep2asb" style="display:none;">
+      <div class="login-header">
+        <h2>ASB Portal</h2>
+        <p>Sign in with the ASB officer password</p>
+      </div>
+      <div class="login-body">
+        <button class="login-back" onclick="backToStep1()">← Back</button>
+        <div class="login-error" id="asbLoginError">Incorrect password. Please try again.</div>
+        <div class="form-group">
+          <label class="form-label" for="asbPassInput">Password</label>
+          <input type="password" class="form-control" id="asbPassInput" placeholder="••••••••••" autocomplete="current-password">
         </div>
       </div>
-      <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
-      <div class="form-group">
-        <label class="form-label" for="loginUser">Username / Email</label>
-        <input type="email" class="form-control" id="loginUser" placeholder="your@interlake.edu" autocomplete="username">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="loginPass">Password</label>
-        <input type="password" class="form-control" id="loginPass" placeholder="••••••••••" autocomplete="current-password">
+      <div class="login-footer">
+        <button class="btn btn-primary" onclick="doLoginAsb()" style="width:100%;justify-content:center;padding:12px;">
+          Sign In to ASB →
+        </button>
+        <p class="login-note">Contact your ASB advisor for the portal password.</p>
       </div>
     </div>
-    <div class="login-footer">
-      <button class="btn btn-primary" onclick="doLogin()" style="width:100%;justify-content:center;padding:12px;">
-        Sign In →
-      </button>
-      <p class="login-note">
-        This is a <strong>demo login</strong>. In production, officers will authenticate via<br>
-        Interlake school SSO (Google/Microsoft). Click the credentials above to autofill.
-      </p>
+
+    <!-- Step 2B: Class Office login -->
+    <div id="loginStep2class" style="display:none;">
+      <div class="login-header">
+        <h2>Class Office Portal</h2>
+        <p>Select your class year and enter the password</p>
+      </div>
+      <div class="login-body">
+        <button class="login-back" onclick="backToStep1()">← Back</button>
+        <div class="login-error" id="classLoginError">Incorrect password. Please try again.</div>
+        <div class="form-group">
+          <label class="form-label" for="classYearSelect">Class Year</label>
+          <select class="form-control" id="classYearSelect">
+            <option value="">— Select your class —</option>
+            <option value="2027">Class of 2027 — Seniors</option>
+            <option value="2028">Class of 2028 — Juniors</option>
+            <option value="2029">Class of 2029 — Sophomores</option>
+            <option value="2030">Class of 2030 — Freshmen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="classPassInput">Password</label>
+          <input type="password" class="form-control" id="classPassInput" placeholder="••••••••••" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="login-footer">
+        <button class="btn btn-primary" onclick="doLoginClass()" style="width:100%;justify-content:center;padding:12px;">
+          Sign In to Class Office →
+        </button>
+        <p class="login-note">Contact your class advisor for the portal password.</p>
+      </div>
     </div>
+
+    <!-- Step 2C: Club Officers login -->
+    <div id="loginStep2club" style="display:none;">
+      <div class="login-header">
+        <h2>Club Officer Portal</h2>
+        <p>Sign in to post updates or edit your club profile</p>
+      </div>
+      <div class="login-body">
+        <button class="login-back" onclick="backToStep1()">← Back</button>
+        <div class="login-demo-box" style="background:var(--highlight);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px;">
+          <div style="font-weight:600;color:var(--primary);font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Demo Credentials</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;color:var(--text);font-size:.84rem;">
+            <span style="color:var(--text-muted);font-weight:600;">Username</span>
+            <code onclick="document.getElementById('loginUser').value=this.textContent" style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.8rem;color:var(--primary);cursor:pointer;">clubofficer@interlake.edu</code>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;color:var(--text);font-size:.84rem;">
+            <span style="color:var(--text-muted);font-weight:600;">Password</span>
+            <code onclick="document.getElementById('loginPass').value=this.textContent" style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.8rem;color:var(--primary);cursor:pointer;">Interlake2026!</code>
+          </div>
+        </div>
+        <div class="login-error" id="clubLoginError">Incorrect credentials. Please try again.</div>
+        <div class="form-group">
+          <label class="form-label" for="loginUser">Username / Email</label>
+          <input type="email" class="form-control" id="loginUser" placeholder="your@interlake.edu" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPass">Password</label>
+          <input type="password" class="form-control" id="loginPass" placeholder="••••••••••" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="login-footer">
+        <button class="btn btn-primary" onclick="doLoginClub()" style="width:100%;justify-content:center;padding:12px;">
+          Sign In →
+        </button>
+        <p class="login-note">This is a <strong>demo login</strong>. Click the credentials above to autofill.</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Logged-in bar (shown after login) -->
+<!-- ── Logged-in bar ── -->
 <div class="logged-in-bar" id="loggedInBar" style="display:none;">
   <div class="container logged-in-bar-inner">
     <span>Signed in as</span>
-    <span class="user-badge" id="userBadge">Club Officer</span>
+    <span class="user-badge" id="userBadge">Officer</span>
     <span class="sign-out" onclick="doSignOut()">Sign out</span>
   </div>
 </div>
@@ -129,115 +276,506 @@
   </div>
 </nav>
 
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- ASB PORTAL PANE                                                          -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<div class="portal-pane" id="asbPortal">
 <div class="form-page">
   <div class="breadcrumb" style="margin-bottom:24px;">
     <a href="index.html">Home</a><span class="sep">›</span>
-    <a href="clubs.html">Clubs</a><span class="sep">›</span>
-    <span>Update Your Page</span>
+    <a href="leadership.html">Leadership</a><span class="sep">›</span>
+    <span>ASB Portal</span>
   </div>
 
   <div class="form-card">
     <div class="form-card-header">
-      <h1>Update Your Page</h1>
-      <p>Submit agendas before meetings, recaps after, and announcements anytime — so every student stays in the loop.</p>
+      <h1>ASB Portal</h1>
+      <p>Edit ASB officer photos, events, announcements, and settings. All changes save to Supabase and appear on the site immediately.</p>
     </div>
 
-    <div class="form-view" id="formView">
-      <form class="form-body" id="updateForm" novalidate>
+    <div id="asbPortalLoading" class="profile-loading">Loading ASB data…</div>
+    <div id="asbPortalContent" style="display:none;">
 
-        <div class="form-group">
-          <label class="form-label" for="clubSelect">Club / Class <span class="required">*</span></label>
-          <select class="form-control" id="clubSelect" name="club" required>
-            <option value="">— Select —</option>
-          </select>
+      <!-- Officers -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Officers <span style="font-weight:400;color:var(--text-muted);font-size:.72rem;text-transform:none;letter-spacing:0;">(all show as CO-PRESIDENT)</span></h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAsbOfficers()">Save Officers</button>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="authorName">Your Name <span class="required">*</span></label>
-            <input type="text" class="form-control" id="authorName" name="author" placeholder="e.g. Sarah Kim" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="authorRole">Your Role</label>
-            <input type="text" class="form-control" id="authorRole" name="role" placeholder="e.g. President, VP">
-          </div>
+        <div class="profile-section-body">
+          <div id="asbOfficersList"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAsbOfficerRow()">+ Add Officer</button>
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Update Type <span class="required">*</span></label>
-          <div class="type-cards">
-            <div class="type-card selected" data-type="agenda" onclick="selectType('agenda')">
-              <div class="type-icon"></div>
-              <div class="type-name">Agenda</div>
-              <div class="type-desc">Upcoming meeting plan</div>
-            </div>
-            <div class="type-card" data-type="recap" onclick="selectType('recap')">
-              <div class="type-icon"></div>
-              <div class="type-name">Recap</div>
-              <div class="type-desc">Summary of a past meeting</div>
-            </div>
-            <div class="type-card" data-type="announcement" onclick="selectType('announcement')">
-              <div class="type-icon"></div>
-              <div class="type-name">Announcement</div>
-              <div class="type-desc">News or deadline</div>
-            </div>
-          </div>
-          <input type="hidden" id="updateTypeInput" name="updateType" value="agenda">
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="updateDate">Date <span class="required">*</span></label>
-            <input type="date" class="form-control" id="updateDate" name="date" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="updateTitle">Title <span class="required">*</span></label>
-            <input type="text" class="form-control" id="updateTitle" name="title" placeholder="e.g. Meeting Agenda — May 20" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="updateContent">Content <span class="required">*</span></label>
-          <textarea class="form-control" id="updateContent" name="content" rows="7"
-            placeholder="Agendas: list items one per line&#10;Recaps: summarize what happened, key decisions, next steps&#10;Announcements: key info students need to know" required></textarea>
-          <div class="char-count"><span id="charCount">0</span> / 2000</div>
-        </div>
-
-        <div class="preview-box" id="previewBox">
-          <h4>Preview</h4>
-          <div class="preview-update-item" id="previewContent"></div>
-        </div>
-      </form>
-
-      <div class="form-footer">
-        <button type="button" class="btn btn-outline" id="previewBtn">Preview</button>
-        <button type="button" class="btn btn-primary" id="submitBtn">Submit Update →</button>
       </div>
-    </div>
 
-    <div class="success-view" id="successView">
-      <div style="font-size:3.5rem;margin-bottom:16px;"></div>
-      <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:8px;">Update Published!</h2>
-      <p style="color:var(--text-muted);max-width:380px;margin:0 auto 28px;">
-        Your update is now live on the club page. Members and interested students can see it immediately.
-      </p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a id="viewClubBtn" href="clubs.html" class="btn btn-primary">View Club Page →</a>
-        <button class="btn btn-outline" id="submitAnotherBtn">Submit Another</button>
+      <!-- What is ASB -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>What is ASB?</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAsbSettings()">Save Settings</button>
+        </div>
+        <div class="profile-section-body">
+          <div class="form-group">
+            <label class="form-label" for="asbWhatIsAsbEdit">Description Text</label>
+            <textarea class="form-control" id="asbWhatIsAsbEdit" rows="5" placeholder="Describe what ASB is…"></textarea>
+            <div style="font-size:.73rem;color:var(--text-muted);margin-top:4px;">Use a blank line between paragraphs to split into separate blocks.</div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <!-- Events -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Upcoming Events</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAsbEvents()">Save Events</button>
+        </div>
+        <div class="profile-section-body">
+          <div id="asbEventsList" style="display:flex;flex-direction:column;gap:12px;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAsbEventRow()">+ Add Event</button>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Announcements</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAsbAnnouncements()">Save Announcements</button>
+        </div>
+        <div class="profile-section-body">
+          <div style="font-size:.77rem;color:var(--text-muted);margin-bottom:10px;">Announcements with the same Section Header are grouped together on the page.</div>
+          <div id="asbAnnList" style="display:flex;flex-direction:column;gap:12px;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAsbAnnouncementRow()">+ Add Announcement</button>
+        </div>
+      </div>
+
+      <!-- Contact & Links -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Contact &amp; Links</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAsbSettings()">Save</button>
+        </div>
+        <div class="profile-section-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="asbAdvisorNameEdit">Advisor Name</label>
+              <input type="text" class="form-control" id="asbAdvisorNameEdit" placeholder="e.g. Mr. VanDevanter">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asbAdvisorEmailEdit">Advisor Email</label>
+              <input type="email" class="form-control" id="asbAdvisorEmailEdit" placeholder="advisor@bsd405.org">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="asbContactGeneralEdit">General Email</label>
+              <input type="email" class="form-control" id="asbContactGeneralEdit" placeholder="asb@interlake.edu">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asbContactPresidentEdit">President Email</label>
+              <input type="email" class="form-control" id="asbContactPresidentEdit" placeholder="asbpresident@interlake.edu">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="asbContactEventsEdit">Events Email</label>
+              <input type="email" class="form-control" id="asbContactEventsEdit" placeholder="asbevents@interlake.edu">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="asbInstagramEdit">Instagram URL</label>
+              <input type="url" class="form-control" id="asbInstagramEdit" placeholder="https://www.instagram.com/interlakeasb/">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asbTiktokEdit">TikTok URL</label>
+              <input type="url" class="form-control" id="asbTiktokEdit" placeholder="https://www.tiktok.com/@interlakeasb">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="asbMinutesEdit">Minutes Document URL</label>
+            <input type="url" class="form-control" id="asbMinutesEdit" placeholder="https://docs.google.com/…">
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /asbPortalContent -->
+  </div><!-- /form-card -->
+</div><!-- /form-page -->
+</div><!-- /asbPortal -->
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- CLASS OFFICE PORTAL PANE                                                 -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<div class="portal-pane" id="classPortal">
+<div class="form-page">
+  <div class="breadcrumb" style="margin-bottom:24px;">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <a href="leadership.html">Leadership</a><span class="sep">›</span>
+    <span id="classPortalBreadcrumb">Class Office Portal</span>
   </div>
 
+  <div class="form-card">
+    <div class="form-card-header">
+      <h1 id="classPortalTitle">Class Office Portal</h1>
+      <p>Edit officer photos, fundraisers, announcements, and social links. Changes appear on the class page immediately.</p>
+    </div>
+
+    <div id="classPortalLoading" class="profile-loading">Loading class data…</div>
+    <div id="classPortalContent" style="display:none;">
+
+      <!-- Officers -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Officers <span style="font-weight:400;color:var(--text-muted);font-size:.72rem;text-transform:none;letter-spacing:0;">(all show as OFFICER)</span></h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveClassOfficers()">Save Officers</button>
+        </div>
+        <div class="profile-section-body">
+          <div id="classOfficersList"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addClassOfficerRow()">+ Add Officer</button>
+        </div>
+      </div>
+
+      <!-- Fundraisers -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Fundraisers</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveClassFundraisers()">Save Fundraisers</button>
+        </div>
+        <div class="profile-section-body">
+          <div id="classFundraisersList" style="display:flex;flex-direction:column;gap:12px;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addClassFundraiserRow()">+ Add Fundraiser</button>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Announcements</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveClassAnnouncements()">Save Announcements</button>
+        </div>
+        <div class="profile-section-body">
+          <div style="font-size:.77rem;color:var(--text-muted);margin-bottom:10px;">Announcements with the same Section Header are grouped together on the page.</div>
+          <div id="classAnnList" style="display:flex;flex-direction:column;gap:12px;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addClassAnnouncementRow()">+ Add Announcement</button>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Social Links</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveClassLinks()">Save Links</button>
+        </div>
+        <div class="profile-section-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="classInstagramEdit">Instagram URL</label>
+              <input type="url" class="form-control" id="classInstagramEdit" placeholder="https://www.instagram.com/…">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="classTiktokEdit">TikTok URL</label>
+              <input type="url" class="form-control" id="classTiktokEdit" placeholder="https://www.tiktok.com/@…">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /classPortalContent -->
+  </div><!-- /form-card -->
+</div><!-- /form-page -->
+</div><!-- /classPortal -->
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- CLUB OFFICERS PORTAL PANE (existing)                                     -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<div class="portal-pane" id="clubPortal">
+<div class="form-page">
+  <div class="breadcrumb" style="margin-bottom:24px;">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <a href="clubs.html">Clubs</a><span class="sep">›</span>
+    <span>Officer Portal</span>
+  </div>
+
+  <div class="form-card">
+    <div class="form-card-header">
+      <h1>Officer Portal</h1>
+      <p>Post meeting agendas, recaps, and announcements — or edit your club's profile page directly.</p>
+    </div>
+
+    <!-- ── Mode toggle ── -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeUpdateBtn" onclick="switchMode('update')">📋 Post Update</button>
+      <button class="mode-btn" id="modeProfileBtn" onclick="switchMode('profile')">✏️ Edit Profile</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- POST UPDATE PANE                                         -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="updatePane">
+
+      <div class="form-view" id="formView">
+        <form class="form-body" id="updateForm" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="clubSelect">Club / Class <span class="required">*</span></label>
+            <select class="form-control" id="clubSelect" name="club" required>
+              <option value="">— Select —</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="authorName">Your Name <span class="required">*</span></label>
+              <input type="text" class="form-control" id="authorName" name="author" placeholder="e.g. Sarah Kim" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="authorRole">Your Role</label>
+              <input type="text" class="form-control" id="authorRole" name="role" placeholder="e.g. President, VP">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Update Type <span class="required">*</span></label>
+            <div class="type-cards">
+              <div class="type-card selected" data-type="agenda" onclick="selectType('agenda')">
+                <div class="type-icon">📋</div>
+                <div class="type-name">Agenda</div>
+                <div class="type-desc">Upcoming meeting plan</div>
+              </div>
+              <div class="type-card" data-type="recap" onclick="selectType('recap')">
+                <div class="type-icon">📝</div>
+                <div class="type-name">Recap</div>
+                <div class="type-desc">Summary of a past meeting</div>
+              </div>
+              <div class="type-card" data-type="announcement" onclick="selectType('announcement')">
+                <div class="type-icon">📢</div>
+                <div class="type-name">Announcement</div>
+                <div class="type-desc">News or deadline</div>
+              </div>
+            </div>
+            <input type="hidden" id="updateTypeInput" name="updateType" value="agenda">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="updateDate">Date <span class="required">*</span></label>
+              <input type="date" class="form-control" id="updateDate" name="date" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="updateTitle">Title <span class="required">*</span></label>
+              <input type="text" class="form-control" id="updateTitle" name="title" placeholder="e.g. Meeting Agenda — May 20" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="updateContent">Content <span class="required">*</span></label>
+            <textarea class="form-control" id="updateContent" name="content" rows="7"
+              placeholder="Agendas: list items one per line&#10;Recaps: summarize what happened, key decisions, next steps&#10;Announcements: key info students need to know" required></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 2000</div>
+          </div>
+
+          <div class="preview-box" id="previewBox">
+            <h4>Preview</h4>
+            <div class="preview-update-item" id="previewContent"></div>
+          </div>
+        </form>
+
+        <div class="form-footer">
+          <button type="button" class="btn btn-outline" id="previewBtn">Preview</button>
+          <button type="button" class="btn btn-primary" id="submitBtn">Submit Update →</button>
+        </div>
+      </div><!-- /formView -->
+
+      <div class="success-view" id="successView">
+        <div style="font-size:3.5rem;margin-bottom:16px;">✅</div>
+        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:8px;">Update Published!</h2>
+        <p style="color:var(--text-muted);max-width:380px;margin:0 auto 28px;">
+          Your update is now live on the club page. Members and interested students can see it immediately.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a id="viewClubBtn" href="clubs.html" class="btn btn-primary">View Club Page →</a>
+          <button class="btn btn-outline" id="submitAnotherBtn">Submit Another</button>
+        </div>
+      </div>
+
+    </div><!-- /updatePane -->
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- EDIT PROFILE PANE                                        -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="profilePane" style="display:none;">
+
+      <div class="form-view" id="profileFormView">
+        <div class="form-body">
+
+          <div class="form-group">
+            <label class="form-label" for="profileClubSelect">Club <span class="required">*</span></label>
+            <select class="form-control" id="profileClubSelect" onchange="onProfileClubChange()">
+              <option value="">— Select your club —</option>
+            </select>
+          </div>
+
+          <div id="profileLoading" class="profile-loading" style="display:none;">
+            <span>Loading club data…</span>
+          </div>
+
+          <div id="profileFormContent" style="display:none;">
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>About</h3></div>
+              <div class="profile-section-body">
+                <div class="form-group">
+                  <label class="form-label" for="pTagline">Tagline <span style="font-size:.74rem;font-weight:400;color:var(--text-muted);">— Short hook shown on the club card</span></label>
+                  <input type="text" class="form-control" id="pTagline" placeholder="e.g. Build, code, compete." maxlength="120"
+                    oninput="updateCharCount('pTagline','taglineCount',120)">
+                  <div class="char-count"><span id="taglineCount">0</span> / 120</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pDescription">Description</label>
+                  <textarea class="form-control" id="pDescription" rows="5"
+                    placeholder="Full description of your club…"
+                    maxlength="2000" oninput="updateCharCount('pDescription','descCount',2000)"></textarea>
+                  <div class="char-count"><span id="descCount">0</span> / 2000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>Leadership Photo</h3></div>
+              <div class="profile-section-body">
+                <div class="form-group">
+                  <label class="form-label" for="pPhotoUrl">Photo URL</label>
+                  <input type="url" class="form-control" id="pPhotoUrl" placeholder="https://…" oninput="previewPhoto()">
+                </div>
+                <div class="photo-preview" id="photoPreview">
+                  <img id="photoPreviewImg" src="" alt="Leadership photo preview"
+                    onerror="document.getElementById('photoPreview').classList.remove('show')">
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>Officers &amp; Leadership</h3></div>
+              <div class="profile-section-body">
+                <div id="officersList"></div>
+                <button type="button" class="btn btn-outline add-row-btn" onclick="addOfficerRow()">+ Add Officer</button>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>Meeting Details</h3></div>
+              <div class="profile-section-body">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="pMeetingDays">Meeting Day(s)</label>
+                    <input type="text" class="form-control" id="pMeetingDays" placeholder="e.g. Tuesdays &amp; Thursdays">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="pMeetingTime">Time</label>
+                    <input type="text" class="form-control" id="pMeetingTime" placeholder="e.g. 3:15 PM – 5:00 PM">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="pMeetingLocation">Location / Room</label>
+                    <input type="text" class="form-control" id="pMeetingLocation" placeholder="e.g. Room B-214">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="pMembers">Member Count</label>
+                    <input type="number" class="form-control" id="pMembers" placeholder="e.g. 52" min="0" max="9999">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="pAdvisor">Advisor Name</label>
+                    <input type="text" class="form-control" id="pAdvisor" placeholder="e.g. Mr. Johnson">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="pAdvisorEmail">Advisor Email</label>
+                    <input type="email" class="form-control" id="pAdvisorEmail" placeholder="e.g. mjohnson@bsd405.org">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>Participation Requirements</h3></div>
+              <div class="profile-section-body">
+                <div id="requirementsList"></div>
+                <button type="button" class="btn btn-outline add-row-btn" onclick="addRequirementRow()">+ Add Requirement</button>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <div class="profile-section-header"><h3>Interested in Joining? / How to Join</h3></div>
+              <div class="profile-section-body">
+                <div class="form-group">
+                  <label class="form-label" for="pHowToJoin">How to Join / Get Involved</label>
+                  <textarea class="form-control" id="pHowToJoin" rows="3"
+                    placeholder="Describe how interested students can join your club…"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="pContactEmail">Contact Email</label>
+                    <input type="email" class="form-control" id="pContactEmail" placeholder="clubname@interlake.edu">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="pInstagram">Instagram Handle</label>
+                    <input type="text" class="form-control" id="pInstagram" placeholder="@interlakeclub">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /profileFormContent -->
+        </div><!-- /form-body -->
+
+        <div class="form-footer" id="profileFooter" style="display:none;">
+          <div style="flex:1;font-size:.8rem;color:var(--text-muted);">Changes go live immediately on the club page.</div>
+          <button type="button" class="btn btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Changes →</button>
+        </div>
+      </div><!-- /profileFormView -->
+
+      <div class="success-view" id="profileSuccessView">
+        <div style="font-size:3.5rem;margin-bottom:16px;">✅</div>
+        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:8px;">Profile Updated!</h2>
+        <p style="color:var(--text-muted);max-width:380px;margin:0 auto 28px;">
+          Your club's profile page has been updated. Changes are live immediately.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a id="viewClubProfileBtn" href="clubs.html" class="btn btn-primary">View Club Page →</a>
+          <button class="btn btn-outline" onclick="resetProfileForm()">Edit Again</button>
+        </div>
+      </div>
+
+    </div><!-- /profilePane -->
+
+  </div><!-- /form-card -->
+
+  <!-- Guidelines -->
   <div style="margin-top:32px;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
     <h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px;color:var(--primary);">Guidelines for Club Officers</h3>
-    <ul style="display:flex;flex-direction:column;gap:8px;padding-left:0;">
-      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Agendas</strong> — submit before the meeting. Helps members plan and lets absent students know what's covered.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Recaps</strong> — submit within 2 days after a meeting. Include highlights, decisions, and action items.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span><strong>Announcements</strong> — anytime for deadlines, competition results, new members, or other club news.</span></li>
-      <li style="display:flex;gap:10px;font-size:.85rem;color:var(--text-muted);"><span>Keep content clear. Remember: this is read by students considering joining your club.</span></li>
-    </ul>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div style="font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Post Update</div>
+        <ul style="display:flex;flex-direction:column;gap:8px;padding-left:0;list-style:none;">
+          <li style="font-size:.84rem;color:var(--text-muted);"><strong>Agendas</strong> — submit before the meeting.</li>
+          <li style="font-size:.84rem;color:var(--text-muted);"><strong>Recaps</strong> — submit within 2 days.</li>
+          <li style="font-size:.84rem;color:var(--text-muted);"><strong>Announcements</strong> — anytime for deadlines or club news.</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Edit Profile</div>
+        <ul style="display:flex;flex-direction:column;gap:8px;padding-left:0;list-style:none;">
+          <li style="font-size:.84rem;color:var(--text-muted);">Keep meeting details up to date.</li>
+          <li style="font-size:.84rem;color:var(--text-muted);">Update the officer list each year after elections.</li>
+          <li style="font-size:.84rem;color:var(--text-muted);">Changes are live the moment you hit Save.</li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
+</div><!-- /form-page -->
+</div><!-- /clubPortal -->
 
 <footer class="footer">
   <div class="container footer-inner">
@@ -266,27 +804,91 @@
 <script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script>
-// ── Login ──────────────────────────────────────────────────────────────────
-const DEMO_USER = "clubofficer@interlake.edu";
-const DEMO_PASS = "Interlake2026!";
+// ═══════════════════════════════════════════════════════════════════════════
+// PORTAL SELECTION & LOGIN
+// ═══════════════════════════════════════════════════════════════════════════
 
-function autofillUser(el) {
-  document.getElementById("loginUser").value = el.textContent;
-}
-function autofillPass(el) {
-  document.getElementById("loginPass").value = el.textContent;
+const ASB_PASS   = "ASBInterlake2027";
+const CLASS_PASS = { "2027": "Seniors2027!", "2028": "Juniors2028!", "2029": "Sophs2029!", "2030": "Freshmen2030!" };
+
+let _currentPortal = null;
+let _classYear     = null;
+
+function choosePortal(type) {
+  document.getElementById("loginStep1").style.display      = "none";
+  document.getElementById("loginStep2asb").style.display   = type === "asb"   ? "" : "none";
+  document.getElementById("loginStep2class").style.display = type === "class"  ? "" : "none";
+  document.getElementById("loginStep2club").style.display  = type === "club"   ? "" : "none";
+  if (type === "asb")   document.getElementById("asbPassInput").focus();
+  if (type === "class") document.getElementById("classYearSelect").focus();
+  if (type === "club")  document.getElementById("loginUser").focus();
 }
 
-function doLogin() {
+function backToStep1() {
+  document.getElementById("loginStep1").style.display      = "";
+  document.getElementById("loginStep2asb").style.display   = "none";
+  document.getElementById("loginStep2class").style.display = "none";
+  document.getElementById("loginStep2club").style.display  = "none";
+  document.getElementById("asbLoginError").classList.remove("show");
+  document.getElementById("classLoginError").classList.remove("show");
+  document.getElementById("clubLoginError").classList.remove("show");
+}
+
+function _showPortal(portalId, badgeText) {
+  document.getElementById("loginOverlay").style.display  = "none";
+  document.getElementById("loggedInBar").style.display   = "block";
+  document.getElementById("userBadge").textContent       = badgeText;
+  ["asbPortal","classPortal","clubPortal"].forEach(id => {
+    document.getElementById(id).classList.toggle("active", id === portalId);
+  });
+}
+
+function doLoginAsb() {
+  const pass = document.getElementById("asbPassInput").value;
+  const err  = document.getElementById("asbLoginError");
+  if (pass === ASB_PASS) {
+    err.classList.remove("show");
+    _currentPortal = "asb";
+    _showPortal("asbPortal", "ASB Officer");
+    loadAsbPortal();
+  } else {
+    err.classList.add("show");
+    document.getElementById("asbPassInput").value = "";
+    document.getElementById("asbPassInput").focus();
+  }
+}
+
+function doLoginClass() {
+  const year = document.getElementById("classYearSelect").value;
+  const pass = document.getElementById("classPassInput").value;
+  const err  = document.getElementById("classLoginError");
+  if (!year) { err.textContent = "Please select your class year."; err.classList.add("show"); return; }
+  if (pass !== CLASS_PASS[year]) {
+    err.textContent = "Incorrect password. Please try again.";
+    err.classList.add("show");
+    document.getElementById("classPassInput").value = "";
+    document.getElementById("classPassInput").focus();
+    return;
+  }
+  err.classList.remove("show");
+  _currentPortal = "class";
+  _classYear     = year;
+  const gradeMap = { "2027": "Seniors", "2028": "Juniors", "2029": "Sophomores", "2030": "Freshmen" };
+  document.getElementById("classPortalTitle").textContent    = `Class of ${year} — ${gradeMap[year]}`;
+  document.getElementById("classPortalBreadcrumb").textContent = `Class of ${year}`;
+  _showPortal("classPortal", `Class of ${year}`);
+  loadClassPortal(year);
+}
+
+function doLoginClub() {
   const user = document.getElementById("loginUser").value.trim();
   const pass = document.getElementById("loginPass").value;
-  const err  = document.getElementById("loginError");
-
-  if (user === DEMO_USER && pass === DEMO_PASS) {
+  const err  = document.getElementById("clubLoginError");
+  if (user === "clubofficer@interlake.edu" && pass === "Interlake2026!") {
     err.classList.remove("show");
-    document.getElementById("loginOverlay").style.display = "none";
-    document.getElementById("loggedInBar").style.display = "block";
-    document.getElementById("userBadge").textContent = user.split("@")[0];
+    _currentPortal = "club";
+    _showPortal("clubPortal", user.split("@")[0]);
+    initClubPortal();
   } else {
     err.classList.add("show");
     document.getElementById("loginPass").value = "";
@@ -296,33 +898,458 @@ function doLogin() {
 
 function doSignOut() {
   document.getElementById("loginOverlay").style.display = "flex";
-  document.getElementById("loggedInBar").style.display = "none";
+  document.getElementById("loggedInBar").style.display  = "none";
+  ["asbPortal","classPortal","clubPortal"].forEach(id => document.getElementById(id).classList.remove("active"));
+  backToStep1();
+  _currentPortal = null; _classYear = null;
+  document.getElementById("asbPassInput").value   = "";
+  document.getElementById("classPassInput").value = "";
+  document.getElementById("loginPass").value      = "";
 }
 
-// Allow Enter key on login form
-["loginUser","loginPass"].forEach(id => {
-  document.getElementById(id).addEventListener("keydown", e => {
-    if (e.key === "Enter") doLogin();
-  });
-});
+// Keyboard enter support
+document.getElementById("asbPassInput").addEventListener("keydown",   e => { if (e.key === "Enter") doLoginAsb(); });
+document.getElementById("classPassInput").addEventListener("keydown", e => { if (e.key === "Enter") doLoginClass(); });
+document.getElementById("loginPass").addEventListener("keydown",      e => { if (e.key === "Enter") doLoginClub(); });
+document.getElementById("loginUser").addEventListener("keydown",      e => { if (e.key === "Enter") doLoginClub(); });
 
-// ── Club dropdown ──────────────────────────────────────────────────────────
-const clubSelect = document.getElementById("clubSelect");
-const urlParams  = new URLSearchParams(location.search);
+// ═══════════════════════════════════════════════════════════════════════════
+// SHARED UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+function escHtml(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function getVal(id)      { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+function updateCharCount(inputId, countId, max) {
+  const el = document.getElementById(inputId); const count = document.getElementById(countId);
+  if (el && count) count.textContent = el.value.length;
+}
+
+function showToast(msg, type = "success") {
+  const toast = document.getElementById("toast");
+  document.getElementById("toastMsg").textContent  = msg;
+  document.getElementById("toastIcon").textContent = type === "success" ? "✓" : "✕";
+  toast.className = `toast ${type}`;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+const _upSvg   = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
+const _downSvg = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+function moveItem(el, dir) {
+  const parent = el.closest('[data-list]') || el.parentElement;
+  const items  = Array.from(parent.children).filter(c => c.dataset.row !== undefined || c.classList.contains('dyn-item') || c.classList.contains('portal-item'));
+  const item   = el.closest('.dyn-item') || el.closest('.portal-item');
+  const idx    = items.indexOf(item);
+  if (dir === -1 && idx > 0)                parent.insertBefore(item, items[idx - 1]);
+  if (dir === 1  && idx < items.length - 1) parent.insertBefore(items[idx + 1], item);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ASB PORTAL
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function loadAsbPortal() {
+  document.getElementById("asbPortalLoading").style.display  = "flex";
+  document.getElementById("asbPortalContent").style.display  = "none";
+  try {
+    const [officers, events, announcements, settings] = await Promise.all([
+      getAsbOfficersAsync(), getAsbEventsAsync(),
+      getAsbAnnouncementsAsync(), getAsbSettingsAsync()
+    ]);
+    buildAsbOfficersList(officers);
+    buildAsbEventsList(events);
+    buildAsbAnnList(announcements);
+    if (settings) {
+      setVal("asbWhatIsAsbEdit",       settings.what_is_asb       || "");
+      setVal("asbAdvisorNameEdit",     settings.advisor_name       || "");
+      setVal("asbAdvisorEmailEdit",    settings.advisor_email      || "");
+      setVal("asbContactGeneralEdit",  settings.contact_general    || "");
+      setVal("asbContactPresidentEdit",settings.contact_president  || "");
+      setVal("asbContactEventsEdit",   settings.contact_events     || "");
+      setVal("asbInstagramEdit",       settings.instagram_url      || "");
+      setVal("asbTiktokEdit",          settings.tiktok_url         || "");
+      setVal("asbMinutesEdit",         settings.minutes_url        || "");
+    }
+  } catch(e) { console.warn("loadAsbPortal:", e); }
+  document.getElementById("asbPortalLoading").style.display  = "none";
+  document.getElementById("asbPortalContent").style.display  = "block";
+}
+
+// ── ASB Officers ──────────────────────────────────────────────────────────
+
+function buildAsbOfficersList(officers) {
+  const list = document.getElementById("asbOfficersList");
+  list.innerHTML = "";
+  (officers.length ? officers : [{}]).forEach(o => addAsbOfficerRow(o));
+}
+
+function addAsbOfficerRow(o) {
+  o = o || {};
+  const list = document.getElementById("asbOfficersList");
+  const div  = document.createElement("div");
+  div.className = "dyn-item";
+  div.innerHTML = `
+    <div class="order-btns">
+      <button type="button" class="order-btn" onclick="moveItem(this,-1)" title="Move up">${_upSvg}</button>
+      <button type="button" class="order-btn" onclick="moveItem(this,1)"  title="Move down">${_downSvg}</button>
+    </div>
+    <div class="dyn-item-fields">
+      <input type="text" class="form-control asb-off-name" placeholder="Name *" value="${escHtml(o.name||'')}" style="flex:2;min-width:120px;">
+      <input type="url"  class="form-control asb-off-photo" placeholder="Photo URL (optional)" value="${escHtml(o.photo_url||'')}" style="flex:3;min-width:160px;">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()" title="Remove">×</button>`;
+  list.appendChild(div);
+}
+
+async function saveAsbOfficers() {
+  const rows = Array.from(document.querySelectorAll("#asbOfficersList .dyn-item")).map(row => ({
+    name: row.querySelector(".asb-off-name").value.trim(),
+    photo_url: row.querySelector(".asb-off-photo").value.trim()
+  })).filter(o => o.name);
+  const ok = await updateAsbOfficersAsync(rows);
+  showToast(ok ? "Officers saved!" : "Error saving officers. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── ASB Events ────────────────────────────────────────────────────────────
+
+function buildAsbEventsList(events) {
+  const list = document.getElementById("asbEventsList");
+  list.innerHTML = "";
+  (events.length ? events : [{}]).forEach(e => addAsbEventRow(e));
+}
+
+function addAsbEventRow(e) {
+  e = e || {};
+  const list = document.getElementById("asbEventsList");
+  const div  = document.createElement("div");
+  div.className = "portal-item";
+  div.style.cssText = "border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--card);";
+  const bullets = Array.isArray(e.bullets) ? e.bullets : [];
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;">
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div style="flex:1;display:flex;gap:8px;flex-wrap:wrap;">
+        <input type="text" class="form-control ev-month" placeholder="Month (e.g. SEP)" value="${escHtml(e.event_month||'')}" style="flex:0 0 80px;font-size:.83rem;">
+        <input type="text" class="form-control ev-day"   placeholder="Day" value="${escHtml(e.event_day||'')}" style="flex:0 0 56px;font-size:.83rem;">
+        <input type="text" class="form-control ev-name"  placeholder="Event Name *" value="${escHtml(e.event_name||'')}" style="flex:1;min-width:160px;font-size:.83rem;">
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.portal-item').remove()">×</button>
+    </div>
+    <div class="bullet-block">
+      <div class="bullet-block-label">Detail Bullets</div>
+      <div class="ev-bullets">
+        ${bullets.map(b => `<div class="bullet-row"><input type="text" class="form-control ev-bullet" value="${escHtml(b)}" placeholder="Bullet point"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button></div>`).join('')}
+      </div>
+      <button type="button" class="btn btn-outline add-bullet-btn" onclick="addEvBullet(this)">+ Add Bullet</button>
+    </div>`;
+  list.appendChild(div);
+}
+
+function addEvBullet(btn) {
+  const container = btn.previousElementSibling;
+  const row = document.createElement("div");
+  row.className = "bullet-row";
+  row.innerHTML = `<input type="text" class="form-control ev-bullet" placeholder="Bullet point"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button>`;
+  container.appendChild(row);
+  row.querySelector("input").focus();
+}
+
+async function saveAsbEvents() {
+  const events = Array.from(document.querySelectorAll("#asbEventsList .portal-item")).map(item => ({
+    event_month: item.querySelector(".ev-month").value.trim().toUpperCase(),
+    event_day:   item.querySelector(".ev-day").value.trim(),
+    event_name:  item.querySelector(".ev-name").value.trim(),
+    bullets:     Array.from(item.querySelectorAll(".ev-bullet")).map(b => b.value.trim()).filter(Boolean)
+  })).filter(e => e.event_name);
+  const ok = await updateAsbEventsAsync(events);
+  showToast(ok ? "Events saved!" : "Error saving events. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── ASB Announcements ─────────────────────────────────────────────────────
+
+function buildAsbAnnList(announcements) {
+  const list = document.getElementById("asbAnnList");
+  list.innerHTML = "";
+  (announcements.length ? announcements : [{}]).forEach(a => addAsbAnnouncementRow(a));
+}
+
+function addAsbAnnouncementRow(a) {
+  a = a || {};
+  const list = document.getElementById("asbAnnList");
+  const div  = document.createElement("div");
+  div.className = "portal-item";
+  div.style.cssText = "border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--card);";
+  const subs = Array.isArray(a.sub_bullets) ? a.sub_bullets : [];
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;">
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div style="flex:1;display:flex;gap:8px;flex-direction:column;">
+        <input type="text" class="form-control ann-header" placeholder="Section Header (e.g. Homecoming)" value="${escHtml(a.section_header||'')}" style="font-size:.83rem;">
+        <input type="text" class="form-control ann-main"   placeholder="Main announcement text *" value="${escHtml(a.main_text||'')}" style="font-size:.83rem;">
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.portal-item').remove()">×</button>
+    </div>
+    <div class="bullet-block">
+      <div class="bullet-block-label">Sub-Bullets</div>
+      <div class="ann-bullets">
+        ${subs.map(b => `<div class="bullet-row"><input type="text" class="form-control ann-bullet" value="${escHtml(b)}" placeholder="Sub-bullet"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button></div>`).join('')}
+      </div>
+      <button type="button" class="btn btn-outline add-bullet-btn" onclick="addAnnBullet(this)">+ Add Sub-Bullet</button>
+    </div>`;
+  list.appendChild(div);
+}
+
+function addAnnBullet(btn) {
+  const container = btn.previousElementSibling;
+  const row = document.createElement("div");
+  row.className = "bullet-row";
+  row.innerHTML = `<input type="text" class="form-control ann-bullet" placeholder="Sub-bullet"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button>`;
+  container.appendChild(row);
+  row.querySelector("input").focus();
+}
+
+async function saveAsbAnnouncements() {
+  const anns = Array.from(document.querySelectorAll("#asbAnnList .portal-item")).map(item => ({
+    section_header: item.querySelector(".ann-header").value.trim(),
+    main_text:      item.querySelector(".ann-main").value.trim(),
+    sub_bullets:    Array.from(item.querySelectorAll(".ann-bullet")).map(b => b.value.trim()).filter(Boolean)
+  })).filter(a => a.main_text);
+  const ok = await updateAsbAnnouncementsAsync(anns);
+  showToast(ok ? "Announcements saved!" : "Error saving. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── ASB Settings ──────────────────────────────────────────────────────────
+
+async function saveAsbSettings() {
+  const settings = {
+    what_is_asb:       getVal("asbWhatIsAsbEdit"),
+    advisor_name:      getVal("asbAdvisorNameEdit"),
+    advisor_email:     getVal("asbAdvisorEmailEdit"),
+    contact_general:   getVal("asbContactGeneralEdit"),
+    contact_president: getVal("asbContactPresidentEdit"),
+    contact_events:    getVal("asbContactEventsEdit"),
+    instagram_url:     getVal("asbInstagramEdit"),
+    tiktok_url:        getVal("asbTiktokEdit"),
+    minutes_url:       getVal("asbMinutesEdit"),
+  };
+  const ok = await updateAsbSettingsAsync(settings);
+  showToast(ok ? "Settings saved!" : "Error saving settings. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CLASS OFFICE PORTAL
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function loadClassPortal(year) {
+  document.getElementById("classPortalLoading").style.display  = "flex";
+  document.getElementById("classPortalContent").style.display  = "none";
+  try {
+    const [officers, announcements, fundraisers, settings] = await Promise.all([
+      getClassOfficersAsync(year), getClassAnnouncementsAsync(year),
+      getClassFundraisersAsync(year), getClassSettingsAsync(year)
+    ]);
+    buildClassOfficersList(officers);
+    buildClassFundraisersList(fundraisers);
+    buildClassAnnList(announcements);
+    if (settings) {
+      setVal("classInstagramEdit", settings.instagram_url || "");
+      setVal("classTiktokEdit",    settings.tiktok_url    || "");
+    }
+  } catch(e) { console.warn("loadClassPortal:", e); }
+  document.getElementById("classPortalLoading").style.display  = "none";
+  document.getElementById("classPortalContent").style.display  = "block";
+}
+
+// ── Class Officers ────────────────────────────────────────────────────────
+
+function buildClassOfficersList(officers) {
+  const list = document.getElementById("classOfficersList");
+  list.innerHTML = "";
+  const src = officers.length ? officers : [{}];
+  src.forEach(o => addClassOfficerRow(o));
+}
+
+function addClassOfficerRow(o) {
+  o = o || {};
+  const list = document.getElementById("classOfficersList");
+  const div  = document.createElement("div");
+  div.className = "dyn-item";
+  const photoUrl = o.photoUrl || o.photo_url || "";
+  div.innerHTML = `
+    <div class="order-btns">
+      <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+      <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+    </div>
+    <div class="dyn-item-fields">
+      <input type="text" class="form-control cls-off-name"  placeholder="Name *" value="${escHtml(o.name||'')}" style="flex:2;min-width:120px;">
+      <input type="url"  class="form-control cls-off-photo" placeholder="Photo URL (optional)" value="${escHtml(photoUrl)}" style="flex:3;min-width:160px;">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+  list.appendChild(div);
+}
+
+async function saveClassOfficers() {
+  const rows = Array.from(document.querySelectorAll("#classOfficersList .dyn-item")).map(row => ({
+    name: row.querySelector(".cls-off-name").value.trim(),
+    photo_url: row.querySelector(".cls-off-photo").value.trim()
+  })).filter(o => o.name);
+  const ok = await updateClassOfficersAsync(_classYear, rows);
+  showToast(ok ? "Officers saved!" : "Error saving officers. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── Class Fundraisers ─────────────────────────────────────────────────────
+
+function buildClassFundraisersList(fundraisers) {
+  const list = document.getElementById("classFundraisersList");
+  list.innerHTML = "";
+  (fundraisers.length ? fundraisers : [{}]).forEach(f => addClassFundraiserRow(f));
+}
+
+function addClassFundraiserRow(f) {
+  f = f || {};
+  const list = document.getElementById("classFundraisersList");
+  const div  = document.createElement("div");
+  div.className = "portal-item";
+  div.style.cssText = "border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--card);";
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:flex-start;">
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div style="flex:1;display:flex;flex-wrap:wrap;gap:8px;">
+        <input type="text" class="form-control fr-date"  placeholder="Date (e.g. June 5, 2026)" value="${escHtml(f.date||f.date_text||'')}" style="flex:1;min-width:160px;font-size:.83rem;">
+        <input type="text" class="form-control fr-title" placeholder="Event Name *" value="${escHtml(f.title||'')}" style="flex:2;min-width:180px;font-size:.83rem;">
+        <input type="text" class="form-control fr-loc"   placeholder="Location" value="${escHtml(f.location||'')}" style="flex:2;min-width:180px;font-size:.83rem;">
+        <textarea class="form-control fr-desc" placeholder="Description" rows="2" style="flex:3;min-width:240px;font-size:.83rem;">${escHtml(f.desc||f.description||'')}</textarea>
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.portal-item').remove()">×</button>
+    </div>`;
+  list.appendChild(div);
+}
+
+async function saveClassFundraisers() {
+  const rows = Array.from(document.querySelectorAll("#classFundraisersList .portal-item")).map(item => ({
+    date_text:   item.querySelector(".fr-date").value.trim(),
+    title:       item.querySelector(".fr-title").value.trim(),
+    location:    item.querySelector(".fr-loc").value.trim(),
+    description: item.querySelector(".fr-desc").value.trim()
+  })).filter(f => f.title);
+  const ok = await updateClassFundraisersAsync(_classYear, rows);
+  showToast(ok ? "Fundraisers saved!" : "Error saving fundraisers. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── Class Announcements ───────────────────────────────────────────────────
+
+function buildClassAnnList(announcements) {
+  const list = document.getElementById("classAnnList");
+  list.innerHTML = "";
+  // announcements is already grouped; flatten for editing
+  const flat = [];
+  announcements.forEach(block => {
+    block.items.forEach(item => flat.push({ section_header: block.header, main_text: item.main, sub_bullets: item.sub }));
+  });
+  (flat.length ? flat : [{}]).forEach(a => addClassAnnouncementRow(a));
+}
+
+function addClassAnnouncementRow(a) {
+  a = a || {};
+  const list = document.getElementById("classAnnList");
+  const div  = document.createElement("div");
+  div.className = "portal-item";
+  div.style.cssText = "border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--card);";
+  const subs = Array.isArray(a.sub_bullets) ? a.sub_bullets : (Array.isArray(a.sub) ? a.sub : []);
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;">
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div style="flex:1;display:flex;gap:8px;flex-direction:column;">
+        <input type="text" class="form-control cls-ann-header" placeholder="Section Header (e.g. Senior Year Events)" value="${escHtml(a.section_header||'')}" style="font-size:.83rem;">
+        <input type="text" class="form-control cls-ann-main"   placeholder="Main announcement text *" value="${escHtml(a.main_text||a.main||'')}" style="font-size:.83rem;">
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.portal-item').remove()">×</button>
+    </div>
+    <div class="bullet-block">
+      <div class="bullet-block-label">Sub-Bullets</div>
+      <div class="cls-ann-bullets">
+        ${subs.map(b => `<div class="bullet-row"><input type="text" class="form-control cls-ann-bullet" value="${escHtml(b)}" placeholder="Sub-bullet"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button></div>`).join('')}
+      </div>
+      <button type="button" class="btn btn-outline add-bullet-btn" onclick="addClsAnnBullet(this)">+ Add Sub-Bullet</button>
+    </div>`;
+  list.appendChild(div);
+}
+
+function addClsAnnBullet(btn) {
+  const container = btn.previousElementSibling;
+  const row = document.createElement("div");
+  row.className = "bullet-row";
+  row.innerHTML = `<input type="text" class="form-control cls-ann-bullet" placeholder="Sub-bullet"><button type="button" class="dyn-remove" onclick="this.closest('.bullet-row').remove()">×</button>`;
+  container.appendChild(row);
+  row.querySelector("input").focus();
+}
+
+async function saveClassAnnouncements() {
+  const anns = Array.from(document.querySelectorAll("#classAnnList .portal-item")).map(item => ({
+    section_header: item.querySelector(".cls-ann-header").value.trim(),
+    main_text:      item.querySelector(".cls-ann-main").value.trim(),
+    sub_bullets:    Array.from(item.querySelectorAll(".cls-ann-bullet")).map(b => b.value.trim()).filter(Boolean)
+  })).filter(a => a.main_text);
+  const ok = await updateClassAnnouncementsAsync(_classYear, anns);
+  showToast(ok ? "Announcements saved!" : "Error saving. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ── Class Links ───────────────────────────────────────────────────────────
+
+async function saveClassLinks() {
+  const settings = { instagram_url: getVal("classInstagramEdit"), tiktok_url: getVal("classTiktokEdit") };
+  const ok = await updateClassSettingsAsync(_classYear, settings);
+  showToast(ok ? "Links saved!" : "Error saving links. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CLUB OFFICERS PORTAL (existing logic)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function initClubPortal() {
+  const urlParams = new URLSearchParams(location.search);
+  if (urlParams.has("club")) {
+    document.getElementById("clubSelect").value        = urlParams.get("club");
+    document.getElementById("profileClubSelect").value = urlParams.get("club");
+  }
+  if (urlParams.has("type")) selectType(urlParams.get("type"));
+  if (urlParams.get("mode") === "profile") switchMode("profile");
+  if (urlParams.has("club") && urlParams.get("mode") === "profile") onProfileClubChange();
+}
+
+function switchMode(mode) {
+  document.getElementById("updatePane").style.display   = mode === "update"  ? "" : "none";
+  document.getElementById("profilePane").style.display  = mode === "profile" ? "" : "none";
+  document.getElementById("modeUpdateBtn").classList.toggle("active",  mode === "update");
+  document.getElementById("modeProfileBtn").classList.toggle("active", mode === "profile");
+}
 
 (async () => {
   const clubs = (await getClubsAsync()).sort((a, b) => a.name.localeCompare(b.name));
+  const selU  = document.getElementById("clubSelect");
+  const selP  = document.getElementById("profileClubSelect");
   clubs.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c.id;
-    opt.textContent = c.name;
-    clubSelect.appendChild(opt);
+    [selU, selP].forEach(sel => {
+      const opt = document.createElement("option");
+      opt.value = c.id; opt.textContent = c.name; sel.appendChild(opt);
+    });
   });
-  if (urlParams.has("club")) clubSelect.value = urlParams.get("club");
-  if (urlParams.has("type")) selectType(urlParams.get("type"));
 })();
 
-// ── Type selection ─────────────────────────────────────────────────────────
 function selectType(type) {
   document.querySelectorAll(".type-card").forEach(c => c.classList.remove("selected"));
   const card = document.querySelector(`.type-card[data-type="${type}"]`);
@@ -330,16 +1357,13 @@ function selectType(type) {
   document.getElementById("updateTypeInput").value = type;
 }
 
-// Default date
 document.getElementById("updateDate").value = new Date().toISOString().split("T")[0];
 
-// Char count
 const contentEl = document.getElementById("updateContent");
 contentEl.addEventListener("input", () => {
   document.getElementById("charCount").textContent = contentEl.value.length;
 });
 
-// ── Preview ────────────────────────────────────────────────────────────────
 document.getElementById("previewBtn").addEventListener("click", () => {
   const title   = document.getElementById("updateTitle").value.trim();
   const date    = document.getElementById("updateDate").value;
@@ -347,58 +1371,45 @@ document.getElementById("previewBtn").addEventListener("click", () => {
   const type    = document.getElementById("updateTypeInput").value;
   const author  = document.getElementById("authorName").value.trim();
   const role    = document.getElementById("authorRole").value.trim();
-
   if (!title && !content) { showToast("Fill in a title and content to preview.", "error"); return; }
-
   document.getElementById("previewContent").innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
       <div>
-        <div style="font-weight:700;font-size:.95rem;">${title || "(No title)"}</div>
+        <div style="font-weight:700;font-size:.95rem;">${escHtml(title || "(No title)")}</div>
         <div style="font-size:.75rem;color:var(--text-muted);margin-top:3px;">
-          <span class="badge" style="background:${getUpdateBadgeColor(type)};font-size:.65rem;">${type}</span>
-          &nbsp;${date ? formatDate(date) : ""}
-          ${author ? ` · By ${author}${role ? `, ${role}` : ""}` : ""}
+          <span class="badge" style="background:var(--primary);font-size:.65rem;">${type}</span>
+          &nbsp;${date ? date : ""}
+          ${author ? ` · By ${escHtml(author)}${role ? `, ${escHtml(role)}` : ""}` : ""}
         </div>
       </div>
     </div>
-    <div style="font-size:.87rem;color:var(--text-muted);line-height:1.65;white-space:pre-line;">${content || "(No content)"}</div>`;
-
+    <div style="font-size:.87rem;color:var(--text-muted);line-height:1.65;white-space:pre-line;">${escHtml(content || "(No content)")}</div>`;
   const box = document.getElementById("previewBox");
   box.classList.add("show");
   box.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
 
-// ── Submit ─────────────────────────────────────────────────────────────────
 document.getElementById("submitBtn").addEventListener("click", async () => {
-  const clubId  = clubSelect.value;
+  const clubId  = document.getElementById("clubSelect").value;
   const title   = document.getElementById("updateTitle").value.trim();
   const date    = document.getElementById("updateDate").value;
   const content = contentEl.value.trim();
   const type    = document.getElementById("updateTypeInput").value;
   const author  = document.getElementById("authorName").value.trim();
   const role    = document.getElementById("authorRole").value.trim();
-
-  if (!clubId)          { showToast("Please select your club.", "error"); return; }
-  if (!author)          { showToast("Please enter your name.", "error"); return; }
-  if (!date)            { showToast("Please select a date.", "error"); return; }
-  if (!title)           { showToast("Please enter a title.", "error"); return; }
-  if (!content)         { showToast("Please enter content.", "error"); return; }
+  if (!clubId)            { showToast("Please select your club.", "error"); return; }
+  if (!author)            { showToast("Please enter your name.", "error"); return; }
+  if (!date)              { showToast("Please select a date.", "error"); return; }
+  if (!title)             { showToast("Please enter a title.", "error"); return; }
+  if (!content)           { showToast("Please enter content.", "error"); return; }
   if (content.length > 2000) { showToast("Content too long (max 2000 chars).", "error"); return; }
-
-  const submitBtn = document.getElementById("submitBtn");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Saving…";
-
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true; btn.textContent = "Saving…";
   const ok = await addUpdateToClubAsync(clubId, {
-    date, type, title, content,
-    author: role ? `${author}, ${role}` : author
+    date, type, title, content, author: role ? `${author}, ${role}` : author
   });
-
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Submit Update →";
-
+  btn.disabled = false; btn.textContent = "Submit Update →";
   if (!ok) { showToast("Error saving. Please try again.", "error"); return; }
-
   document.getElementById("formView").classList.add("hide");
   document.getElementById("successView").classList.add("show");
   document.getElementById("viewClubBtn").href = `club.html?id=${clubId}&tab=${type === "recap" ? "recaps" : type === "announcement" ? "announcements" : "agendas"}`;
@@ -416,14 +1427,115 @@ document.getElementById("submitAnotherBtn").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// ── Toast ──────────────────────────────────────────────────────────────────
-function showToast(msg, type = "success") {
-  const toast = document.getElementById("toast");
-  document.getElementById("toastMsg").textContent = msg;
-  document.getElementById("toastIcon").textContent = type === "success" ? "✓" : "✕";
-  toast.className = `toast ${type}`;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3500);
+async function onProfileClubChange() {
+  const clubId  = document.getElementById("profileClubSelect").value;
+  const content = document.getElementById("profileFormContent");
+  const footer  = document.getElementById("profileFooter");
+  const loading = document.getElementById("profileLoading");
+  if (!clubId) { content.style.display = "none"; footer.style.display = "none"; return; }
+  loading.style.display = "flex"; content.style.display = "none"; footer.style.display = "none";
+  const club = await getClubByIdAsync(clubId);
+  loading.style.display = "none";
+  if (!club) { showToast("Could not load club data. Check your connection.", "error"); return; }
+  populateProfileForm(club);
+  content.style.display = "block"; footer.style.display = "flex";
+}
+
+function populateProfileForm(club) {
+  setVal("pTagline", club.tagline || ""); setVal("pDescription", club.description || "");
+  updateCharCount("pTagline","taglineCount",120); updateCharCount("pDescription","descCount",2000);
+  setVal("pPhotoUrl", club.leadershipPhotoUrl || ""); previewPhoto();
+  const officersList = document.getElementById("officersList");
+  officersList.innerHTML = "";
+  if (club.officers && club.officers.length) club.officers.forEach(addOfficerRow);
+  setVal("pMeetingDays", club.meetingDays || ""); setVal("pMeetingTime", club.meetingTime || "");
+  setVal("pMeetingLocation", club.meetingLocation || ""); setVal("pMembers", club.members > 0 ? club.members : "");
+  setVal("pAdvisor", club.advisor || ""); setVal("pAdvisorEmail", club.advisorEmail || "");
+  const reqList = document.getElementById("requirementsList");
+  reqList.innerHTML = "";
+  if (club.requirements && club.requirements.length) club.requirements.forEach(addRequirementRow);
+  setVal("pHowToJoin", club.howToJoin || ""); setVal("pContactEmail", club.contactEmail || ""); setVal("pInstagram", club.instagram || "");
+}
+
+function addOfficerRow(officer) {
+  officer = officer || {};
+  const list = document.getElementById("officersList");
+  const div  = document.createElement("div");
+  div.className = "dyn-item";
+  div.innerHTML = `
+    <div class="dyn-item-fields">
+      <input type="text"   class="form-control officer-name"  placeholder="Name *"           value="${escHtml(officer.name  || '')}" style="flex:2;min-width:110px;">
+      <input type="text"   class="form-control officer-role"  placeholder="Role *"           value="${escHtml(officer.role  || '')}" style="flex:2;min-width:110px;">
+      <select class="form-control officer-grade" style="flex:0 0 82px;">
+        <option value="">Grade</option>
+        ${[9,10,11,12].map(g => `<option value="${g}"${String(officer.grade)===String(g)?" selected":""}>${g}</option>`).join("")}
+      </select>
+      <input type="email"  class="form-control officer-email" placeholder="Email (optional)" value="${escHtml(officer.email || '')}" style="flex:3;min-width:140px;">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+  list.appendChild(div);
+}
+
+function addRequirementRow(text) {
+  const list = document.getElementById("requirementsList");
+  const div  = document.createElement("div");
+  div.className = "dyn-item";
+  div.innerHTML = `
+    <div class="dyn-item-fields">
+      <input type="text" class="form-control req-text" placeholder="e.g. Open to all grades (9–12)" value="${escHtml(typeof text === 'string' ? text : '')}">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+  list.appendChild(div);
+}
+
+async function saveProfile() {
+  const clubId = document.getElementById("profileClubSelect").value;
+  if (!clubId) { showToast("Please select your club.", "error"); return; }
+  const officers = Array.from(document.querySelectorAll("#officersList .dyn-item")).map(row => {
+    const name = row.querySelector(".officer-name").value.trim();
+    const role = row.querySelector(".officer-role").value.trim();
+    const grade = row.querySelector(".officer-grade").value;
+    const email = row.querySelector(".officer-email").value.trim();
+    if (!name) return null;
+    const o = { name, role };
+    if (grade) o.grade = grade;
+    if (email) o.email = email;
+    return o;
+  }).filter(Boolean);
+  const requirements = Array.from(document.querySelectorAll("#requirementsList .req-text")).map(el => el.value.trim()).filter(Boolean);
+  const profileData = {
+    tagline: getVal("pTagline"), description: getVal("pDescription"),
+    leadership_photo_url: getVal("pPhotoUrl"), meeting_days: getVal("pMeetingDays"),
+    meeting_time: getVal("pMeetingTime"), meeting_location: getVal("pMeetingLocation"),
+    members: parseInt(getVal("pMembers")) || 0, advisor: getVal("pAdvisor"),
+    advisor_email: getVal("pAdvisorEmail"), how_to_join: getVal("pHowToJoin"),
+    contact_email: getVal("pContactEmail"), instagram: getVal("pInstagram"),
+    officers, requirements,
+  };
+  const btn = document.getElementById("saveProfileBtn");
+  btn.disabled = true; btn.textContent = "Saving…";
+  const ok = await updateClubProfileAsync(clubId, profileData);
+  btn.disabled = false; btn.textContent = "Save Changes →";
+  if (!ok) { showToast("Error saving profile. Make sure Supabase is connected.", "error"); return; }
+  document.getElementById("profileFormView").classList.add("hide");
+  document.getElementById("profileSuccessView").classList.add("show");
+  document.getElementById("viewClubProfileBtn").href = `club.html?id=${clubId}`;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function resetProfileForm() {
+  document.getElementById("profileFormView").classList.remove("hide");
+  document.getElementById("profileSuccessView").classList.remove("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  onProfileClubChange();
+}
+
+function previewPhoto() {
+  const url = getVal("pPhotoUrl");
+  const preview = document.getElementById("photoPreview");
+  const img     = document.getElementById("photoPreviewImg");
+  if (url) { img.src = url; preview.classList.add("show"); }
+  else { preview.classList.remove("show"); img.src = ""; }
 }
 
 document.getElementById("navSearch").addEventListener("keydown", e => {

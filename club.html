@@ -238,8 +238,9 @@ if (!club) {
             <!-- 2. Leadership photo + officer names -->
             <div class="info-card" style="margin-bottom:24px;overflow:hidden;">
               <div class="officers-photo-wrap">
-                <img src="https://placehold.co/800x220/1e3a8a/ffffff?text=Leadership+Photo"
-                     alt="${club.name} Leadership">
+                <img src="${club.leadershipPhotoUrl || 'https://placehold.co/800x220/1e3a8a/ffffff?text=Leadership+Photo'}"
+                     alt="${club.name} Leadership"
+                     onerror="this.src='https://placehold.co/800x220/1e3a8a/ffffff?text=Leadership+Photo'">
               </div>
               ${officers.length ? `<div class="officers-names-row">${officers.map(o => `<div class="officer-name-item"><div class="oname">${o.name}</div><div class="orole">${o.role}</div></div>`).join("")}</div>` : ""}
             </div>
