@@ -86,9 +86,21 @@
     }
     .aotw-header-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
     .aotw-header-title { font-size: 1rem; font-weight: 800; }
-    .aotw-placeholder { padding: 28px 22px; text-align: center; color: var(--text-muted); }
-    .aotw-placeholder .aotw-ph-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: .35; }
-    .aotw-placeholder p { font-size: .85rem; }
+    .aotw-body {
+      display: flex; gap: 20px; padding: 22px 22px; align-items: flex-start;
+    }
+    @media (max-width: 600px) { .aotw-body { flex-direction: column; } }
+    .aotw-photo {
+      width: 110px; height: 130px; flex-shrink: 0;
+      background: var(--highlight); border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .aotw-photo svg { opacity: .25; }
+    .aotw-content { flex: 1; }
+    .aotw-name { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+    .aotw-sport { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); margin-bottom: 10px; }
+    .aotw-desc { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
 
     /* ── Season blocks ── */
     .season-block { margin-bottom: 36px; }
@@ -96,22 +108,20 @@
 
     .season-banner {
       display: flex; align-items: center; gap: 14px;
-      border-radius: var(--radius-sm); padding: 14px 18px;
-      margin-bottom: 18px;
+      border-left: 4px solid var(--primary);
+      background: var(--highlight);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 12px 16px; margin-bottom: 18px;
     }
-    .season-banner.fall  { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
-    .season-banner.winter { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
-    .season-banner.spring { background: linear-gradient(135deg, #14532d 0%, #16a34a 100%); }
-    .season-banner-emoji { font-size: 1.6rem; }
     .season-banner-text { flex: 1; }
-    .season-banner-name { font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -.01em; }
-    .season-banner-dates { font-size: .74rem; color: rgba(255,255,255,.7); margin-top: 2px; }
+    .season-banner-name { font-size: 1rem; font-weight: 800; color: var(--text); letter-spacing: -.01em; }
+    .season-banner-dates { font-size: .74rem; color: var(--text-muted); margin-top: 2px; }
     .season-status {
       font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
       border-radius: 12px; padding: 4px 10px;
     }
-    .season-status.live   { background: #fef3c7; color: #92400e; }
-    .season-status.coming { background: rgba(255,255,255,.18); color: rgba(255,255,255,.9); }
+    .season-status.live   { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .season-status.coming { background: var(--border); color: var(--text-muted); }
 
     /* ── Coach cards grid ── */
     .coaches-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -119,18 +129,10 @@
     .coach-card {
       background: var(--card); border-radius: var(--radius-sm);
       box-shadow: var(--shadow); padding: 13px 15px;
-      border: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;
+      border: 1px solid var(--border);
     }
-    .coach-emoji { font-size: 1.35rem; flex-shrink: 0; margin-top: 1px; }
-    .coach-info { flex: 1; min-width: 0; }
     .coach-sport { font-size: .88rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
-    .coach-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .coach-label { font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
-    .coach-name { font-size: .84rem; font-weight: 600; color: var(--primary); }
-    .impact-tag {
-      font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
-      background: #fef3c7; color: #92400e; border-radius: 3px; padding: 1px 5px;
-    }
+    .coach-name { font-size: .84rem; font-weight: 500; color: var(--text-muted); }
 
     /* ── Sidebar ── */
     .ath-sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 18px; }
@@ -179,7 +181,7 @@
     }
     .ath-quick-link:last-child { border-bottom: none; padding-bottom: 0; }
     .ath-quick-link:hover { color: var(--primary); }
-    .ql-icon { width: 28px; height: 28px; background: var(--highlight); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .9rem; flex-shrink: 0; }
+    .ql-icon { width: 28px; height: 28px; background: var(--highlight); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-muted); }
     .ql-arrow { margin-left: auto; color: var(--primary); font-size: .8rem; opacity: .6; }
 
     /* Impact info */
@@ -252,7 +254,7 @@
           <!-- Football -->
           <div class="sport-group">
             <div class="sport-group-header">
-              <span class="sport-group-label">🏈 Football</span>
+              <span class="sport-group-label">Football</span>
               <span class="sport-group-line"></span>
             </div>
             <div class="game-row">
@@ -276,7 +278,7 @@
           <!-- Girls Soccer -->
           <div class="sport-group">
             <div class="sport-group-header">
-              <span class="sport-group-label">⚽ Girls Soccer</span>
+              <span class="sport-group-label">Girls Soccer</span>
               <span class="sport-group-line"></span>
             </div>
             <div class="game-row">
@@ -300,7 +302,7 @@
           <!-- Volleyball -->
           <div class="sport-group">
             <div class="sport-group-header">
-              <span class="sport-group-label">🏐 Volleyball</span>
+              <span class="sport-group-label">Volleyball</span>
               <span class="sport-group-line"></span>
             </div>
             <div class="game-row">
@@ -324,7 +326,7 @@
           <!-- Cross Country -->
           <div class="sport-group">
             <div class="sport-group-header">
-              <span class="sport-group-label">🏃 Cross Country</span>
+              <span class="sport-group-label">Cross Country</span>
               <span class="sport-group-line"></span>
             </div>
             <div class="game-row">
@@ -340,7 +342,7 @@
           <!-- Boys Tennis -->
           <div class="sport-group">
             <div class="sport-group-header">
-              <span class="sport-group-label">🎾 Boys Tennis</span>
+              <span class="sport-group-label">Boys Tennis</span>
               <span class="sport-group-line"></span>
             </div>
             <div class="game-row">
@@ -364,10 +366,8 @@
           </div>
           <div class="aotw-card">
             <div class="aotw-header">
-              <div>
-                <div class="aotw-header-label">Saints Station Spotlight</div>
-                <div class="aotw-header-title">Athlete of the Week</div>
-              </div>
+              <div class="aotw-header-label">Saints Station Spotlight</div>
+              <div class="aotw-header-title">Athlete of the Week</div>
             </div>
             <div class="aotw-body">
               <div class="aotw-photo">
@@ -382,17 +382,16 @@
           </div>
         </div>
 
-        <!-- ── 3. Current Season: Fall 2026 ── -->
+        <!-- ── 3. Sports & Coaches ── -->
         <div class="ath-section">
           <div class="ath-section-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Sports &amp; Coaches
           </div>
 
-          <!-- Fall: Current -->
+          <!-- Fall -->
           <div class="season-block">
-            <div class="season-banner fall">
-              <span class="season-banner-emoji">🍂</span>
+            <div class="season-banner">
               <div class="season-banner-text">
                 <div class="season-banner-name">Fall 2026</div>
                 <div class="season-banner-dates">August — November</div>
@@ -402,143 +401,66 @@
             <div class="coaches-grid">
 
               <div class="coach-card">
-                <span class="coach-emoji">🏃</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Cross Country — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Mitch Carabat</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Cross Country — Boys</div>
+                <div class="coach-name">Mitch Carabat</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏃</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Cross Country — Girls</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Kim Alberts-Hild</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Cross Country — Girls</div>
+                <div class="coach-name">Kim Alberts-Hild</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏈</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Football</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Chris Wright</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Football</div>
+                <div class="coach-name">Chris Wright</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">⛳</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Golf — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Scott Marcum</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Golf — Boys</div>
+                <div class="coach-name">Scott Marcum</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">⚽</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Soccer — Girls</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Derek Gentry</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Soccer — Girls</div>
+                <div class="coach-name">Derek Gentry</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏊</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Swim &amp; Dive — Girls</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Paola Arenas</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Swim &amp; Dive — Girls</div>
+                <div class="coach-name">Paola Arenas</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🎾</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Tennis — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Matthew Perlman</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Tennis — Boys</div>
+                <div class="coach-name">Matthew Perlman</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏐</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Volleyball</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Mitch Bio</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Volleyball</div>
+                <div class="coach-name">Mitch Bio</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏊</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Water Polo — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Steve MacKinnon</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Water Polo — Boys</div>
+                <div class="coach-name">Steve MacKinnon</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">📣</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Cheer</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Heather McLean</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Cheer</div>
+                <div class="coach-name">Heather McLean</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">💃</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Dance &amp; Drill</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Ashleigh Morio</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Dance &amp; Drill</div>
+                <div class="coach-name">Ashleigh Morio</div>
               </div>
 
             </div>
-            <p style="font-size:.72rem;color:var(--text-muted);margin-top:10px;">
-              <span style="background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 5px;font-size:.65rem;font-weight:800;">ImPACT</span>
-              = baseline concussion test required before first practice. Contact <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a> to schedule.
-            </p>
           </div>
 
-          <!-- Winter: Coming Up -->
+          <!-- Winter -->
           <div class="season-block">
-            <div class="season-banner winter">
-              <span class="season-banner-emoji">❄️</span>
+            <div class="season-banner">
               <div class="season-banner-text">
                 <div class="season-banner-name">Winter 2026–27</div>
                 <div class="season-banner-dates">November — February</div>
@@ -548,84 +470,41 @@
             <div class="coaches-grid">
 
               <div class="coach-card">
-                <span class="coach-emoji">🏀</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Basketball — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Scott Didrickson</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Basketball — Boys</div>
+                <div class="coach-name">Scott Didrickson</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏀</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Basketball — Girls</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Josh Lovern</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Basketball — Girls</div>
+                <div class="coach-name">Josh Lovern</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🤸</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Gymnastics</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Sara Grandstrand</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Gymnastics</div>
+                <div class="coach-name">Sara Grandstrand</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🏊</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Swim &amp; Dive — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Paola Arenas</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Swim &amp; Dive — Boys</div>
+                <div class="coach-name">Paola Arenas</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🤼</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Wrestling — Boys</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Dave Unwin</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Wrestling — Boys</div>
+                <div class="coach-name">Dave Unwin</div>
               </div>
 
               <div class="coach-card">
-                <span class="coach-emoji">🤼</span>
-                <div class="coach-info">
-                  <div class="coach-sport">Wrestling — Girls</div>
-                  <div class="coach-name-row">
-                    <span class="coach-label">Coach</span>
-                    <span class="coach-name">Dave Unwin</span>
-                    <span class="impact-tag">ImPACT</span>
-                  </div>
-                </div>
+                <div class="coach-sport">Wrestling — Girls</div>
+                <div class="coach-name">Dave Unwin</div>
               </div>
 
             </div>
             <div class="coaches-grid">
 
-          <!-- Spring: Coming Up -->
+          <!-- Spring -->
           <div class="season-block">
-            <div class="season-banner spring">
-              <span class="season-banner-emoji">🌸</span>
+            <div class="season-banner">
               <div class="season-banner-text">
                 <div class="season-banner-name">Spring 2027</div>
                 <div class="season-banner-dates">February — May</div>
@@ -633,16 +512,16 @@
               <span class="season-status coming">Coming Up</span>
             </div>
             <div class="coaches-grid">
-              <div class="coach-card"><span class="coach-emoji">🏸</span><div class="coach-info"><div class="coach-sport">Badminton — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Griffith Johnson</span></div><a class="coach-email" href="mailto:griffith.johnson@bsd405.org">griffith.johnson@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">⚾</span><div class="coach-info"><div class="coach-sport">Baseball</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Alex Papadopulos</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:alex.papadopulos@bsd405.org">alex.papadopulos@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">⛳</span><div class="coach-info"><div class="coach-sport">Golf — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Doug Calvert</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:douglas.calvert@bsd405.org">douglas.calvert@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🥍</span><div class="coach-info"><div class="coach-sport">Lacrosse — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Weston Heuker</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:weston.heuker@bsd405.org">weston.heuker@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🥍</span><div class="coach-info"><div class="coach-sport">Lacrosse — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Samantha Gunnerson</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:samantha.gunnerson@bsd405.org">samantha.gunnerson@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">⚽</span><div class="coach-info"><div class="coach-sport">Soccer — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Dan Peterson</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:dan.peterson@bsd405.org">dan.peterson@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🥎</span><div class="coach-info"><div class="coach-sport">Softball</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Kevin Cooper</span><span class="impact-tag">ImPACT</span></div><a class="coach-email" href="mailto:kevin.cooper@bsd405.org">kevin.cooper@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🎾</span><div class="coach-info"><div class="coach-sport">Tennis — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Mathew Perlman</span></div><a class="coach-email" href="mailto:mathew.perlman@bsd405.org">mathew.perlman@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🏃</span><div class="coach-info"><div class="coach-sport">Track &amp; Field — Boys</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Dave Unwin</span></div><a class="coach-email" href="mailto:dave.unwin@bsd405.org">dave.unwin@bsd405.org</a></div></div>
-              <div class="coach-card"><span class="coach-emoji">🏃</span><div class="coach-info"><div class="coach-sport">Track &amp; Field — Girls</div><div class="coach-name-row"><span class="coach-label">Coach</span><span class="coach-name">Mitch Carabat</span></div><a class="coach-email" href="mailto:mitch.carabat@bsd405.org">mitch.carabat@bsd405.org</a></div></div>
+              <div class="coach-card"><div class="coach-sport">Badminton — Girls</div><div class="coach-name">Griffith Johnson</div></div>
+              <div class="coach-card"><div class="coach-sport">Baseball</div><div class="coach-name">Alex Papadopulos</div></div>
+              <div class="coach-card"><div class="coach-sport">Golf — Girls</div><div class="coach-name">Doug Calvert</div></div>
+              <div class="coach-card"><div class="coach-sport">Lacrosse — Boys</div><div class="coach-name">Weston Heuker</div></div>
+              <div class="coach-card"><div class="coach-sport">Lacrosse — Girls</div><div class="coach-name">Samantha Gunnerson</div></div>
+              <div class="coach-card"><div class="coach-sport">Soccer — Boys</div><div class="coach-name">Dan Peterson</div></div>
+              <div class="coach-card"><div class="coach-sport">Softball</div><div class="coach-name">Kevin Cooper</div></div>
+              <div class="coach-card"><div class="coach-sport">Tennis — Girls</div><div class="coach-name">Mathew Perlman</div></div>
+              <div class="coach-card"><div class="coach-sport">Track &amp; Field — Boys</div><div class="coach-name">Dave Unwin</div></div>
+              <div class="coach-card"><div class="coach-sport">Track &amp; Field — Girls</div><div class="coach-name">Mitch Carabat</div></div>
             </div>
           </div>
 
@@ -670,14 +549,14 @@
                   <br>
                   <a href="https://interlakehigh.bsd405.org/fs/resource-manager/view/5298c5da-9770-4da6-87fd-112531f32293" target="_blank" rel="noopener" class="ps-btn outline" style="margin-top:5px;">Parent Playbook →</a>
                   <br>
-                  <span style="font-size:.73rem;color:var(--text-muted);display:block;margin-top:5px;">International, BVA, or Big Picture students: contact <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a></span>
+                  <span style="font-size:.73rem;color:var(--text-muted);display:block;margin-top:5px;">International, BVA, or Big Picture students: contact <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Mrs. Higgins</a></span>
                 </div>
               </div>
 
               <div class="p-step">
                 <div class="ps-num">2</div>
                 <div class="ps-body">
-                  <strong>Complete ImPACT baseline testing</strong> if required for your sport. Contact Krystyn or Lauren to schedule — takes 30–45 minutes.
+                  <strong>Complete ImPACT baseline testing</strong> if required for your sport. Contact Mrs. Higgins or Lauren to schedule — takes 30–45 minutes.
                   <br>
                   <span style="font-size:.73rem;display:block;margin-top:4px;"><a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">higginsk@bsd405.org</a> · <a href="mailto:olsonla@bsd405.org" style="color:var(--primary);">olsonla@bsd405.org</a></span>
                 </div>
@@ -686,7 +565,7 @@
               <div class="p-step">
                 <div class="ps-num">3</div>
                 <div class="ps-body">
-                  <strong>Submit a BSD sports physical</strong> to the Athletics & Activities department. Upload in FinalForms or email to <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Krystyn</a>.
+                  <strong>Submit a BSD sports physical</strong> to the Athletics &amp; Activities department. Upload in FinalForms or email to <a href="mailto:higginsk@bsd405.org" style="color:var(--primary);">Mrs. Higgins</a>.
                 </div>
               </div>
 
@@ -744,7 +623,7 @@
 
               <div class="contact-item">
                 <div class="contact-role">Athletic &amp; Activities Assistant</div>
-                <div class="contact-name">Krystyn Higgins</div>
+                <div class="contact-name">Mrs. Higgins</div>
                 <div class="contact-detail">
                   <span>(425) 456-7365</span>
                   <a href="mailto:higginsk@bsd405.org">higginsk@bsd405.org</a>
@@ -780,27 +659,27 @@
           </div>
           <div class="ath-sidebar-body">
             <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">📊</div>
+              <div class="ql-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
               <span>MaxPreps — All Schedules</span>
               <span class="ql-arrow">→</span>
             </a>
             <a href="https://bellevue-wa.finalforms.com/" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">📝</div>
+              <div class="ql-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
               <span>FinalForms Registration</span>
               <span class="ql-arrow">→</span>
             </a>
             <a href="https://wa-bellevue.intouchreceipting.com/" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">💳</div>
+              <div class="ql-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
               <span>Pay Athletic Fees</span>
               <span class="ql-arrow">→</span>
             </a>
             <a href="https://www.wiaa.com/" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">🏛️</div>
+              <div class="ql-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
               <span>WIAA — State Athletics</span>
               <span class="ql-arrow">→</span>
             </a>
             <a href="https://interlakehigh.bsd405.org/community/booster-clubs" target="_blank" rel="noopener" class="ath-quick-link">
-              <div class="ql-icon">📣</div>
+              <div class="ql-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
               <span>Booster Clubs</span>
               <span class="ql-arrow">→</span>
             </a>
