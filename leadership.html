@@ -185,22 +185,14 @@
     .asb-tiktok-btn:hover { opacity: .85; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
     /* ── Class Office ── */
-    .class-office-layout { display: flex; flex-direction: column; gap: 28px; }
-    .class-section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: var(--transition); }
-    .class-section:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .class-section-header {
-      display: flex; align-items: center; gap: 16px;
-      padding: 18px 24px; border-bottom: 1px solid var(--border);
-      background: var(--highlight);
-    }
-    .class-section-year { font-size: 2rem; font-weight: 900; color: var(--primary); letter-spacing: -.03em; line-height: 1; }
-    .class-section-grade { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
-    .class-section-link {
-      margin-left: auto; font-size: .82rem; font-weight: 700;
-      color: var(--primary); text-decoration: none; white-space: nowrap;
-    }
-    .class-section-link:hover { text-decoration: underline; }
-    .class-section-body { padding: 18px 20px; }
+    .class-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 600px) { .class-cards-grid { grid-template-columns: 1fr; } }
+    .class-year-card { display: flex; flex-direction: column; padding: 36px 32px; text-decoration: none; color: var(--text); border: 2px solid transparent; transition: var(--transition); }
+    .class-year-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .class-year-num { font-size: 3.2rem; font-weight: 700; color: var(--primary); line-height: 1; margin-bottom: 6px; letter-spacing: -.03em; }
+    .class-year-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 14px; }
+    .class-year-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.6; flex: 1; margin-bottom: 24px; }
+    .class-year-cta { font-size: .88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; }
   </style>
 </head>
 <body>
@@ -680,51 +672,35 @@
 <div class="lead-panel" id="tab-classoffice">
   <div class="container">
     <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 900; color: var(--primary); letter-spacing: -.04em; line-height: .9; margin-bottom: 32px; padding-top: 8px;">Class Office</div>
-    <div class="class-office-layout">
+    <div class="class-cards-grid">
 
-      <!-- Class of 2027 — Seniors -->
-      <div class="class-section">
-        <div class="class-section-header">
-          <div>
-            <div class="class-section-year">2027</div>
-            <div class="class-section-grade">Seniors</div>
-          </div>
-          <a href="class.html?year=2027" class="class-section-link">View class page →</a>
-        </div>
-      </div>
+      <a href="class.html?year=2027" class="card class-year-card">
+        <div class="class-year-num">2027</div>
+        <div class="class-year-label">Seniors · Class of 2027</div>
+        <div class="class-year-desc">Your senior class officers working on graduation events, senior sunrise, prom, and class fundraisers for the final stretch.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
 
-      <!-- Class of 2028 — Juniors -->
-      <div class="class-section">
-        <div class="class-section-header">
-          <div>
-            <div class="class-section-year">2028</div>
-            <div class="class-section-grade">Juniors</div>
-          </div>
-          <a href="class.html?year=2028" class="class-section-link">View class page →</a>
-        </div>
-      </div>
+      <a href="class.html?year=2028" class="card class-year-card">
+        <div class="class-year-num">2028</div>
+        <div class="class-year-label">Juniors · Class of 2028</div>
+        <div class="class-year-desc">Junior class officers planning Homecoming, Junior Prom, and class events as you head into the final two years.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
 
-      <!-- Class of 2029 — Sophomores -->
-      <div class="class-section">
-        <div class="class-section-header">
-          <div>
-            <div class="class-section-year">2029</div>
-            <div class="class-section-grade">Sophomores</div>
-          </div>
-          <a href="class.html?year=2029" class="class-section-link">View class page →</a>
-        </div>
-      </div>
+      <a href="class.html?year=2029" class="card class-year-card">
+        <div class="class-year-num">2029</div>
+        <div class="class-year-label">Sophomores · Class of 2029</div>
+        <div class="class-year-desc">Sophomore officers building class spirit and organizing events during your second year at Interlake.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
 
-      <!-- Class of 2030 — Freshmen -->
-      <div class="class-section">
-        <div class="class-section-header">
-          <div>
-            <div class="class-section-year">2030</div>
-            <div class="class-section-grade">Freshmen</div>
-          </div>
-          <a href="class.html?year=2030" class="class-section-link">View class page →</a>
-        </div>
-      </div>
+      <a href="class.html?year=2030" class="card class-year-card">
+        <div class="class-year-num">2030</div>
+        <div class="class-year-label">Freshmen · Class of 2030</div>
+        <div class="class-year-desc">Freshman officers helping the newest Saints get connected, involved, and ready for four great years.</div>
+        <div class="class-year-cta">View Class <span>→</span></div>
+      </a>
 
     </div>
   </div>
@@ -780,11 +756,6 @@ document.querySelectorAll(".asb-announce-block > ul > li").forEach(li => {
   li.addEventListener("click", () => li.classList.toggle("open"));
 });
 
-// Make entire class section card clickable
-document.querySelectorAll(".class-section").forEach(card => {
-  const link = card.querySelector(".class-section-link");
-  if (link) card.addEventListener("click", () => location.href = link.href);
-});
 
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
