@@ -38,7 +38,7 @@
     .login-back:hover { text-decoration: underline; }
 
     /* ── Portal chooser ── */
-    .portal-chooser-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .portal-chooser-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     @media (max-width: 500px) { .portal-chooser-grid { grid-template-columns: 1fr; } }
     .portal-choice-btn {
       border: 2px solid var(--border); border-radius: var(--radius-sm);
@@ -143,6 +143,11 @@
             <div class="choice-name">Club Officers</div>
             <div class="choice-desc">Post updates &amp; profiles</div>
           </div>
+          <div class="portal-choice-btn" onclick="choosePortal('ath')">
+            <div class="choice-icon">🏅</div>
+            <div class="choice-name">Athletics</div>
+            <div class="choice-desc">Games, coaches &amp; contacts</div>
+          </div>
         </div>
       </div>
     </div>
@@ -235,6 +240,28 @@
           Sign In →
         </button>
         <p class="login-note">This is a <strong>demo login</strong>. Click the credentials above to autofill.</p>
+      </div>
+    </div>
+
+    <!-- Step 2D: Athletics login -->
+    <div id="loginStep2ath" style="display:none;">
+      <div class="login-header">
+        <h2>Athletics Portal</h2>
+        <p>Sign in with the Athletics department password</p>
+      </div>
+      <div class="login-body">
+        <button class="login-back" onclick="backToStep1()">← Back</button>
+        <div class="login-error" id="athLoginError">Incorrect password. Please try again.</div>
+        <div class="form-group">
+          <label class="form-label" for="athPassInput">Password</label>
+          <input type="password" class="form-control" id="athPassInput" placeholder="••••••••••" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="login-footer">
+        <button class="btn btn-primary" onclick="doLoginAth()" style="width:100%;justify-content:center;padding:12px;">
+          Sign In to Athletics →
+        </button>
+        <p class="login-note">Contact the Athletics &amp; Activities Director for the portal password.</p>
       </div>
     </div>
 
@@ -753,6 +780,140 @@
 </div><!-- /form-page -->
 </div><!-- /clubPortal -->
 
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- ATHLETICS PORTAL PANE                                                     -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<div class="portal-pane" id="athPortal">
+<div class="form-page">
+  <div class="breadcrumb" style="margin-bottom:24px;">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <a href="athletics.html">Athletics</a><span class="sep">›</span>
+    <span>Athletics Portal</span>
+  </div>
+  <div class="form-card">
+    <div class="form-card-header">
+      <h1>Athletics Portal</h1>
+      <p>Edit upcoming games, athlete spotlight, coaches, and department contacts. All changes appear on the athletics page immediately.</p>
+    </div>
+    <div id="athPortalLoading" class="profile-loading">Loading athletics data…</div>
+    <div id="athPortalContent" style="display:none;">
+
+      <!-- Page Settings -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Page Settings</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthSettings()">Save Settings</button>
+        </div>
+        <div class="profile-section-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="athHeroTitleEdit">Hero Title</label>
+              <input type="text" class="form-control" id="athHeroTitleEdit" placeholder="Saints Athletics">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="athHeroSubtitleEdit">Hero Subtitle</label>
+            <input type="text" class="form-control" id="athHeroSubtitleEdit" placeholder="Interlake High School Saints — KingCo 3A Conference…">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="athSeasonPillEdit">Season Pill Label</label>
+            <input type="text" class="form-control" id="athSeasonPillEdit" placeholder="Fall Season 2026 — In Progress">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="athGamesNoteEdit">Games Note</label>
+            <input type="text" class="form-control" id="athGamesNoteEdit" placeholder="Schedules are approximate…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Games -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Upcoming Games</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthGames()">Save Games</button>
+        </div>
+        <div class="profile-section-body">
+          <div id="athPortalGamesList" style="display:flex;flex-direction:column;gap:10px;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAthGameRow()">+ Add Game</button>
+        </div>
+      </div>
+
+      <!-- Athlete of the Week -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Athlete of the Week</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthAotw()">Save</button>
+        </div>
+        <div class="profile-section-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="athAotwNameEdit">Name</label>
+              <input type="text" class="form-control" id="athAotwNameEdit" placeholder="Athlete name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="athAotwSportEdit">Sport</label>
+              <input type="text" class="form-control" id="athAotwSportEdit" placeholder="e.g. Football">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="athAotwDescEdit">Description</label>
+            <textarea class="form-control" id="athAotwDescEdit" rows="4" placeholder="Describe the athlete's achievements…"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="athAotwPhotoEdit">Photo URL (optional)</label>
+            <input type="url" class="form-control" id="athAotwPhotoEdit" placeholder="https://…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Season Settings -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Season Settings</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthSeasons()">Save Seasons</button>
+        </div>
+        <div class="profile-section-body">
+          <div style="font-size:.77rem;color:var(--text-muted);margin-bottom:10px;">Update season names, date ranges, and status (Live Now / Coming Up / Past).</div>
+          <div id="athSeasonsList" style="display:flex;flex-direction:column;gap:10px;"></div>
+        </div>
+      </div>
+
+      <!-- Coaches by Season -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Coaches by Season</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthCoaches()">Save All Coaches</button>
+        </div>
+        <div class="profile-section-body">
+          <div style="display:flex;gap:8px;margin-bottom:16px;" id="athCoachTabBtns">
+            <button type="button" class="btn btn-primary" style="font-size:.78rem;padding:5px 14px;" onclick="switchAthCoachTab('fall')">Fall</button>
+            <button type="button" class="btn btn-outline" style="font-size:.78rem;padding:5px 14px;" onclick="switchAthCoachTab('winter')">Winter</button>
+            <button type="button" class="btn btn-outline" style="font-size:.78rem;padding:5px 14px;" onclick="switchAthCoachTab('spring')">Spring</button>
+          </div>
+          <div id="athCoachesListFall"></div>
+          <div id="athCoachesListWinter" style="display:none;"></div>
+          <div id="athCoachesListSpring" style="display:none;"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAthCoachRow()">+ Add Coach</button>
+        </div>
+      </div>
+
+      <!-- Athletic Dept Contacts -->
+      <div class="profile-section">
+        <div class="profile-section-header">
+          <h3>Athletic Department Contacts</h3>
+          <button class="btn btn-primary" style="font-size:.78rem;padding:5px 12px;" onclick="saveAthContacts()">Save Contacts</button>
+        </div>
+        <div class="profile-section-body">
+          <div id="athContactsList"></div>
+          <button type="button" class="btn btn-outline add-row-btn" onclick="addAthContactRow()">+ Add Contact</button>
+        </div>
+      </div>
+
+    </div><!-- /athPortalContent -->
+  </div><!-- /form-card -->
+</div><!-- /form-page -->
+</div><!-- /athPortal -->
+
 <footer class="footer">
   <div class="container footer-inner">
     <div>
@@ -786,6 +947,7 @@
 
 const ASB_PASS   = "ASBInterlake2027";
 const CLASS_PASS = { "2027": "Seniors2027!", "2028": "Juniors2028!", "2029": "Sophs2029!", "2030": "Freshmen2030!" };
+const ATH_PASS   = "Athletics2027";
 
 let _currentPortal = null;
 let _classYear     = null;
@@ -795,9 +957,11 @@ function choosePortal(type) {
   document.getElementById("loginStep2asb").style.display   = type === "asb"   ? "" : "none";
   document.getElementById("loginStep2class").style.display = type === "class"  ? "" : "none";
   document.getElementById("loginStep2club").style.display  = type === "club"   ? "" : "none";
+  document.getElementById("loginStep2ath").style.display   = type === "ath"    ? "" : "none";
   if (type === "asb")   document.getElementById("asbPassInput").focus();
   if (type === "class") document.getElementById("classYearSelect").focus();
   if (type === "club")  document.getElementById("loginUser").focus();
+  if (type === "ath")   document.getElementById("athPassInput").focus();
 }
 
 function backToStep1() {
@@ -805,16 +969,18 @@ function backToStep1() {
   document.getElementById("loginStep2asb").style.display   = "none";
   document.getElementById("loginStep2class").style.display = "none";
   document.getElementById("loginStep2club").style.display  = "none";
+  document.getElementById("loginStep2ath").style.display   = "none";
   document.getElementById("asbLoginError").classList.remove("show");
   document.getElementById("classLoginError").classList.remove("show");
   document.getElementById("clubLoginError").classList.remove("show");
+  document.getElementById("athLoginError").classList.remove("show");
 }
 
 function _showPortal(portalId, badgeText) {
   document.getElementById("loginOverlay").style.display  = "none";
   document.getElementById("loggedInBar").style.display   = "block";
   document.getElementById("userBadge").textContent       = badgeText;
-  ["asbPortal","classPortal","clubPortal"].forEach(id => {
+  ["asbPortal","classPortal","clubPortal","athPortal"].forEach(id => {
     document.getElementById(id).classList.toggle("active", id === portalId);
   });
 }
@@ -875,12 +1041,28 @@ function doLoginClub() {
 function doSignOut() {
   document.getElementById("loginOverlay").style.display = "flex";
   document.getElementById("loggedInBar").style.display  = "none";
-  ["asbPortal","classPortal","clubPortal"].forEach(id => document.getElementById(id).classList.remove("active"));
+  ["asbPortal","classPortal","clubPortal","athPortal"].forEach(id => document.getElementById(id).classList.remove("active"));
   backToStep1();
   _currentPortal = null; _classYear = null;
   document.getElementById("asbPassInput").value   = "";
   document.getElementById("classPassInput").value = "";
   document.getElementById("loginPass").value      = "";
+  document.getElementById("athPassInput").value   = "";
+}
+
+function doLoginAth() {
+  const pass = document.getElementById("athPassInput").value;
+  const err  = document.getElementById("athLoginError");
+  if (pass === ATH_PASS) {
+    err.classList.remove("show");
+    _currentPortal = "ath";
+    _showPortal("athPortal", "Athletics Officer");
+    loadAthPortal();
+  } else {
+    err.classList.add("show");
+    document.getElementById("athPassInput").value = "";
+    document.getElementById("athPassInput").focus();
+  }
 }
 
 // Keyboard enter support
@@ -888,6 +1070,7 @@ document.getElementById("asbPassInput").addEventListener("keydown",   e => { if 
 document.getElementById("classPassInput").addEventListener("keydown", e => { if (e.key === "Enter") doLoginClass(); });
 document.getElementById("loginPass").addEventListener("keydown",      e => { if (e.key === "Enter") doLoginClub(); });
 document.getElementById("loginUser").addEventListener("keydown",      e => { if (e.key === "Enter") doLoginClub(); });
+document.getElementById("athPassInput").addEventListener("keydown",   e => { if (e.key === "Enter") doLoginAth(); });
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SHARED UTILITIES
@@ -1281,6 +1464,319 @@ async function saveClassLinks() {
   const settings = { instagram_url: getVal("classInstagramEdit") };
   const ok = await updateClassSettingsAsync(_classYear, settings);
   showToast(ok ? "Links saved!" : "Error saving links. Check Supabase connection.", ok ? "success" : "error");
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ATHLETICS PORTAL
+// ═══════════════════════════════════════════════════════════════════════════
+
+let _athCurrentCoachTab = 'fall';
+
+async function loadAthPortal() {
+  document.getElementById("athPortalLoading").style.display = "flex";
+  document.getElementById("athPortalContent").style.display = "none";
+  try {
+    const [
+      { data: settings },
+      { data: games },
+      { data: aotw },
+      { data: seasons },
+      { data: coaches },
+      { data: contacts }
+    ] = await Promise.all([
+      window.sb.from('ath_settings').select('*').maybeSingle(),
+      window.sb.from('ath_upcoming_games').select('*').order('sort_order').order('game_date'),
+      window.sb.from('ath_athlete_of_week').select('*').eq('is_active', true).maybeSingle(),
+      window.sb.from('ath_seasons').select('*').order('sort_order'),
+      window.sb.from('ath_coaches').select('*').order('sort_order'),
+      window.sb.from('ath_dept_contacts').select('*').order('sort_order')
+    ]);
+
+    if (settings) {
+      setVal('athHeroTitleEdit',    settings.hero_title        || '');
+      setVal('athHeroSubtitleEdit', settings.hero_subtitle     || '');
+      setVal('athSeasonPillEdit',   settings.season_pill_label || '');
+      setVal('athGamesNoteEdit',    settings.games_note        || '');
+    }
+
+    buildAthGamesList(games || []);
+
+    if (aotw) {
+      setVal('athAotwNameEdit',  aotw.name        || '');
+      setVal('athAotwSportEdit', aotw.sport       || '');
+      setVal('athAotwDescEdit',  aotw.description || '');
+      setVal('athAotwPhotoEdit', aotw.photo_url   || '');
+    }
+
+    buildAthSeasonsList(seasons || []);
+    ['fall','winter','spring'].forEach(key => buildAthCoachesListFor(coaches || [], key));
+    _athCurrentCoachTab = 'fall';
+    switchAthCoachTab('fall');
+
+    buildAthContactsList(contacts || []);
+
+  } catch(e) { console.warn('loadAthPortal:', e); }
+  document.getElementById("athPortalLoading").style.display = "none";
+  document.getElementById("athPortalContent").style.display = "block";
+}
+
+// ── Games ─────────────────────────────────────────────────────────────────
+
+function buildAthGamesList(games) {
+  const list = document.getElementById('athPortalGamesList');
+  if (!list) return;
+  list.innerHTML = '';
+  (games.length ? games : [{}]).forEach(g => addAthGameRow(g));
+}
+
+function addAthGameRow(g) {
+  g = g || {};
+  const list = document.getElementById('athPortalGamesList');
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'portal-item';
+  div.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--card);';
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:flex-start;">
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div style="flex:1;display:flex;flex-wrap:wrap;gap:8px;">
+        <input type="text"  class="form-control ath-game-sport"   placeholder="Sport *"    value="${escHtml(g.sport||'')}"     style="flex:1;min-width:120px;font-size:.83rem;">
+        <input type="date"  class="form-control ath-game-date"    value="${escHtml(g.game_date||'')}"                          style="flex:0 0 140px;font-size:.83rem;">
+        <input type="text"  class="form-control ath-game-matchup" placeholder="Matchup *"  value="${escHtml(g.matchup||'')}"  style="flex:2;min-width:180px;font-size:.83rem;">
+        <input type="text"  class="form-control ath-game-time"    placeholder="Time"       value="${escHtml(g.time_str||'')}"  style="flex:1;min-width:100px;font-size:.83rem;">
+        <input type="text"  class="form-control ath-game-loc"     placeholder="Location"   value="${escHtml(g.location||'')}" style="flex:2;min-width:180px;font-size:.83rem;">
+        <select class="form-control ath-game-ha" style="flex:0 0 90px;font-size:.83rem;">
+          <option value="home"${(g.home_away||'home')==='home'?' selected':''}>Home</option>
+          <option value="away"${g.home_away==='away'?' selected':''}>Away</option>
+        </select>
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.portal-item').remove()">×</button>
+    </div>`;
+  list.appendChild(div);
+}
+
+async function saveAthGames() {
+  const games = Array.from(document.querySelectorAll('#athPortalGamesList .portal-item')).map((item, i) => ({
+    sport:     item.querySelector('.ath-game-sport').value.trim(),
+    game_date: item.querySelector('.ath-game-date').value,
+    matchup:   item.querySelector('.ath-game-matchup').value.trim(),
+    time_str:  item.querySelector('.ath-game-time').value.trim(),
+    location:  item.querySelector('.ath-game-loc').value.trim(),
+    home_away: item.querySelector('.ath-game-ha').value,
+    sort_order: i + 1
+  })).filter(g => g.sport && g.game_date && g.matchup);
+  try {
+    await window.sb.from('ath_upcoming_games').delete().neq('id', 0);
+    if (games.length) await window.sb.from('ath_upcoming_games').insert(games);
+    showToast('Games saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving games. Check Supabase connection.', 'error'); }
+}
+
+// ── Page settings ─────────────────────────────────────────────────────────
+
+async function saveAthSettings() {
+  const settings = {
+    hero_title:        getVal('athHeroTitleEdit'),
+    hero_subtitle:     getVal('athHeroSubtitleEdit'),
+    season_pill_label: getVal('athSeasonPillEdit'),
+    games_note:        getVal('athGamesNoteEdit'),
+    updated_at:        new Date().toISOString()
+  };
+  try {
+    const { data: existing } = await window.sb.from('ath_settings').select('id').limit(1).maybeSingle();
+    if (existing) {
+      await window.sb.from('ath_settings').update(settings).eq('id', existing.id);
+    } else {
+      await window.sb.from('ath_settings').insert(settings);
+    }
+    showToast('Settings saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving settings. Check Supabase connection.', 'error'); }
+}
+
+// ── Athlete of the Week ───────────────────────────────────────────────────
+
+async function saveAthAotw() {
+  const name = getVal('athAotwNameEdit');
+  if (!name) { showToast('Please enter the athlete name.', 'error'); return; }
+  const aotw = {
+    name,
+    sport:       getVal('athAotwSportEdit'),
+    description: getVal('athAotwDescEdit'),
+    photo_url:   getVal('athAotwPhotoEdit'),
+    is_active:   true,
+    week_of:     new Date().toISOString().split('T')[0]
+  };
+  try {
+    await window.sb.from('ath_athlete_of_week').delete().neq('id', 0);
+    await window.sb.from('ath_athlete_of_week').insert(aotw);
+    showToast('Athlete of the Week saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving athlete. Check Supabase connection.', 'error'); }
+}
+
+// ── Season settings ───────────────────────────────────────────────────────
+
+function buildAthSeasonsList(seasons) {
+  const list = document.getElementById('athSeasonsList');
+  if (!list) return;
+  list.innerHTML = '';
+  seasons.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'dyn-item';
+    div.dataset.seasonKey = s.season_key;
+    const cap = s.season_key.charAt(0).toUpperCase() + s.season_key.slice(1);
+    div.innerHTML = `
+      <div class="dyn-item-fields">
+        <div style="flex:0 0 52px;font-size:.83rem;font-weight:700;color:var(--primary);padding-top:7px;">${escHtml(cap)}</div>
+        <input type="text" class="form-control ath-season-name"  placeholder="Display Name" value="${escHtml(s.display_name||'')}" style="flex:2;min-width:130px;">
+        <input type="text" class="form-control ath-season-dates" placeholder="Date Range"   value="${escHtml(s.date_range||'')}"   style="flex:2;min-width:150px;">
+        <select class="form-control ath-season-status" style="flex:0 0 120px;">
+          <option value="live"${s.status==='live'?' selected':''}>Live Now</option>
+          <option value="coming"${s.status==='coming'?' selected':''}>Coming Up</option>
+          <option value="past"${s.status==='past'?' selected':''}>Past</option>
+        </select>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+async function saveAthSeasons() {
+  const rows = Array.from(document.querySelectorAll('#athSeasonsList .dyn-item'));
+  try {
+    for (const row of rows) {
+      await window.sb.from('ath_seasons').update({
+        display_name: row.querySelector('.ath-season-name').value.trim(),
+        date_range:   row.querySelector('.ath-season-dates').value.trim(),
+        status:       row.querySelector('.ath-season-status').value
+      }).eq('season_key', row.dataset.seasonKey);
+    }
+    showToast('Seasons saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving seasons. Check Supabase connection.', 'error'); }
+}
+
+// ── Coaches ───────────────────────────────────────────────────────────────
+
+function buildAthCoachesListFor(coaches, season_key) {
+  const cap = season_key.charAt(0).toUpperCase() + season_key.slice(1);
+  const list = document.getElementById('athCoachesList' + cap);
+  if (!list) return;
+  list.innerHTML = '';
+  const filtered = coaches.filter(c => c.season_key === season_key);
+  (filtered.length ? filtered : [{}]).forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'dyn-item';
+    div.innerHTML = `
+      <div class="order-btns">
+        <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+        <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+      </div>
+      <div class="dyn-item-fields">
+        <input type="text" class="form-control ath-coach-sport" placeholder="Sport *"    value="${escHtml(c.sport||'')}"      style="flex:2;min-width:140px;">
+        <input type="text" class="form-control ath-coach-name"  placeholder="Coach Name" value="${escHtml(c.coach_name||'')}" style="flex:2;min-width:140px;">
+      </div>
+      <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+    list.appendChild(div);
+  });
+}
+
+function addAthCoachRow() {
+  const cap = _athCurrentCoachTab.charAt(0).toUpperCase() + _athCurrentCoachTab.slice(1);
+  const list = document.getElementById('athCoachesList' + cap);
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'dyn-item';
+  div.innerHTML = `
+    <div class="order-btns">
+      <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+      <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+    </div>
+    <div class="dyn-item-fields">
+      <input type="text" class="form-control ath-coach-sport" placeholder="Sport *"    value="" style="flex:2;min-width:140px;">
+      <input type="text" class="form-control ath-coach-name"  placeholder="Coach Name" value="" style="flex:2;min-width:140px;">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+  list.appendChild(div);
+  list.querySelector(':scope > .dyn-item:last-child .ath-coach-sport').focus();
+}
+
+function switchAthCoachTab(tab) {
+  _athCurrentCoachTab = tab;
+  ['fall','winter','spring'].forEach(s => {
+    const cap = s.charAt(0).toUpperCase() + s.slice(1);
+    document.getElementById('athCoachesList' + cap).style.display = s === tab ? '' : 'none';
+  });
+  const btns = document.querySelectorAll('#athCoachTabBtns button');
+  const tabs = ['fall','winter','spring'];
+  btns.forEach((btn, i) => {
+    btn.className = tabs[i] === tab ? 'btn btn-primary' : 'btn btn-outline';
+    btn.style.cssText = 'font-size:.78rem;padding:5px 14px;';
+  });
+}
+
+async function saveAthCoaches() {
+  const allCoaches = [];
+  ['fall','winter','spring'].forEach(season_key => {
+    const cap = season_key.charAt(0).toUpperCase() + season_key.slice(1);
+    const list = document.getElementById('athCoachesList' + cap);
+    if (!list) return;
+    Array.from(list.querySelectorAll('.dyn-item')).forEach((row, i) => {
+      const sport      = row.querySelector('.ath-coach-sport').value.trim();
+      const coach_name = row.querySelector('.ath-coach-name').value.trim();
+      if (sport || coach_name) allCoaches.push({ season_key, sport, coach_name, sort_order: i + 1 });
+    });
+  });
+  try {
+    await window.sb.from('ath_coaches').delete().neq('id', 0);
+    if (allCoaches.length) await window.sb.from('ath_coaches').insert(allCoaches);
+    showToast('Coaches saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving coaches. Check Supabase connection.', 'error'); }
+}
+
+// ── Department Contacts ───────────────────────────────────────────────────
+
+function buildAthContactsList(contacts) {
+  const list = document.getElementById('athContactsList');
+  if (!list) return;
+  list.innerHTML = '';
+  (contacts.length ? contacts : [{}]).forEach(c => addAthContactRow(c));
+}
+
+function addAthContactRow(c) {
+  c = c || {};
+  const list = document.getElementById('athContactsList');
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'dyn-item';
+  div.innerHTML = `
+    <div class="order-btns">
+      <button type="button" class="order-btn" onclick="moveItem(this,-1)">${_upSvg}</button>
+      <button type="button" class="order-btn" onclick="moveItem(this,1)">${_downSvg}</button>
+    </div>
+    <div class="dyn-item-fields">
+      <input type="text"  class="form-control ath-contact-role"  placeholder="Role *"  value="${escHtml(c.role||'')}"  style="flex:2;min-width:140px;">
+      <input type="text"  class="form-control ath-contact-name"  placeholder="Name"    value="${escHtml(c.name||'')}"  style="flex:2;min-width:140px;">
+      <input type="tel"   class="form-control ath-contact-phone" placeholder="Phone"   value="${escHtml(c.phone||'')}" style="flex:1;min-width:120px;">
+      <input type="email" class="form-control ath-contact-email" placeholder="Email"   value="${escHtml(c.email||'')}" style="flex:2;min-width:180px;">
+    </div>
+    <button type="button" class="dyn-remove" onclick="this.closest('.dyn-item').remove()">×</button>`;
+  list.appendChild(div);
+}
+
+async function saveAthContacts() {
+  const contacts = Array.from(document.querySelectorAll('#athContactsList .dyn-item')).map((row, i) => ({
+    role:       row.querySelector('.ath-contact-role').value.trim(),
+    name:       row.querySelector('.ath-contact-name').value.trim(),
+    phone:      row.querySelector('.ath-contact-phone').value.trim(),
+    email:      row.querySelector('.ath-contact-email').value.trim(),
+    sort_order: i + 1
+  })).filter(c => c.role || c.name);
+  try {
+    await window.sb.from('ath_dept_contacts').delete().neq('id', 0);
+    if (contacts.length) await window.sb.from('ath_dept_contacts').insert(contacts);
+    showToast('Contacts saved!', 'success');
+  } catch(e) { console.error(e); showToast('Error saving contacts. Check Supabase connection.', 'error'); }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

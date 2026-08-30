@@ -225,12 +225,12 @@
     </div>
     <div class="ath-hero-inner">
       <div>
-        <h1>Saints Athletics</h1>
-        <p>Interlake High School Saints — KingCo 3A Conference. Go Saints!</p>
+        <h1 id="athHeroTitle">Saints Athletics</h1>
+        <p id="athHeroSubtitle">Interlake High School Saints — KingCo 3A Conference. Go Saints!</p>
       </div>
       <div class="ath-season-pill">
         <span class="dot"></span>
-        Fall Season 2026 — In Progress
+        <span id="athSeasonPillText">Fall Season 2026 — In Progress</span>
       </div>
     </div>
   </div>
@@ -250,6 +250,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Upcoming Games
           </div>
+
+          <div id="athGamesList">
 
           <!-- Football -->
           <div class="sport-group">
@@ -355,7 +357,9 @@
             </div>
           </div>
 
-          <p class="games-note">Schedules are approximate for Fall 2026. For live schedules and results, visit <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">MaxPreps →</a></p>
+          </div><!-- /athGamesList -->
+
+          <p class="games-note" id="athGamesNote">Schedules are approximate for Fall 2026. For live schedules and results, visit <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">MaxPreps →</a></p>
         </div>
 
         <!-- ── 2. Athlete of the Week ── -->
@@ -370,13 +374,13 @@
               <div class="aotw-header-title">Athlete of the Week</div>
             </div>
             <div class="aotw-body">
-              <div class="aotw-photo">
+              <div class="aotw-photo" id="athAotwPhotoEl">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
               </div>
               <div class="aotw-content">
-                <div class="aotw-name">Coming Soon</div>
-                <div class="aotw-sport">Saints Athletics</div>
-                <div class="aotw-desc">The Athlete of the Week spotlight will be featured here. Check back each week to see a highlighted Saints athlete and their achievements.</div>
+                <div class="aotw-name" id="athAotwName">Coming Soon</div>
+                <div class="aotw-sport" id="athAotwSport">Saints Athletics</div>
+                <div class="aotw-desc" id="athAotwDesc">The Athlete of the Week spotlight will be featured here. Check back each week to see a highlighted Saints athlete and their achievements.</div>
               </div>
             </div>
           </div>
@@ -388,6 +392,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Sports &amp; Coaches
           </div>
+
+          <div id="athSeasonsContainer">
 
           <!-- Fall -->
           <div class="season-block">
@@ -525,6 +531,8 @@
             </div>
           </div>
 
+          </div><!-- /athSeasonsContainer -->
+
         </div><!-- /ath-section -->
 
       </div><!-- /main column -->
@@ -611,7 +619,7 @@
             <div class="ath-sidebar-head-title">Athletic Department</div>
           </div>
           <div class="ath-sidebar-body">
-            <div class="contact-list">
+            <div class="contact-list" id="athDeptContacts">
 
               <div class="contact-item">
                 <div class="contact-role">Athletics &amp; Activities Director</div>
@@ -709,6 +717,9 @@
   <div class="container" style="text-align:center;padding:6px 0 10px;font-size:.72rem;color:var(--primary);border-top:1px solid var(--border);">Created by Nasya Sudarman</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
 <script>
 document.getElementById("navSearch").addEventListener("keydown", e => {
   if (e.key === "Enter") {
@@ -716,6 +727,131 @@ document.getElementById("navSearch").addEventListener("keydown", e => {
     if (q) location.href = `search.html?q=${encodeURIComponent(q)}`;
   }
 });
+
+(async function initAthletics() {
+  if (!window.sb) return;
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtDate(dateStr) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const d = new Date(dateStr + 'T12:00:00');
+    return { mon: months[d.getMonth()], day: d.getDate() };
+  }
+  try {
+    const [
+      { data: settings },
+      { data: games },
+      { data: aotw },
+      { data: seasons },
+      { data: coaches },
+      { data: contacts }
+    ] = await Promise.all([
+      window.sb.from('ath_settings').select('*').maybeSingle(),
+      window.sb.from('ath_upcoming_games').select('*').order('sort_order').order('game_date'),
+      window.sb.from('ath_athlete_of_week').select('*').eq('is_active', true).maybeSingle(),
+      window.sb.from('ath_seasons').select('*').order('sort_order'),
+      window.sb.from('ath_coaches').select('*').order('sort_order'),
+      window.sb.from('ath_dept_contacts').select('*').order('sort_order')
+    ]);
+
+    // ── Page settings ──────────────────────────────────────────────────────
+    if (settings) {
+      const heroTitle = document.getElementById('athHeroTitle');
+      const heroSub   = document.getElementById('athHeroSubtitle');
+      const pillText  = document.getElementById('athSeasonPillText');
+      const gamesNote = document.getElementById('athGamesNote');
+      if (heroTitle && settings.hero_title)       heroTitle.textContent = settings.hero_title;
+      if (heroSub   && settings.hero_subtitle)    heroSub.textContent   = settings.hero_subtitle;
+      if (pillText  && settings.season_pill_label) pillText.textContent = settings.season_pill_label;
+      if (gamesNote && settings.games_note) {
+        gamesNote.innerHTML = esc(settings.games_note) +
+          ' <a href="https://www.maxpreps.com/wa/bellevue/interlake-saints/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">MaxPreps →</a>';
+      }
+    }
+
+    // ── Upcoming games ─────────────────────────────────────────────────────
+    if (games && games.length) {
+      const container = document.getElementById('athGamesList');
+      if (container) {
+        const bySport = {};
+        games.forEach(g => { if (!bySport[g.sport]) bySport[g.sport] = []; bySport[g.sport].push(g); });
+        container.innerHTML = Object.entries(bySport).map(([sport, sg]) => `
+          <div class="sport-group">
+            <div class="sport-group-header">
+              <span class="sport-group-label">${esc(sport)}</span>
+              <span class="sport-group-line"></span>
+            </div>
+            ${sg.map(g => {
+              const dt = fmtDate(g.game_date);
+              return `<div class="game-row">
+                <div class="game-date-col"><div class="gd-mon">${esc(dt.mon)}</div><div class="gd-day">${esc(String(dt.day))}</div></div>
+                <div class="game-info-col">
+                  <div class="game-matchup">${esc(g.matchup)}</div>
+                  <div class="game-meta">${g.time_str?`<span>${esc(g.time_str)}</span>`:''}${g.location?`<span>${esc(g.location)}</span>`:''}</div>
+                </div>
+                <div class="game-ha-col"><span class="ha-badge ${esc(g.home_away)}">${g.home_away==='home'?'Home':'Away'}</span></div>
+              </div>`;
+            }).join('')}
+          </div>`).join('');
+      }
+    }
+
+    // ── Athlete of the Week ────────────────────────────────────────────────
+    if (aotw) {
+      const nameEl  = document.getElementById('athAotwName');
+      const sportEl = document.getElementById('athAotwSport');
+      const descEl  = document.getElementById('athAotwDesc');
+      const photoEl = document.getElementById('athAotwPhotoEl');
+      if (nameEl)  nameEl.textContent  = aotw.name        || '';
+      if (sportEl) sportEl.textContent = aotw.sport       || '';
+      if (descEl)  descEl.textContent  = aotw.description || '';
+      if (photoEl && aotw.photo_url) {
+        photoEl.innerHTML = `<img src="${esc(aotw.photo_url)}" alt="${esc(aotw.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-sm);">`;
+      }
+    }
+
+    // ── Sports & Coaches ───────────────────────────────────────────────────
+    if (seasons && seasons.length) {
+      const container = document.getElementById('athSeasonsContainer');
+      if (container) {
+        container.innerHTML = seasons.map(season => {
+          const sc = (coaches||[]).filter(c => c.season_key === season.season_key);
+          const statusClass = season.status === 'live' ? 'live' : 'coming';
+          const statusLabel = season.status === 'live' ? 'Live Now' : 'Coming Up';
+          return `<div class="season-block">
+            <div class="season-banner">
+              <div class="season-banner-text">
+                <div class="season-banner-name">${esc(season.display_name)}</div>
+                <div class="season-banner-dates">${esc(season.date_range)}</div>
+              </div>
+              <span class="season-status ${statusClass}">${statusLabel}</span>
+            </div>
+            <div class="coaches-grid">
+              ${sc.map(c=>`<div class="coach-card"><div class="coach-sport">${esc(c.sport)}</div><div class="coach-name">${esc(c.coach_name)}</div></div>`).join('')}
+            </div>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    // ── Athletic Dept Contacts ─────────────────────────────────────────────
+    if (contacts && contacts.length) {
+      const container = document.getElementById('athDeptContacts');
+      if (container) {
+        container.innerHTML = contacts.map(c => `<div class="contact-item">
+          <div class="contact-role">${esc(c.role)}</div>
+          <div class="contact-name">${esc(c.name)}</div>
+          <div class="contact-detail">
+            ${c.phone ? `<span>${esc(c.phone)}</span>` : ''}
+            ${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ''}
+          </div>
+        </div>`).join('');
+      }
+    }
+
+  } catch(e) { console.warn('[Athletics] Supabase data load failed:', e); }
+})();
 </script>
 </body>
 </html>
